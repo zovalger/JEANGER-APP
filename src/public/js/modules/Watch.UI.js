@@ -18,19 +18,25 @@ class WatchUI extends WatchController {
 		this.update = null;
 
 		// this.$container = container ? container : document.querySelector(".watch");
-		this.$container = document
+		this.$content = document
 			.getElementById("watch-template")
 			.content.cloneNode(true);
 
+		this.$container = document.createElement("div");
+		this.$container.classList.add("watch", "stopwatch");
+		this.$container.appendChild(this.$content);
 
-			console.log(this.$container);
-
+		this.$name = this.$container.querySelector(".name");
 		this.$clock = this.$container.querySelector(".clock");
 
 		// this.inputTime = new InputTime(this.$container, ".set-time_container");
+		this.$timeSetedContainer = this.$container.querySelector(".time-seted");
 		this.$setTime = this.$container.querySelector(".set-time");
 
-		// this.$setTime.addEventListener("input", () => this.getValuesFormTimer());
+		this.$setTime.addEventListener("submit", (e) => {
+			e.preventDefault();
+			this.start()
+		});
 		// botones de funciones principales
 		this.$btnSwitch = this.$container.querySelector(".switch");
 		this.$btnStart = this.$container.querySelector(".start");
@@ -43,7 +49,6 @@ class WatchUI extends WatchController {
 		this.$btnPause.addEventListener("click", () => this.pause());
 		this.$btnReset.addEventListener("click", () => this.reset());
 
-		
 		if (dataWatch) this.restoreState(dataWatch);
 	}
 
@@ -58,20 +63,29 @@ class WatchUI extends WatchController {
 	};
 
 	switch() {
-		// console.log(this.$container);
-// this.$container.remove()
 		console.log("cambio de relog");
 
 		super.switch();
 
-		if (this.mode == "stopwatch") {
+		this.cambiarAparaciencia();
+
+		this.reset()
+	}
+
+	cambiarAparaciencia(mode) {
+		let m = mode ? mode : this.mode;
+
+		if (m == "stopwatch") {
 			this.$container.classList.add("stopwatch");
 			this.$container.classList.remove("timer");
+			this.$btnSwitch.querySelector("span").innerHTML = "timer";
+
 		}
 
-		if (this.mode == "timer") {
+		if (m == "timer") {
 			this.$container.classList.add("timer");
 			this.$container.classList.remove("stopwatch");
+			this.$btnSwitch.querySelector("span").innerHTML = "schedule";
 		}
 	}
 
@@ -109,6 +123,17 @@ class WatchUI extends WatchController {
 		active(this.$btnPause, true);
 		this.$btnReset.disabled = true;
 
+		if (this.mode === "timer") {
+			active(this.$setTime, false);
+			active(this.$timeSetedContainer, true);
+			active(this.$clock, true);
+
+			this.$timeSetedContainer.innerHTML = milisecondsToTime(
+				this.timeSeted,
+				true
+			).time;
+		}
+
 		clearInterval(this.update);
 		this.update = setInterval(this.updateFrame, 1000);
 	}
@@ -129,7 +154,13 @@ class WatchUI extends WatchController {
 		active(this.$btnPause, false);
 		active(this.$btnReset, true);
 
-		if (this.mode == "timer") this.getValuesFormTimer();
+		if (this.mode === "timer") {
+			active(this.$setTime, true);
+			active(this.$timeSetedContainer, false);
+			active(this.$clock, false);
+
+			this.getValuesFormTimer();
+		}
 
 		this.showTime();
 
@@ -172,16 +203,12 @@ class WatchUI extends WatchController {
 			: this.resetState();
 
 		if (dataWatch.mode === "timer") {
-			console.log("configuracion de modo timer");
-
 			this.setValuesFormTimer(dataWatch.timeSeted);
-
-			return;
 		}
 
-		console.log("configuracion de modo stopwatch");
-
 		// visualizacion de modo
+		this.$name.innerHTML = dataWatch.name;
+		this.cambiarAparaciencia(dataWatch.mode);
 
 		// asignaerle a los imputs el valor que viene del servidor
 	}

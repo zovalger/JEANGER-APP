@@ -45,28 +45,30 @@
 		<!-- ***************************************** templates ***************************************** -->
 
 		<template id="watch-template">
-			<div class="watch stopwatch">
-				<div class="top">
-					<button class="switch">
-						<span class="material-symbols-outlined"> timer </span>
-						<span class="material-symbols-outlined"> schedule </span>
-					</button>
-					<div class="name">name</div>
-				</div>
+			<!-- <div class="watch stopwatch"> -->
 
-				<!-- <div class="clock_container"> -->
-				<div class="clock">
-					<span class="time"> 00:00.</span><span class="ms">00 </span>
-				</div>
+			<div class="top">
+				<button class="switch">
+					<span class="material-symbols-outlined"> timer </span>
+				</button>
+				<div class="name">name</div>
+			</div>
 
-				<form class="set-time">
-					<input name="hrs" type="number" min="0" />
-					<input name="mins" type="number" max="59" min="0" />
-					<input name="secs" type="number" max="59" min="0" />
-				</form>
-				<!-- </div> -->
+			<div class="time-seted">00:00</div>
+			<!-- <div class="clock_container"> -->
+			<div class="clock">
+				<span class="time"> 00:00.</span><span class="ms">00 </span>
+			</div>
 
-				<!-- 
+			<form class="set-time active">
+				<input name="hrs" type="number" min="0" />
+				<input name="mins" type="number" />
+				<input name="secs" type="number" />
+				<input type="submit" value="" hidden />
+			</form>
+			<!-- </div> -->
+
+			<!-- 
 	
 	
 				<div class="set-time_container">
@@ -88,19 +90,19 @@
 					</div>
 				</div> -->
 
-				<div class="controls_container">
-					<button class="reset active">
-						<span class="material-symbols-outlined"> replay </span>
-					</button>
+			<div class="controls_container">
+				<button class="reset active">
+					<span class="material-symbols-outlined"> replay </span>
+				</button>
 
-					<button class="pause active">
-						<span class="material-symbols-outlined"> pause </span>
-					</button>
-					<button class="start active">
-						<span class="material-symbols-outlined"> play_arrow </span>
-					</button>
-				</div>
+				<button class="pause active">
+					<span class="material-symbols-outlined"> pause </span>
+				</button>
+				<button class="start active">
+					<span class="material-symbols-outlined"> play_arrow </span>
+				</button>
 			</div>
+			<!-- </div> -->
 		</template>
 
 		<!-- <script src="./socket.io/socket.io.js" charset="utf-8"></script> -->

@@ -1,17 +1,23 @@
 :root {
 
+	// letras
+
 	--main-font: sans-serif;
 	--font-size: 20px;
+	--font-size-large: 3rem;
 	--font-main-color: #000;
 	--font-second-color: #111;
 
 
-
+// colores principales
 	--main-color: #e2c890;
 	--second-color: #222;
-
 	--main-background-color: #f0f8ff;
 
+
+
+
+	// bores
 	--border-radius: 25px;
 
 
@@ -23,6 +29,7 @@
 	--border-third-color: #0005;
 
 
+	// tamaños
 	--margin-min : 5px;
 
 	// --logo: url("../../img/logo.jpg");
@@ -57,7 +64,7 @@ body.dark-theme {
 	// scroll-behavior: smooth;
 
 	margin: 0;
-	padding: 0%;
+	padding: 0;
 	box-sizing: border-box;
 	// color: var(--font-main-color);
 	// font-size: 24px;

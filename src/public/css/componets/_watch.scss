@@ -14,44 +14,86 @@
 		// justify-content: flex-start;
 		width: 100%;
 		.switch {
-			position: absolute;
+			// position: absolute;
 			// margin-left: auto;
 		}
+
 		.name {
-			text-align: center;
-			flex-grow: 1;
+			// text-align: center;
+			// flex-grow: 1;
 			// margin-left: var(--margin-min);
 			// width: ;
-			// display: inline-block;
+			display: inline-block;
 		}
 	}
 
 	.set-time {
 		input {
-			width: 2rem;
+			&::-webkit-inner-spin-button,
+			&::-webkit-outer-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+
+			text-align: center;
+			width: calc(var(--font-size-large)* 1.5);
+
+			font-size: var(--font-size-large);
 		}
 		// display: grid;
 		// grid-template-columns: 1fr 1fr 1fr;
 	}
 
+	.clock {
+		font-size: var(--font-size-large);
+	}
+
 	.controls_container {
+
+		display: inline-flex;
+
+		
+
+
 		button {
-      display: none;
-      
+			display: none;
+
 			&.active {
-        display: inline-block;
+				display: inline-block;
 			}
 
+			width: 4rem;
+
+			// flex-grow: 1;
 		}
 	}
 
+	.set-time,
+	.time-seted {
+		display: none;
+	}
 
-  &.stopwatch{
-    background-color: #44f;
-  }
-  &.timer{
-    background-color: rgb(243, 255, 68);
-  }
+	&.stopwatch {
+		background-color: #44f;
+	}
+
+	&.timer {
+		& .clock {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+
+		& .set-time,
+		& .time-seted {
+			&.active {
+				display: block;
+			}
+		}
+
+		background-color: rgb(243, 255, 68);
+	}
 }
 
 // .clock_container {

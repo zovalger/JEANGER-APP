@@ -6,6 +6,7 @@ const ClocksSchema = mongoose.Schema({
 	// 	mode: "stopwatch",
 	// 	timesToSet: { dirDate: null, dirTime: 0 },
 	// };
+	name: { type: String },
 
 	mode: { type: String },
 	timesToSet: { dirDate: Number, dirTime: Number },

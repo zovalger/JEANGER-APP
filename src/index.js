@@ -4,8 +4,8 @@ const http = require("http");
 const sockets = require("./sockets");
 
 const { connectDB } = require("./db");
-const { PORT, LOCALSERVER } = require("./config");
-const {  sendUrl } = require("./utils/sendUrl");
+const { PORT, LOCALSERVER, TestMode } = require("./config");
+const { sendUrl } = require("./utils/sendUrl");
 
 connectDB()
 	.then(() => {
@@ -15,7 +15,7 @@ connectDB()
 
 		sockets(io);
 
-		if (LOCALSERVER) sendUrl();
+		if (LOCALSERVER && !TestMode) sendUrl();
 	})
 	.catch(() => {
 		console.log("error en conectar con la base de datos");
