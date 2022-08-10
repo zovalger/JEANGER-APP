@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-	const direction = await IpModel.findOne();
+	let direction = await IpModel.findOne();
 
 	if (!direction) direction = new IpModel();
 
