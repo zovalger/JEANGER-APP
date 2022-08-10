@@ -19,12 +19,16 @@ router.post("/", async (req, res) => {
 
 	if (!direction) direction = new IpModel();
 
+	console.log(req.body);
+
 	direction.urlServer = req.body.urlServer;
+
 	direction.fecha = Date.now();
 
+	console.log(direction);
 	await direction.save();
 
-	return res.json({ok:true});
+	return res.json({ ok: true });
 });
 
 module.exports = router;
