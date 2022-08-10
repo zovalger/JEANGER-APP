@@ -1,0 +1,31 @@
+{
+	"name": "jeanger-app",
+	"version": "1.0.0",
+	"description": "aplicacion para automatizar tareas",
+	"main": "index.js",
+	"scripts": {
+		"start": "node ./src/index.js",
+		"dev": "nodemon ./src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zovalger/JEANGER-APP.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/zovalger/JEANGER-APP/issues"
+	},
+	"homepage": "https://github.com/zovalger/JEANGER-APP#readme",
+	"dependencies": {
+		"cookie-parser": "~1.4.4",
+		"debug": "~2.6.9",
+		"dotenv": "^10.0.0",
+		"express": "~4.16.1",
+		"http-errors": "~1.6.3",
+		"mongoose": "^5.12.12",
+		"morgan": "~1.9.1",
+		"socket.io": "^4.5.1"
+	}
+}

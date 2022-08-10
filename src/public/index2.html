@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link rel="stylesheet" href="./css/InvJeangerStyles.css" />
+		<title>Document</title>
+	</head>
+	<body>
+		<!-- toda la app -->
+		<div class="app">
+			<!-- temporizadores -->
+			<div class="section-app">
+				<div class="nav">
+					<button class="nav-backButton">back</button>
+					<span class="tittle-section">temporizadores</span>
+				</div>
+				<div class="content">
+					<!-- contenedor de timer y stopwatch -->
+					<div class="timer-stopwatch_container stopwatch">
+						<div class="top">
+							<button class="switch">c</button>
+							<div class="name">equipo 1</div>
+							<button class="options">c</button>
+						</div>
+
+						<!-- cronometro -->
+						<div class="stopwatch-clock counter">
+							<div class="clock">00:00:00</div>
+
+							<div class="controls_container">
+								<button class="reset">resetear</button>
+								<button class="pause">pausa</button>
+								<button class="start">iniciar</button>
+							</div>
+						</div>
+
+						<!-- timer -->
+						<div class="timer-clock counter">
+							<div class="timer-setted">00:00:00</div>
+
+						
+
+							<div class="clock">00:00:00</div>
+							<div class="controls_container">
+								<button class="reset">resetear</button>
+								<button class="pause">pausa</button>
+								<button class="start">iniciar</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- <input type="time" name="" id=""> -->
+				</div>
+			</div>
+		</div>
+
+		<!-- libreria para la coneccion bidireccional con el servidor -->
+		<!-- <script src="./socket.io/socket.io.js" charset="utf-8"></script> -->
+
+		<!-- todos los Script de la app -->
+		<script src="./js/main.js" type="module"></script>
+	</body>
+</html>
