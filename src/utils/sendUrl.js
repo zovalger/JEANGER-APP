@@ -20,20 +20,13 @@ const sendUrl = () => {
 		var options = {
 			method: "POST",
 			url: "https://jeanger-app.herokuapp.com/localserver",
-			headers: {},
-			formData: {
-				urlServer: `http://${ip}:${PORT}`,
+			headers: {
+				"Content-Type": "application/json",
 			},
+			body: JSON.stringify({
+				urlServer: `http://${ip}:${PORT}`,
+			}),
 		};
-
-		request(options, function (error, response) {
-			if (error) throw new Error(error);
-			console.log(response.body);
-		});
-
-		if (error) {
-			console.log("error:", error);
-		}
 	});
 };
 

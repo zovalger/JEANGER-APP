@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 
 	if (!direction) direction = new IpModel();
 
-	console.log(req.body);
+	console.log(req.urlServer);
 
 	direction.urlServer = req.body.urlServer;
 
