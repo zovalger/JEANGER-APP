@@ -2,13 +2,15 @@ const express = require("express");
 const IpModel = require("../models/ip.model");
 const router = express.Router();
 
-router.get("/LocalServer", async (req, res) => {
+router.get("/", async (req, res) => {
 	const direccion = await IpModel.findOne();
 
-	return res.redirect(`${direccion.ip}`);
+	console.log(direccion);
+
+	return res.redirect(`http://${direccion.ip}`);
 });
 
-router.post("/LocalServer", async (req, res) => {
+router.post("/", async (req, res) => {
 	const direction = new IpModel.findOne();
 
 	if (!direction) direction = new IpModel();

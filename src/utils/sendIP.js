@@ -19,7 +19,7 @@ const sendIp = () => {
 		var request = require("request");
 		var options = {
 			method: "POST",
-			url: "https://jeanger-app.herokuapp.com/LocalServer",
+			url: "https://jeanger-app.herokuapp.com/localserver",
 			headers: {},
 			formData: {
 				ip: ip + PORT,
