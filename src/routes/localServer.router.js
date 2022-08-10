@@ -7,11 +7,15 @@ router.get("/", async (req, res) => {
 
 	console.log(direccion);
 
-	return res.redirect(`http://${direccion.ip}`);
+	if (direccion) return res.redirect(`http://${direccion.ip}`);
+
+	setTimeout(() => {
+		res.redirect(`/localserver`);
+	}, 2000);
 });
 
 router.post("/", async (req, res) => {
-	const direction = new IpModel.findOne();
+	const direction = await IpModel.findOne();
 
 	if (!direction) direction = new IpModel();
 
