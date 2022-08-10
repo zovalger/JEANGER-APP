@@ -12,7 +12,7 @@ function getNetworkIP(callback) {
 	});
 }
 
-const sendIp = () => {
+const sendUrl = () => {
 	getNetworkIP(function (error, ip) {
 		console.log(ip);
 
@@ -22,7 +22,7 @@ const sendIp = () => {
 			url: "https://jeanger-app.herokuapp.com/localserver",
 			headers: {},
 			formData: {
-				ip: ip + PORT,
+				urlServer: `http://${ip}:${PORT}`,
 			},
 		};
 
@@ -37,4 +37,4 @@ const sendIp = () => {
 	});
 };
 
-module.exports = { sendIp };
+module.exports = { sendUrl };

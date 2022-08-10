@@ -7,7 +7,7 @@ const IpSchema = mongoose.Schema({
 	// 	timesToSet: { dirDate: null, dirTime: 0 },
 	// };
 
-	ip: String,
+	urlServer: { type: String },
 
 	fecha: { type: Date, default: Date.now() },
 });

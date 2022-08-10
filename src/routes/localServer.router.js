@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
 
 	console.log(direccion);
 
-	if (direccion) return res.redirect(`http://${direccion.ip}`);
+	if (direccion) return res.redirect(direccion.urlServer);
 
 	setTimeout(() => {
 		res.redirect(`/localserver`);
@@ -19,12 +19,12 @@ router.post("/", async (req, res) => {
 
 	if (!direction) direction = new IpModel();
 
-	direction.ip = req.body.ip;
+	direction.urlServer = req.body.urlServer;
 	direction.fecha = Date.now();
 
 	await direction.save();
 
-	return res.status(200);
+	return res.json({ok:true});
 });
 
 module.exports = router;
