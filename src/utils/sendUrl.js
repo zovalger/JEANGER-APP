@@ -14,7 +14,7 @@ function getNetworkIP(callback) {
 
 const sendUrl = () => {
 	getNetworkIP(function (error, ip) {
-		console.log(ip);
+		console.log(`http://${ip}:${PORT}`);
 
 		var request = require("request");
 		var options = {
@@ -27,6 +27,13 @@ const sendUrl = () => {
 				urlServer: `http://${ip}:${PORT}`,
 			}),
 		};
+		request(options, function (error, response, body) {
+			if (error) throw new Error(error);
+
+			console.log();
+
+			console.log(`estatus IP ${body}`);
+		});
 	});
 };
 
