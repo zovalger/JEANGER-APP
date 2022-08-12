@@ -1,9 +1,9 @@
 window.JEANGER_APP = {};
 
-JEANGER_APP.offLineMode = true
+// JEANGER_APP.offLineMode = true
 
 
-// import initSockets from "./socket.js";
+import initSockets from "./socket.js";
 import clocks from "./modules/Clocks.App.js";
 
 // contenedor de todos los componentes de la app
@@ -13,7 +13,7 @@ import clocks from "./modules/Clocks.App.js";
 
 
 // iniciamos la libreria de socket
-// initSockets();
+initSockets();
 
 JEANGER_APP.clocks = new clocks();
 // *********************************************************************

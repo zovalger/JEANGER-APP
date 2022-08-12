@@ -9,22 +9,25 @@
 	align-items: center;
 	.top {
 		position: relative;
-		// display: flex;
+		display: flex;
 
 		// justify-content: flex-start;
 		width: 100%;
-		.switch {
-			// position: absolute;
-			// margin-left: auto;
-		}
-
 		.name {
+			margin-left: 5px;
 			// text-align: center;
 			// flex-grow: 1;
 			// margin-left: var(--margin-min);
 			// width: ;
 			display: inline-block;
 		}
+		.switch {
+
+			margin-left: auto;
+			// position: absolute;
+			// margin-left: auto;
+		}
+
 	}
 
 	.set-time {
