@@ -123,10 +123,13 @@ class WatchUI extends WatchController {
 		active(this.$btnPause, true);
 		this.$btnReset.disabled = true;
 
+		console.log("startstarte");
 		if (this.mode === "timer") {
 			active(this.$setTime, false);
 			active(this.$timeSetedContainer, true);
 			active(this.$clock, true);
+
+			console.log("timer start");
 
 			this.$timeSetedContainer.innerHTML = milisecondsToTime(
 				this.timeSeted,

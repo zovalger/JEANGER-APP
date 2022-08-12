@@ -45,6 +45,7 @@ class WatchController {
 	}
 
 	setTime(timesToSet = { dirDate, dirTime }, timeSeted = Number) {
+		
 		if (this.mode === "timer") {
 			this.timer.setTime(timesToSet);
 
@@ -76,7 +77,7 @@ class WatchController {
 		this.timeSeted = timeSeted;
 		// this.status = status;
 
-		this.setTime(timesToSet);
+		this.setTime(timesToSet,timeSeted);
 	}
 
 	sendUpdate() {
