@@ -1,21 +1,28 @@
-window.JEANGER_APP = {};
+if (
+	window.location.origin === "http://jeanger-app.herokuapp.com" ||
+	window.location.origin === "https://jeanger-app.herokuapp.com"
+) {
+	let goto = confirm(
+		"Usa la version local si estas dentro del ciber\n ¿quieres ir a la version local?"
+	);
 
-// JEANGER_APP.offLineMode = true
-
+	console.log(goto);
+	if (goto) window.location.href = `${window.location}localserver`;
+}
 
 import initSockets from "./socket.js";
 import clocks from "./modules/Clocks.App.js";
 
 // contenedor de todos los componentes de la app
+window.JEANGER_APP = {};
 
-
-
-
+JEANGER_APP.offLineMode = true;
 
 // iniciamos la libreria de socket
 initSockets();
 
 JEANGER_APP.clocks = new clocks();
+
 // *********************************************************************
 //                    inicializacion de la app
 // *********************************************************************
@@ -50,9 +57,6 @@ JEANGER_APP.clocks = new clocks();
 
 // JEANGER_APP.clocks.initApp(ob1);
 
-
-
-
 // let update1 = {
 // 	watches: [
 // 		{
@@ -63,13 +67,11 @@ JEANGER_APP.clocks = new clocks();
 // 	],
 // };
 
-
 // setTimeout(() => {
 
 // 	JEANGER_APP.clocks.receiveUpdate(update1)
 
 // }, 3000);
-
 
 // let update2 = {
 // 	watches: [

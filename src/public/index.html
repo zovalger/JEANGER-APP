@@ -23,6 +23,18 @@
 	<!-- <body class="dark-theme"> -->
 	<body>
 		<div class="app">
+
+
+		<div class="left-panel">
+			<button>1</button>
+			<button>1</button>
+			<button>1</button>
+		</div>
+
+		<div class="app-section-container">
+
+			<div id="clocks" class="app-section"></div>
+		</div>
 			<!-- <div class="nav">
 			<button class="nav-backButton">
 				<span class="material-symbols-outlined">
@@ -39,7 +51,6 @@
 			</button>
 		</div> -->
 
-			<div id="clocks" class="app-section"></div>
 		</div>
 
 		<!-- ***************************************** templates ***************************************** -->
@@ -89,7 +100,6 @@
 						<div>01:02:00</div>
 					</div>
 				</div> -->
-
 			<div class="controls_container">
 				<button class="reset active">
 					<span class="material-symbols-outlined"> replay </span>
@@ -110,18 +120,6 @@
 		<!-- todos los Script de la app -->
 		<script src="./js/main.js" type="module"></script>
 
-		<script>
-			if (
-				window.location.origin === "http://jeanger-app.herokuapp.com" ||
-				window.location.origin === "https://jeanger-app.herokuapp.com"
-			) {
-				let goto = confirm(
-					"Usa la version local si estas dentro del ciber\n ¿quieres ir a la version local?"
-				);
 
-				console.log(goto);
-				if (goto) window.location.href = `${window.location}localserver`;
-			}
-		</script>
 	</body>
 </html>

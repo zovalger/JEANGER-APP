@@ -3,7 +3,7 @@
 
 	width: 100vw;
 	height: 100vh;
-	display: block;
+	display: flex;
 	// border-bottom: 1px solid #000;
 	overflow: hidden;
 
@@ -32,7 +32,23 @@
 	// 	opacity: 20%;
 	// }
 }
+.left-panel {
+	display: flex;
+	flex-direction: column;
 
+	// flex-grow: 0.2;
+	padding: var(--margin-min);
+
+	// max-width: calc(var(--button-square-size) + calc(var(--margin-min)));
+	button {
+		width: var(--button-square-size);
+		height: var(--button-square-size);
+	}
+}
+
+.app-section-container {
+	flex-grow: 1;
+}
 .app-section {
 	border-bottom: 1px solid #00f;
 	width: 100%;

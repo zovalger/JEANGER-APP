@@ -78,14 +78,14 @@ class WatchUI extends WatchController {
 		if (m == "stopwatch") {
 			this.$container.classList.add("stopwatch");
 			this.$container.classList.remove("timer");
-			this.$btnSwitch.querySelector("span").innerHTML = "timer";
+			this.$btnSwitch.querySelector("span").innerHTML = "hourglass_empty";
 
 		}
 
 		if (m == "timer") {
 			this.$container.classList.add("timer");
 			this.$container.classList.remove("stopwatch");
-			this.$btnSwitch.querySelector("span").innerHTML = "schedule";
+			this.$btnSwitch.querySelector("span").innerHTML = "timer";
 		}
 	}
 

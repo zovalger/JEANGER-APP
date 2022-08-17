@@ -15,6 +15,8 @@
 	--main-background-color: #f0f8ff;
 
 
+	--button-square-size:2.5rem;
+	--button-square-small-size:2rem;
 
 
 	// bores
@@ -31,6 +33,8 @@
 
 	// tamaños
 	--margin-min : 5px;
+
+	--padding-min :5px;
 
 	// --logo: url("../../img/logo.jpg");
 	--logo: url("../../img/logo_zovalger_20220720.svg");
@@ -80,6 +84,21 @@ img {
 	max-width: 100%;
 	height: auto;
 	object-fit: cover;
+}
+
+button, input{
+	border: none;
+	background: none;
+
+	&:hover{
+		background-color: hsla(0, 0%, 50%, 0.25);
+	}
+	&:active{
+		background-color: hsla(0, 0%, 50%, 0.5);
+
+	}
+	// background: none;
+	// padding: 1rem;
 }
 
 // button {
