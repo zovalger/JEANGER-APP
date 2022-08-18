@@ -5,15 +5,16 @@ class Timer {
 	constructor() {
 		this.endDate = 0;
 		this.timeLeft = 0;
-		this.status = "idle";
 
+		this.onFinish = () => alert("temporizador finalizado");
+
+		this.timeoutEnt = null;
 		// this.EndTimeout = 0; // set time out
 		// this.onFinishRun = 0; // funcion al finalizar
 		// this.onFinish(() => console.log("funcion terminar"));
 	}
 
 	start() {
-		this.status = "running";
 
 		this.endDate = this.endDate
 			? this.endDate
@@ -23,27 +24,23 @@ class Timer {
 
 		this.timeLeft = 0;
 
-		// ejecutar funcion al terminar
-		// let finaliza = this.endDate - Date.now();
-		// this.EndTimeout = setTimeout(() => {
-		// 	this.onFinishRun();
-		// }, finaliza);
+		this.setTimeOnFinish();
 	}
+
 	pause() {
 		// arreglar cuando el tiempo esta negativo
 
 		this.timeLeft = this.timeLeft ? this.timeLeft : this.endDate - Date.now();
 		this.endDate = 0;
 
-		this.status = "pause";
 
-		clearTimeout(this.EndTimeout);
+		clearTimeout(this.timeoutEnt);
 	}
 	reset() {
 		this.endDate = 0;
 		this.timeLeft = 0;
 
-		this.status = "idle";
+		clearTimeout(this.timeoutEnt);
 	}
 
 	getTime() {
@@ -61,11 +58,13 @@ class Timer {
 
 		this.endDate = dirDate;
 		this.timeLeft = dirTime;
+
+		if (dirDate) this.setTimeOnFinish();
 	}
 
-	// onFinish(next) {
-	// 	if (next) this.onFinishRun = next;
-	// }
+	setTimeOnFinish() {
+		this.timeoutEnt = setTimeout(() => this.onFinish(), this.getTime());
+	}
 }
 
 export default Timer;

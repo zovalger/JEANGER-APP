@@ -1,4 +1,6 @@
 export function addZero(n) {
+	n = Math.abs(n);
+
 	return (n < 10 ? "0" : "") + n;
 }
 

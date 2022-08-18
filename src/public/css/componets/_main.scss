@@ -43,6 +43,10 @@
 	button {
 		width: var(--button-square-size);
 		height: var(--button-square-size);
+
+		&.selected {
+			background-color: hsla(0, 0%, 50%, 0.25);
+		}
 	}
 }
 
@@ -58,9 +62,35 @@
 	// flex-wrap: wrap;
 }
 
-#clocks {
-	display: inline-flex;
+// ********************************************************************
+//  								nav dentro de las secciones
+// ********************************************************************
+
+.nav-in-secction {
+	display: flex;
+	height: var(--nav-height);
+	align-items: center;
+	// justify-content: center;
+	.tools {
+		margin-left: auto;
+	}
+}
+
+// ********************************************************************
+//  								seccion de clocks-app
+// ********************************************************************
+#clocks-app {
+	// flex-direction: column;
+
+	display: flex;
 	flex-direction: column;
+}
+
+#clocks-app-watches {
+	// display: inline-flex;
+	flex-wrap: wrap;
+	display: inline-flex;
+	// flex-grow: 1;
 }
 
 // .nav {

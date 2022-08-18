@@ -5,14 +5,23 @@ class WatchController {
 	constructor() {
 		this._id = Date.now();
 		this.mode = "stopwatch";
-		this.status = "idle";
+		this.nameWatch = "reloj";
 
 		// solo cuando es timer
 		this.timeSeted = 0;
 
 		this.stopwatch = new Stopwatch();
 		this.timer = new Timer();
+
+		// this.timer.onFinish = this.onFinishTimer;
 	}
+
+	onFinishTimer() {
+		// this.timer.onFinish = () => {
+			console.log(this);
+			// alert(`${this.nameWatch}: tiempo terminado`);
+		// };
+	};
 	// 192.168.1.102:5500/src/public/index.html
 	switch() {
 		this.mode = this.mode == "stopwatch" ? "timer" : "stopwatch";
@@ -45,7 +54,6 @@ class WatchController {
 	}
 
 	setTime(timesToSet = { dirDate, dirTime }, timeSeted = Number) {
-		
 		if (this.mode === "timer") {
 			this.timer.setTime(timesToSet);
 
@@ -75,9 +83,10 @@ class WatchController {
 		this._id = _id;
 		this.mode = mode;
 		this.timeSeted = timeSeted;
+		this.nameWatch = dataWatch.name;
 		// this.status = status;
 
-		this.setTime(timesToSet,timeSeted);
+		this.setTime(timesToSet, timeSeted);
 	}
 
 	sendUpdate() {
@@ -90,7 +99,7 @@ class WatchController {
 
 		console.log(data1);
 
-		JEANGER_APP.clocks.sendUpdate(data1);
+		JEANGER_APP.clocksApp.sendUpdate(data1);
 	}
 }
 

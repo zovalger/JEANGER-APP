@@ -27,6 +27,7 @@ class WatchUI extends WatchController {
 		this.$container.appendChild(this.$content);
 
 		this.$name = this.$container.querySelector(".name");
+		this.$delayed=this.$container.querySelector(".delayed")
 		this.$clock = this.$container.querySelector(".clock");
 
 		// this.inputTime = new InputTime(this.$container, ".set-time_container");
@@ -35,7 +36,7 @@ class WatchUI extends WatchController {
 
 		this.$setTime.addEventListener("submit", (e) => {
 			e.preventDefault();
-			this.start()
+			this.start();
 		});
 		// botones de funciones principales
 		this.$btnSwitch = this.$container.querySelector(".switch");
@@ -50,8 +51,15 @@ class WatchUI extends WatchController {
 		this.$btnReset.addEventListener("click", () => this.reset());
 
 		if (dataWatch) this.restoreState(dataWatch);
+		this.timer.onFinish = this.onFinishTimer;
 	}
-
+	onFinishTimer = () => {
+		// console.log(this);
+		this.$container.classList.add("complete");
+		active(this.$delayed,true)
+		
+		super.onFinishTimer();
+	};
 	// asigna los correspondientes valores al relog
 	showTime() {
 		this.$clock.innerHTML = milisecondsToTime(this.getTime(), true).time;
@@ -69,7 +77,7 @@ class WatchUI extends WatchController {
 
 		this.cambiarAparaciencia();
 
-		this.reset()
+		this.reset();
 	}
 
 	cambiarAparaciencia(mode) {
@@ -79,7 +87,6 @@ class WatchUI extends WatchController {
 			this.$container.classList.add("stopwatch");
 			this.$container.classList.remove("timer");
 			this.$btnSwitch.querySelector("span").innerHTML = "hourglass_empty";
-
 		}
 
 		if (m == "timer") {
@@ -147,6 +154,14 @@ class WatchUI extends WatchController {
 		active(this.$btnReset, true);
 		this.$btnReset.disabled = false;
 
+		if (this.mode === "timer") 
+		
+		{
+			this.$container.classList.remove("complete");
+			active(this.$delayed,false)
+
+		}
+
 		this.showTime();
 
 		clearInterval(this.update);
@@ -163,6 +178,7 @@ class WatchUI extends WatchController {
 			active(this.$clock, false);
 
 			this.getValuesFormTimer();
+			this.$container.classList.remove("complete");
 		}
 
 		this.showTime();
@@ -210,7 +226,8 @@ class WatchUI extends WatchController {
 		}
 
 		// visualizacion de modo
-		this.$name.innerHTML = dataWatch.name;
+
+		this.$name.innerHTML = this.nameWatch;
 		this.cambiarAparaciencia(dataWatch.mode);
 
 		// asignaerle a los imputs el valor que viene del servidor

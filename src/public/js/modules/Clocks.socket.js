@@ -12,11 +12,11 @@ export const ClockAppSocketSend = {
 const ClockAppSocket = (socket) => {
 	// escuchando eventos
 	socket.on("clock-app:init", (data) => {
-		JEANGER_APP.clocks.initApp(data);
+		JEANGER_APP.clocksApp.initApp(data);
 	});
 
 	socket.on("clock-app:receive-update", (data) => {
-		JEANGER_APP.clocks.receiveUpdate(data);
+		JEANGER_APP.clocksApp.receiveUpdate(data);
 	});
 };
 

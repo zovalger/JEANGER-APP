@@ -23,18 +23,27 @@
 	<!-- <body class="dark-theme"> -->
 	<body>
 		<div class="app">
+			<div class="left-panel">
+				<button class="selected">
+					<span class="material-symbols-outlined"> computer </span>
+				</button>
+				<!-- <button>1</button>
+				<button>1</button> -->
+			</div>
 
+			<div class="app-section-container">
+				<div id="clocks-app" class="app-section">
+					<div class="nav-in-secction">
+						<div class="tools">
+							<!-- <button>
+								<span class="material-symbols-outlined"> search </span>
+							</button> -->
+						</div>
+					</div>
 
-		<div class="left-panel">
-			<button>1</button>
-			<button>1</button>
-			<button>1</button>
-		</div>
-
-		<div class="app-section-container">
-
-			<div id="clocks" class="app-section"></div>
-		</div>
+					<div id="clocks-app-watches" class="content"></div>
+				</div>
+			</div>
 			<!-- <div class="nav">
 			<button class="nav-backButton">
 				<span class="material-symbols-outlined">
@@ -50,7 +59,6 @@
 				</span>
 			</button>
 		</div> -->
-
 		</div>
 
 		<!-- ***************************************** templates ***************************************** -->
@@ -67,14 +75,16 @@
 
 			<div class="time-seted">00:00</div>
 			<!-- <div class="clock_container"> -->
+				<div class="delayed">tiempo extra</div>
+
 			<div class="clock">
 				<span class="time"> 00:00.</span><span class="ms">00 </span>
 			</div>
 
 			<form class="set-time active">
-				<input name="hrs" type="number" min="0" />
-				<input name="mins" type="number" />
-				<input name="secs" type="number" />
+				<input name="hrs" type="number" min="0" placeholder="00" />
+				<input name="mins" type="number" placeholder="00" />
+				<input name="secs" type="number" placeholder="00" />
 				<input type="submit" value="" hidden />
 			</form>
 			<!-- </div> -->
@@ -100,6 +110,7 @@
 						<div>01:02:00</div>
 					</div>
 				</div> -->
+			<!-- <hr> -->
 			<div class="controls_container">
 				<button class="reset active">
 					<span class="material-symbols-outlined"> replay </span>
@@ -119,7 +130,5 @@
 
 		<!-- todos los Script de la app -->
 		<script src="./js/main.js" type="module"></script>
-
-
 	</body>
 </html>

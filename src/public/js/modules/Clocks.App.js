@@ -11,54 +11,55 @@ const offlineData = {
 		{
 			_id: 2,
 			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
+			timesToSet: { dirDate: Date.now()+4000, dirTime: 0 },
 		},
-		{
-			_id: 3,
-			mode: "stopwatch",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 4,
-			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 5,
-			mode: "stopwatch",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 6,
-			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 7,
-			mode: "stopwatch",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 8,
-			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 9,
-			mode: "stopwatch",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
-		{
-			_id: 10,
-			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
-		},
+		// {
+		// 	_id: 3,
+		// 	mode: "stopwatch",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 4,
+		// 	mode: "timer",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 5,
+		// 	mode: "stopwatch",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 6,
+		// 	mode: "timer",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 7,
+		// 	mode: "stopwatch",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 8,
+		// 	mode: "timer",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 9,
+		// 	mode: "stopwatch",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
+		// {
+		// 	_id: 10,
+		// 	mode: "timer",
+		// 	timesToSet: { dirDate: 0, dirTime: 0 },
+		// },
 	],
 };
 
-export default class clocks {
+export default class clocksApp {
 	constructor() {
-		this.$container = document.getElementById("clocks");
+		this.$container = document.getElementById("clocks-app");
+		this.$watches = this.$container.querySelector('#clocks-app-watches')
 
 		// console.log(this.$container);
 
@@ -75,7 +76,7 @@ export default class clocks {
 		console.log("create");
 		let w = new WatchUI(watch);
 		this.watchs[watch._id] = w;
-		this.$container.appendChild(w.$container);
+		this.$watches.appendChild(w.$container);
 	}
 
 	updateWatch(watch) {

@@ -1,15 +1,35 @@
+@mixin active($display) {
+	display: none;
+
+	&.active {
+		display: $display;
+	}
+}
+
+// ********************************************************************
+//  							cada reloj dentro de clocks-app
+// ********************************************************************
+
 .watch {
-	border: 1px solid black;
+	// border: 1px solid black;
 	// border-radius: 5px;
 	// overflow-y: hidden;
 	margin-bottom: var(--margin-min);
 
 	display: inline-flex;
+	flex-grow: 1;
+
+	width: 300px;
 
 	flex-direction: column;
 
 	// justify-content: center;
 	align-items: center;
+
+	// ********************************************************************
+	//  						nav de la parte superior del relog
+	// ********************************************************************
+
 	.top {
 		position: relative;
 		display: flex;
@@ -33,7 +53,25 @@
 		}
 	}
 
+	.delayed {
+		@include active(block);
+	}
+
+	// ********************************************************************
+	//  					form en donde estan los inputs de hrs mins sec
+	// ********************************************************************
+	.time-seted {
+		@include active(block);
+	}
+
 	.set-time {
+		@include active(flex);
+
+		width: 100%;
+		flex-grow: 1;
+		// display: flex;
+		align-items: center;
+
 		input {
 			&::-webkit-inner-spin-button,
 			&::-webkit-outer-spin-button {
@@ -41,63 +79,89 @@
 				margin: 0;
 			}
 
+
+			flex-grow: 1;
 			text-align: center;
-			width: calc(var(--font-size-large) * 1.5);
+			width: 10px;
 
 			font-size: var(--font-size-large);
-			// background-color: hsla(0, 0%, 66%, 0.479);
 		}
-		// display: grid;
-		// grid-template-columns: 1fr 1fr 1fr;
 	}
 
+	// ********************************************************************
+	//  								reloj donde se pone el tiempo
+	// ********************************************************************
+
 	.clock {
+		
 		font-size: var(--font-size-large);
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
 	}
+
+	// ********************************************************************
+	// 								 botones controladores
+	// ********************************************************************
 
 	.controls_container {
 		display: inline-flex;
 
+		width: 100%;
 		button {
-			display: none;
+			@include active(inline-block);
 
-			&.active {
-				display: inline-block;
-			}
+			flex-grow: 1;
+			// flex:1 1;
 
 			width: 4rem;
-			
+
 			height: var(--button-square-size);
 
 			// flex-grow: 1;
 		}
 	}
 
-	.set-time,
-	.time-seted {
-		display: none;
-	}
+	// ********************************************************************
+	//  								personalizacion para cada modo del relog
+	// ********************************************************************
 
 	&.stopwatch {
+		border: 3px solid hsl(234, 100%, 50%);
+		background-color: hsla(187, 100%, 50%, 0.10);
+
+		.set-time,
+		.time-seted {
+			display: none;
+		}
 		// background-color: hsla(221, 97%, 70%, 0.514);
 	}
 
 	&.timer {
-		& .clock {
-			display: none;
-			&.active {
-				display: block;
-			}
+		border: 3px solid hsl(60, 100%, 50%);
+		background-color:  hsl(60, 100%, 50%,10%);
+
+		&.complete {
+			animation-duration: 0.5s;
+			animation-name: alert;
+			animation-iteration-count: infinite;
+			animation-direction: alternate;
 		}
 
-		& .set-time,
-		& .time-seted {
-			&.active {
-				display: block;
-			}
+		.clock {
+			@include active(block);
 		}
+	}
+}
 
-		// background-color: hsla(64, 100%, 63%, 0.486);
+@keyframes alert {
+	from {
+		// margin-left: 100%;
+		// width: 300%
+	}
+
+	to {
+		background-color: yellow;
 	}
 }
 
