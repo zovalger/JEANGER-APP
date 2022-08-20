@@ -1,5 +1,5 @@
-import Stopwatch from "../utility/Stopwatch.js";
-import Timer from "../utility/Timer.js";
+import Stopwatch from "../../utility/Stopwatch.js";
+import Timer from "../../utility/Timer.js";
 
 class WatchController {
 	constructor() {

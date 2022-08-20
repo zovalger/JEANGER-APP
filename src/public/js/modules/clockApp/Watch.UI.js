@@ -2,12 +2,11 @@ import {
 	addZero,
 	milisecondsToObject,
 	milisecondsToTime,
-} from "../utility/milisecondsToTime.js";
-import { timeTomiliseconds } from "../utility/timeTomiliseconds.js";
-import InputTime from "./_InputTime.Controller.js";
+} from "../../utility/milisecondsToTime.js";
+import { timeTomiliseconds } from "../../utility/timeTomiliseconds.js";
+import { classActive as active } from "../../utility/toggleClass.js";
 
 import WatchController from "./Watch.Controller.js";
-import { classActive as active } from "../utility/toggleClass.js";
 
 class WatchUI extends WatchController {
 	// container es un elemento ----- watch los datos guardados en la base de datos

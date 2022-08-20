@@ -1,4 +1,4 @@
-import ClockAppSocket from "./modules/Clocks.socket.js";
+import ClockAppSocket from "./modules/clockApp/Clocks.socket.js";
 // import WaypointsSocket from "./modules/Waypoints.socket.js";
 
 const initSockets = () => {

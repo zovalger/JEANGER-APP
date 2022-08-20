@@ -11,33 +11,33 @@ const offlineData = {
 		{
 			_id: 2,
 			mode: "timer",
-			timesToSet: { dirDate: Date.now()+4000, dirTime: 0 },
+			timesToSet: { dirDate: 0, dirTime: 0 },
 		},
-		// {
-		// 	_id: 3,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 4,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 5,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 6,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 7,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
+		{
+			_id: 3,
+			mode: "stopwatch",
+			timesToSet: { dirDate: 0, dirTime: 0 },
+		},
+		{
+			_id: 4,
+			mode: "timer",
+			timesToSet: { dirDate: 0, dirTime: 0 },
+		},
+		{
+			_id: 5,
+			mode: "stopwatch",
+			timesToSet: { dirDate: 0, dirTime: 0 },
+		},
+		{
+			_id: 6,
+			mode: "timer",
+			timesToSet: { dirDate: 0, dirTime: 0 },
+		},
+		{
+			_id: 7,
+			mode: "stopwatch",
+			timesToSet: { dirDate: 0, dirTime: 0 },
+		},
 		// {
 		// 	_id: 8,
 		// 	mode: "timer",
@@ -58,8 +58,8 @@ const offlineData = {
 
 export default class clocksApp {
 	constructor() {
-		this.$container = document.getElementById("clocks-app");
-		this.$watches = this.$container.querySelector('#clocks-app-watches')
+		this.$container = document.getElementById("clocksApp");
+		this.$watches = this.$container.querySelector('#clocksApp-watches')
 
 		// console.log(this.$container);
 

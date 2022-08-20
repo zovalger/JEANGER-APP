@@ -1,3 +1,11 @@
+@mixin active($display) {
+	display: none;
+
+	&.active {
+		display: $display;
+	}
+}
+
 .app {
 	// background-color: white;
 
@@ -32,6 +40,7 @@
 	// 	opacity: 20%;
 	// }
 }
+
 .left-panel {
 	display: flex;
 	flex-direction: column;
@@ -51,46 +60,78 @@
 }
 
 .app-section-container {
-	flex-grow: 1;
+	display: inline-block;
+	// height: 1px;
+	flex: 1 1;
+	border: 1px solid #000;
+	// overflow-y: auto;
 }
+
 .app-section {
-	border-bottom: 1px solid #00f;
+	@include active(inline-flex);
+	// display: none;
+
+	flex-direction: column;
+
+	border: 1px solid rgb(255, 0, 0);
 	width: 100%;
 	height: 100%;
-	overflow-y: auto;
+	// flex-grow: 1;
 
 	// flex-wrap: wrap;
 }
 
-// ********************************************************************
-//  								nav dentro de las secciones
-// ********************************************************************
+.nav-in-section {
+	border: 1px solid rgb(0, 0, 0);
 
-.nav-in-secction {
-	display: flex;
+	background-color: hsl(240, 85%, 79%);
+
+	display: inline-flex;
+
+	width: 100%;
 	height: var(--nav-height);
 	align-items: center;
 	// justify-content: center;
-	.tools {
-		margin-left: auto;
+
+	button {
+		width: var(--nav-height);
+		height: var(--nav-height);
 	}
-}
 
-// ********************************************************************
-//  								seccion de clocks-app
-// ********************************************************************
-#clocks-app {
-	// flex-direction: column;
+	.left {
+		margin-right: auto;
+		display: inline-flex;
 
-	display: flex;
-	flex-direction: column;
-}
+		align-items: center;
+	}
 
-#clocks-app-watches {
-	// display: inline-flex;
-	flex-wrap: wrap;
-	display: inline-flex;
-	// flex-grow: 1;
+	.name {
+		margin-left: var(--margin-min);
+	}
+
+	.header-search {
+		// width: 100%;
+		form {
+			display: inline-flex;
+			// width: 100%;
+
+			input {
+				// width: 100%;
+				// width: 0;
+				display: none;
+
+				flex-grow: 1;
+				// height: 100%;
+				background-color: hsla(0, 0%, 0%, 0.496);
+			}
+
+			&.searching {
+				input[type="search" i] {
+					display: inline-block;
+				}
+			}
+		}
+	}
 }
 
 // .nav {
@@ -126,15 +167,15 @@
 
 // }
 
-.list {
-	// position: relative;
-	// border: 1px solid black;
+// .list {
+// position: relative;
+// border: 1px solid black;
 
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
+// flex-grow: 1;
+// display: flex;
+// flex-direction: column;
 
-	// flex-wrap: wrap;
-	// height: ;
-	// width: 100%;
-}
+// flex-wrap: wrap;
+// height: ;
+// width: 100%;
+// }

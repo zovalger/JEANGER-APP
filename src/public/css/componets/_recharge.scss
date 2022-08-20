@@ -1,0 +1,18 @@
+@mixin active($display) {
+	display: none;
+
+	&.active {
+		display: $display;
+	}
+}
+
+
+
+.recharge{
+  border: 1px solid black;
+  display: flex;
+  .info{
+    margin-left: auto;
+    text-align: right;
+  }
+}

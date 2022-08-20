@@ -1,8 +1,6 @@
 // es una clase que tiene las funciones principales de un cronometro
 class Stopwatch {
 	constructor() {
-		// es un idicador para objetos externos de la clase
-		this.status = "idle";
 
 		// cuando se inicio el contador (mientras esta en activo)
 		this.startDate = 0;
@@ -14,8 +12,6 @@ class Stopwatch {
 	// ************** inicia el cronometro **************
 	// pone la fecha de inicio y verifica si no estaba pausado antes
 	start() {
-		this.status = "running";
-
 		this.startDate = this.startDate
 			? this.startDate
 			: this.accumulatedTime
@@ -28,8 +24,6 @@ class Stopwatch {
 	// ************** pausa el cronometro **************
 	// guarda el tiempo acumulado
 	pause() {
-		this.status = "pause";
-
 		this.accumulatedTime = this.startDate
 			? Date.now() - this.startDate
 			: this.accumulatedTime;
@@ -40,7 +34,6 @@ class Stopwatch {
 	// ************** resetea el cronometro **************
 	// establese todas las variables al estado inicial
 	reset() {
-		this.status = "idle";
 		this.startDate = 0;
 		this.accumulatedTime = 0;
 	}
@@ -60,8 +53,6 @@ class Stopwatch {
 	// se le pasa un tiempo en milisegundos y el cronometro respondera actualizandose deacuerdo a ese tiempo
 	setTime(timesToSet = { dirDate, dirTime }) {
 		const { dirDate, dirTime } = timesToSet;
-
-		// this.status = "idle";
 
 		this.startDate = dirDate;
 		this.accumulatedTime = dirTime;

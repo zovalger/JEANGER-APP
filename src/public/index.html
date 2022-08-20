@@ -23,49 +23,106 @@
 	<!-- <body class="dark-theme"> -->
 	<body>
 		<div class="app">
-			<div class="left-panel">
-				<button class="selected">
-					<span class="material-symbols-outlined"> computer </span>
+			<!-- ****************************************************************************************************** -->
+			<!-- 										panel para seleccionar las secciones de la app 					-->
+			<!-- ****************************************************************************************************** -->
+
+			<div class="left-panel" id="appSectionsManager">
+				<button class="" data-app-section="clocksApp">
+					<span class="material-symbols-outlined"> timer </span>
 				</button>
-				<!-- <button>1</button>
-				<button>1</button> -->
+
+				<button data-app-section="rechargesApp">
+					<span class="material-symbols-outlined"> phone_iphone </span>
+				</button>
 			</div>
 
 			<div class="app-section-container">
-				<div id="clocks-app" class="app-section">
-					<div class="nav-in-secction">
-						<div class="tools">
-							<!-- <button>
-								<span class="material-symbols-outlined"> search </span>
-							</button> -->
+				<!-- *************************************************** -->
+				<!-- 										recharges													-->
+				<!-- *************************************************** -->
+				<div class="app-section" id="rechargesApp">
+					<div class="app-section active" id="rechargesApp-main">
+						<div class="nav-in-section">
+							<div class="left">
+								<button>
+									<span class="material-symbols-outlined"> arrow_back </span>
+								</button>
+								<div class="name">nombre de seccion</div>
+							</div>
+
+							<!-- <div class="tools"> -->
+							<div class="header-search">
+								<form>
+									<input type="search" />
+									<button type="button">
+										<span class="material-symbols-outlined"> search </span>
+									</button>
+									<input type="submit" hidden />
+								</form>
+								<!-- <div class="search"></div> -->
+							</div>
+
+							<button>
+								<span class="material-symbols-outlined"> add </span>
+							</button>
+							<!-- </div> -->
+						</div>
+
+						<div id="rechargesApp-main-recharges">
+							<div class="recharge">
+								<div>icon</div>
+								<div class="info">
+									<div>inter</div>
+									<div>0000-000.00.00</div>
+									<div>monto</div>
+								</div>
+							</div>
+
+							<div class="recharge">
+								<div>icon</div>
+								<div class="info">
+									<div>inter</div>
+									<div>0000-000.00.00</div>
+									<div>monto</div>
+								</div>
+							</div>
 						</div>
 					</div>
 
-					<div id="clocks-app-watches" class="content"></div>
+					<!-- <div id="recharge-new"></div>
+
+
+					<div id="recharge-fill"></div> -->
+				</div>
+
+				<!-- *************************************************** -->
+				<!-- 										relojes													-->
+				<!-- *************************************************** -->
+
+				<div class="app-section" id="clocksApp">
+					<div class="nav-in-section">
+						<!-- <div class="name" >Equipos de alquiler </div> -->
+						<div class="left">
+							<!-- <button>
+								<span class="material-symbols-outlined"> arrow_back </span>
+							</button> -->
+							<!-- <div class="name"></div> -->
+						</div>
+
+						<button>
+							<span class="material-symbols-outlined"> add </span>
+						</button>
+					</div>
+
+					<div id="clocksApp-watches" class=""></div>
 				</div>
 			</div>
-			<!-- <div class="nav">
-			<button class="nav-backButton">
-				<span class="material-symbols-outlined">
-					menu
-				</span>
-			</button>
-			<span class="tittle">Stopwatch</span>
-			<button class="nav-toggle-theme" style="margin-left: auto;">
-
-
-				<span class="material-symbols-outlined">
-					light_mode
-				</span>
-			</button>
-		</div> -->
 		</div>
 
 		<!-- ***************************************** templates ***************************************** -->
 
 		<template id="watch-template">
-			<!-- <div class="watch stopwatch"> -->
-
 			<div class="top">
 				<div class="name">name</div>
 				<button class="switch">
@@ -74,8 +131,7 @@
 			</div>
 
 			<div class="time-seted">00:00</div>
-			<!-- <div class="clock_container"> -->
-				<div class="delayed">tiempo extra</div>
+			<div class="delayed">tiempo extra</div>
 
 			<div class="clock">
 				<span class="time"> 00:00.</span><span class="ms">00 </span>
@@ -86,31 +142,16 @@
 				<input name="mins" type="number" placeholder="00" />
 				<input name="secs" type="number" placeholder="00" />
 				<input type="submit" value="" hidden />
-			</form>
-			<!-- </div> -->
 
-			<!-- 
-	
-	
-				<div class="set-time_container">
-					<div class="set-time_inputs">
-						<input type="number" placeholder="00" />
-						:
-						<input type="number" placeholder="00" max="59" min="0" maxlength="2"  />
-						:
-						<input type="number" placeholder="00"max="59" min="0" maxlength="2" />
-						<button class="dropdonw"> 
-							<span class="material-symbols-outlined"> expand_more </span>
-							<span class="material-symbols-outlined"> expand_less </span>
-						</button>
-					</div>
-					<div class="timers-list">
-						<div>02:00</div>
-						<div>10:00</div>
-						<div>01:02:00</div>
-					</div>
-				</div> -->
-			<!-- <hr> -->
+				<!-- 
+				<div class="timers-list">
+					<div>02:00</div>
+					<div>10:00</div>
+					<div>01:02:00</div>
+				</div>
+			-->
+			</form>
+
 			<div class="controls_container">
 				<button class="reset active">
 					<span class="material-symbols-outlined"> replay </span>
@@ -123,12 +164,10 @@
 					<span class="material-symbols-outlined"> play_arrow </span>
 				</button>
 			</div>
-			<!-- </div> -->
 		</template>
 
 		<script src="./socket.io/socket.io.js" charset="utf-8"></script>
 
-		<!-- todos los Script de la app -->
 		<script src="./js/main.js" type="module"></script>
 	</body>
 </html>
