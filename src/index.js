@@ -3,7 +3,6 @@ const { Server: WebsocketServer } = require("socket.io");
 const http = require("http");
 const sockets = require("./sockets");
 
-
 const { connectDB } = require("./db");
 const { PORT, LOCALSERVER, TestMode } = require("./config");
 const { sendUrl } = require("./utils/sendUrl");
@@ -16,7 +15,7 @@ connectDB()
 
 		sockets(io);
 
-		if (LOCALSERVER && !TestMode) sendUrl();
+		if (LOCALSERVER) sendUrl();
 	})
 	.catch(() => {
 		console.log("error en conectar con la base de datos");

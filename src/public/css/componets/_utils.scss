@@ -1,0 +1,24 @@
+
+// espaciado dentro de un contenedor flex
+.spacer {
+	// margin-bottom: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.gallery {
+	display: flex;
+	flex-wrap: wrap;
+
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: hidden;
+	overflow-y: auto;
+}

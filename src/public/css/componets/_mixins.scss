@@ -1,0 +1,32 @@
+@mixin button-size($size) {
+	$rule: 0px;
+
+	@if $size == "small" {
+		$rule: 30px;
+	} @else if $size == "midle" {
+		$rule: 50px;
+	} @else if $size == "large" {
+		$rule: 70px;
+	}
+
+	width: $rule;
+	height: $rule;
+	min-width: $rule;
+	min-height: $rule;
+}
+
+@mixin fill-container-abs {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+@mixin active($display: block) {
+	display: none;
+
+	&.is-active {
+		display: $display;
+	}
+}

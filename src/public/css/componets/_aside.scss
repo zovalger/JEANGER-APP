@@ -1,0 +1,30 @@
+@import './mixins';
+
+.aside {
+	// border: 1px solid black;
+	display: inline-flex;
+}
+
+.aside-left {
+  max-width: 200px;
+}
+
+.aside-item {
+	display: flex;
+	align-items: center;
+	// border: 1px solid black;
+	button {
+		border: none;
+		// height: 50px;
+    // // max-height: 100%;
+		// width: 50px;
+    // min-width: 50px;
+
+		@include button-size('midle');
+	}
+
+	.info {
+    // display: inline-block;
+		padding: 0 1rem;
+	}
+}

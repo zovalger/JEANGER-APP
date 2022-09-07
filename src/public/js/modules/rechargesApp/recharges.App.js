@@ -1,99 +1,78 @@
-import { ClockAppSocketSend } from "./Clocks.socket.js";
-import WatchUI from "./Watch.UI.js";
+import { RechangesAppSocketPost } from "./recharges.socket.js";
+
+import RechargesFillUI from "./rechargesFill.UI.js";
+import RechargesMainUI from "./rechargesMain.UI.js";
+import RechargesNewUI from "./rechargesNew.UI.js";
 
 const offlineData = {
-	watches: [
+	recharges: [
 		{
 			_id: 1,
-			mode: "stopwatch",
-			timesToSet: { dirDate: 0, dirTime: 0 },
+			provider: "movilnet",
+			phoneNumber: "0426-123.45.67",
+			amount: 5,
 		},
 		{
 			_id: 2,
-			mode: "timer",
-			timesToSet: { dirDate: 0, dirTime: 0 },
+			provider: "movistar",
+			phoneNumber: "0424-987.65.43",
+			amount: 6,
 		},
-		// {
-		// 	_id: 3,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 4,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 5,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 6,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 7,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 8,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 9,
-		// 	mode: "stopwatch",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
-		// {
-		// 	_id: 10,
-		// 	mode: "timer",
-		// 	timesToSet: { dirDate: 0, dirTime: 0 },
-		// },
 	],
 };
-
 export default class rechargesApp {
 	constructor() {
 		this.$container = document.getElementById("rechargesApp");
-		// this.$watches = this.$container.querySelector('#clocks-app-watches')
 
-		// // console.log(this.$container);
+		this.rechargesMain = new RechargesMainUI(this.$container);
+		this.rechargesNew = new RechargesNewUI(this.$container);
+		this.rechargesFill = new RechargesFillUI(this.$container);
 
-		// this.watchs = {};
+		// cambiar para el servidor
 
-		// JEANGER_APP.offLineMode
-		// 	? this.initApp(offlineData)
-		// 	: ClockAppSocketSend.init();
+		this.initApp();
 	}
 
-	createWatch(watch) {
-		if (this.watchs[watch._id]) return this.updateWatch(watch);
+	initApp() {
+		// array de relojes
+		console.log("init");
 
-		console.log("create");
-		let w = new WatchUI(watch);
-		this.watchs[watch._id] = w;
+		let receiveTo = "rechargesMain",
+			query = {};
+
+		this.getRecharges(query, receiveTo);
+	}
+
+	getRecharges(query, receiveTo) {
+		if (JEANGER_APP.offLineMode)
+			return this.receiveData({ rechages: offlineData.recharges, receiveTo });
+
+		RechangesAppSocketPost.get({ receiveTo, query });
+	}
+
+	receiveData(data) {
+		const { receiveTo, rechages } = data;
+
+		const r = JEANGER_APP.offLineMode ? offlineData.recharges : rechages;
+
+		if (receiveTo === "rechargesMain") this.rechargesMain.receiveData(r);
+
+		if (receiveTo === "rechargesFill") this.rechargesFill.receiveData(r);
+	}
+
+	create(rechage) {
+		if (this.rechages[rechage._id]) return this.updateWatch(rechage);
+
+		let w = new WatchUI(rechage);
+		this.rechages[rechage._id] = w;
 		this.$watches.appendChild(w.$container);
 	}
 
 	updateWatch(watch) {
-		if (!this.watchs[watch._id]) return this.createWatch(watch);
+		if (!this.rechages[watch._id]) return this.create(watch);
 
 		console.log("update");
-		this.watchs[watch._id].restoreState(watch);
-	}
-
-	initApp(data) {
-		// array de relojes
-		console.log("init");
-		console.log(data);
-
-		data.watches.map((watch) => {
-			this.createWatch(watch);
-		});
+		this.rechages[watch._id].restoreState(watch);
 	}
 
 	receiveUpdate(data) {
@@ -104,7 +83,7 @@ export default class rechargesApp {
 
 	sendUpdate(watch) {
 		if (JEANGER_APP.offLineMode) return;
-		
+
 		console.log("enviar actualizacion");
 		console.log(watch);
 

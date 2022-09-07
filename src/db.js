@@ -2,7 +2,7 @@ const { connect } = require("mongoose");
 const { MONGODB_URI, TestMode } = require("./config");
 // export const mongoose = require("mongoose");
 
-const url = TestMode == "true" ? "mongodb://localhost/test" : MONGODB_URI;
+const url = MONGODB_URI ? MONGODB_URI : "mongodb://localhost/test";
 
 const connectDB = async () => {
 	try {

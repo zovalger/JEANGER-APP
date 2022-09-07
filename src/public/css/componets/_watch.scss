@@ -14,17 +14,18 @@
 	// border: 1px solid black;
 	// border-radius: 5px;
 	// overflow-y: hidden;
-	margin-bottom: var(--margin-min);
-
+	
 	display: inline-flex;
-	flex-grow: 1;
-
-	width: 300px;
-
 	flex-direction: column;
-
 	// justify-content: center;
 	align-items: center;
+	
+	
+	
+	// margin-bottom: var(--margin-min);
+	width: 300px;
+	height: min-content;
+	flex-grow: 1;
 
 	// ********************************************************************
 	//  						nav de la parte superior del relog

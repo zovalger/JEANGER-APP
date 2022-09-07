@@ -1,0 +1,17 @@
+@import './mixins';
+
+.nav {
+
+  display: flex;
+  border: 1px solid black;
+  
+
+  button{
+    @include button-size('small')
+  }
+	// height: 50px;
+}
+
+.nav-top {
+  
+}

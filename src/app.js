@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const { LOCALSERVER } = require("./config");
+// const { LOCALSERVER } = require("./config");
 const LocalServerRouter = require("./routes/localServer.router");
 
 const app = express();

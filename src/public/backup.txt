@@ -1,0 +1,176 @@
+	<!-- *************************************************** -->
+				<!-- 										recharges													-->
+				<!-- *************************************************** -->
+				<div class="app-section active" id="rechargesApp">
+					<!-- ********************************* vista principal de las recargas -->
+
+					<div class="active" id="recharges-main">
+						<div class="tools-bar-nav">
+							<div class="left">
+								<button>
+									<span class="material-symbols-outlined"> arrow_back </span>
+								</button>
+								<div class="name">nombre de seccion</div>
+							</div>
+
+							<!-- <div class="tools"> -->
+							<div class="header-search">
+								<form>
+									<input type="search" />
+									<button type="button">
+										<span class="material-symbols-outlined"> search </span>
+									</button>
+									<input type="submit" hidden />
+								</form>
+								<!-- <div class="search"></div> -->
+							</div>
+
+							<button class="btn-add">
+								<span class="material-symbols-outlined"> add </span>
+							</button>
+							<!-- </div> -->
+						</div>
+
+						<div class="content" id="recharges-main-recharges"></div>
+					</div>
+
+					<!-- ********************************* formulario para crear una nueva recarga -->
+
+					<div class="" id="recharges-new">
+						<div class="tools-bar-nav">
+							<div class="left">
+								<button class="back-exit">
+									<span class="material-symbols-outlined"> arrow_back </span>
+								</button>
+								<div class="name">Lorem, ipsum.</div>
+							</div>
+						</div>
+
+						<div class="content" id="recharges-new-form">
+							<form>
+								<div class="form-section">
+									<div class="form-control">
+										<label for="provider">operadora</label>
+										<select class="" id="provider">
+											<option value="0">Lorem, ipsum.</option>
+											<option value="0">Lorem, ipsum.</option>
+										</select>
+									</div>
+
+									<div class="form-control">
+										<label for="phoneNumber">numero</label>
+										<input class="" type="number" id="phoneNumber" />
+									</div>
+
+									<div class="form-control">
+										<label for="amount">cantidad</label>
+										<input class="" type="number" id="amount" />
+									</div>
+								</div>
+
+								<div class="btn-send">
+									<button type="button">añadir y crear otra</button>
+									<button type="submit">crear</button>
+								</div>
+
+								<!-- <button type="button">añadir otra</button>
+								<button type="submit">crear</button> -->
+							</form>
+						</div>
+					</div>
+
+					<!-- ********************************* formulario para rellenar los datos de una recarga -->
+
+					<div class="" id="recharges-fill">
+						<div class="tools-bar-nav">
+							<div class="left">
+								<button class="back-exit">
+									<span class="material-symbols-outlined"> arrow_back </span>
+								</button>
+								<div class="name">Lorem, ipsum.</div>
+							</div>
+						</div>
+
+						<div class="content" id="recharges-fill-form">
+							<form>
+								<div class="form-section">
+									<div class="form-control">
+										<label for="provider">operadora</label>
+										<input id="provider" type="text" readonly />
+									</div>
+
+									<div class="form-control">
+										<label for="phoneNumber">numero</label>
+										<input type="number" id="phoneNumber" readonly />
+									</div>
+
+									<div class="form-control">
+										<label for="amount">cantidad</label>
+										<input type="number" id="amount" readonly/>
+									</div>
+								</div>
+
+								<div class="form-section">
+									<h2>saldo anterior</h2>
+
+									<div class="form-control">
+										<label for="balanceBeforeServer">servidor</label>
+										<input type="number" id="balanceBeforeServer" />
+									</div>
+
+									<div class="form-control">
+										<label for="balanceBeforeClient">cliente</label>
+										<input type="number" id="balanceBeforeClient" />
+									</div>
+								</div>
+
+								<div class="form-section">
+									<h2>saldo actual</h2>
+
+									<div class="form-control">
+										<label for="balanceAfterServer">servidor</label>
+										<input type="number" id="balanceAfterServer" />
+									</div>
+									<div class="form-control">
+										<label for="balanceAfterClient">cliente</label>
+										<input type="number" id="balanceAfterClient" />
+									</div>
+								</div>
+
+								<div class="form-section">
+									<div class="form-control">
+										<label for="screenshot">captura de pantalla</label>
+										<input type="file" id="screenshot" />
+									</div>
+								</div>
+
+								<div class="btn-send">
+									<button type="button">completar e ir a la siguiente</button>
+									<button type="submit">completar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- *************************************************** -->
+				<!-- 										relojes													-->
+				<!-- *************************************************** -->
+
+				<div class="app-section" id="clocksApp">
+					<div class="tools-bar-nav">
+						<!-- <div class="name" >Equipos de alquiler </div> -->
+						<div class="left">
+							<!-- <button>
+								<span class="material-symbols-outlined"> arrow_back </span>
+							</button> -->
+							<!-- <div class="name"></div> -->
+						</div>
+
+						<button>
+							<span class="material-symbols-outlined"> add </span>
+						</button>
+					</div>
+
+					<div id="clocksApp-watches" class=""></div>
+				</div>
