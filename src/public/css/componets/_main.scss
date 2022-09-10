@@ -5,10 +5,12 @@
 	height: 100vh;
 	display: flex;
 	overflow: hidden;
+
+	background-color: var(--color-primary-background);
 }
 
 .main {
-	border: 1px solid black;
+	// border: 1px solid black;
 	display: inline-block;
 	flex-grow: 1;
 	position: relative;

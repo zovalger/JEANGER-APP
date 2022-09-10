@@ -1,6 +1,4 @@
-
-
-.form-section{
+.form-section {
 	// display: block;
 	// display
 	min-width: min-content;
@@ -9,7 +7,7 @@
 	// max-width: ;
 	border-bottom: 1px solid black;
 	// margin: 1rem 0;
-	padding: 1rem ;
+	padding: 1rem;
 	&:last-child {
 		border: none;
 	}
@@ -28,26 +26,26 @@
 		margin-bottom: 0;
 	}
 
-	input, select {
+	input,
+	select {
 		height: 2rem;
+	}
+
+	&.text-center {
 		text-align: center;
 	}
 }
 
-
-
-.screenshot{
-
+.screenshot {
 	width: 100%;
 
 	// height: ;
-  
-  &:hover{
-    background-color: black;
-  }
-  
-  &:active{
-    background-color: black;
-  }
 
+	&:hover {
+		background-color: black;
+	}
+
+	&:active {
+		background-color: black;
+	}
 }

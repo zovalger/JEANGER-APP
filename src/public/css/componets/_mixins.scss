@@ -3,6 +3,8 @@
 
 	@if $size == "small" {
 		$rule: 30px;
+	}@else if $size == "small+" {
+		$rule: 40px;
 	} @else if $size == "midle" {
 		$rule: 50px;
 	} @else if $size == "large" {
@@ -13,6 +15,25 @@
 	height: $rule;
 	min-width: $rule;
 	min-height: $rule;
+}
+
+@mixin button-colors(
+	$idle: white,
+	$hover: black,
+	$active: none,
+	$select: none
+) {
+	background-color: $idle;
+
+	&:hover {
+		background-color: $hover;
+	}
+	&:active {
+		background-color: $active;
+	}
+	&.select {
+		background-color: $select;
+	}
 }
 
 @mixin fill-container-abs {

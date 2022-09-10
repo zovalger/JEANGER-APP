@@ -1,36 +1,90 @@
 :root {
+	// colores
+
+	--color-primary: #e2c890;
+	--color-secondary: #e2c890;
+	--color-tertiary: #e2c890;
+
+	--color-primary-background: hsl(0, 0%, 100%);
+	--color-secondary-background: hsl(0, 0%, 95%);
+	--color-tertiary-background: hsl(0, 0%, 90%);
+
+	--color-primary-container: hsl(0, 0%, 95%);
+	--color-primary-container-hover: hsl(0, 0%, 90%);
+	--color-primary-container-action: hsl(0, 0%, 87%);
+	--color-primary-container-on: hsl(0, 0%, 90%);
+
+	// --color-primary-text:grey;
+	--color-primary-text-on:rgb(0, 162, 255);
+
+
+
+
+
+
+
+	--color-alpha-container: hsla(0, 0%, 50%, 0);
+	--color-alpha-container-hover: hsla(0, 0%, 50%, 10%);
+	--color-alpha-container-action: hsla(0, 0%, 50%, 20%);
+	--color-alpha-container-on: hsl(0, 0%, 50%, 10%);
+
+
+	
+
+	// --color-secondary-container: var(--color-secondary-background);
+	// --color-secondary-container-hover: var(--color-tertiary-background);
+	// --color-secondary-container-action: hsl(0, 0%, 85%);
+
+	// --color-primary-btn: hsl(0, 0%, 100%);
+	// --color-primary-btn-hover: hsl(0, 0%, 90%);
+	// --color-primary-btn-action: hsl(0, 0%, 80%);
+
+	// --color-secondary-btn: hsl(0, 0%, 100%);
+	// --color-secondary-btn-hover: hsl(0, 0%, 90%);
+	// --color-secondary-btn-action: hsl(0, 0%, 80%);
+
+
+
+	// --shadow-primary: 0px 0px 10px rgba(0, 0, 0, 0.247);
+	// --color-secondary-background: hsl(0, 0%, 98%);
+	// --color-tertiary-background: hsl(0, 0%, 95%);
+
+	// --color-primary-background: hsl(0, 0%, 100%);
+	// --color-secondary-background: hsl(0, 0%, 98%);
+	// --color-tertiary-background: hsl(0, 0%, 95%);
+
 	// letras
 
 	--main-font: sans-serif;
-	--font-size: 20px;
+	--font-size: 16px;
 	--font-size-large: 3rem;
 	--font-main-color: #000;
 	--font-second-color: #111;
 
-	// colores principales
-	--main-color: #e2c890;
-	--second-color: #222;
-	--main-background-color: #f0f8ff;
+	// // colores principales
+	// --main-color: #e2c890;
+	// --second-color: #222;
+	// --main-background-color: #f0f8ff;
 
-	--nav-height: 2rem;
+	// --nav-height: 2rem;
 
-	--button-square-size: 2.5rem;
-	--button-square-small-size: 2rem;
+	// --button-square-size: 2.5rem;
+	// --button-square-small-size: 2rem;
 
-	// bores
-	--border-radius: 25px;
+	// // bores
+	// --border-radius: 25px;
 
-	--border-main-size: 5px;
-	--border-second-size: 2px;
+	// --border-main-size: 5px;
+	// --border-second-size: 2px;
 
-	--border-main-color: none;
-	--border-second-color: #000a;
-	--border-third-color: #0005;
+	// --border-main-color: none;
+	// --border-second-color: #000a;
+	// --border-third-color: #0005;
 
-	// tamaños
-	--margin-min: 5px;
+	// // tamaños
+	// --margin-min: 5px;
 
-	--padding-min: 5px;
+	// --padding-min: 5px;
 
 	// --logo: url("../../img/logo.jpg");
 	// --logo: url("../../img/logo_zovalger_20220720.svg");
@@ -52,7 +106,7 @@ body.dark-theme {
 }
 
 * {
-	// font-size: var(--font-size);
+	font-size: var(--font-size);
 	// font-family: var(--main-font);
 	// scroll-behavior: smooth;
 

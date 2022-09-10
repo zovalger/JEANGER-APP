@@ -8,31 +8,35 @@
 
 .recharge {
 	display: flex;
-	border: 1px solid black;
+	border: 3px solid grey;
 
 	padding: 10px;
 
 	align-items: center;
-	// justify-content: center;
-	// min-width: 250px;
+
 
 	width: 100%;
 	max-width: 300px;
 
-	&.locked {
-		border: 1px solid yellow;
+	margin-bottom: 0.2rem;
+	&:last-child{
+		margin-bottom: 0;
 	}
 
-	&.incomplete {
-		border: 1px solid gray;
+	&.locked {
+		border: 3px solid yellow;
 	}
+
+	// &.incomplete {
+	// 	border: 3px solid gray;
+	// }
 
 	&.complete {
-		border: 1px solid green;
+		border: 3px solid rgb(20, 226, 20);
 	}
 
 	&.cancel {
-		border: 1px solid red;
+		border: 3px solid red;
 	}
 
 	.status {
