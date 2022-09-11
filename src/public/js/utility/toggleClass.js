@@ -1,5 +1,5 @@
 export function classActive($element, bool = null) {
-	classToggle("active", $element, bool);
+	classToggle("is-active", $element, bool);
 }
 
 export function classHidden($etiqueta, bool = null) {

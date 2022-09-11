@@ -9,8 +9,6 @@ import { classActive as active } from "../../utility/toggleClass.js";
 import WatchController from "./Watch.Controller.js";
 
 class WatchUI extends WatchController {
-	// container es un elemento ----- watch los datos guardados en la base de datos
-
 	constructor(dataWatch) {
 		super();
 
@@ -26,7 +24,7 @@ class WatchUI extends WatchController {
 		this.$container.appendChild(this.$content);
 
 		this.$name = this.$container.querySelector(".name");
-		this.$delayed=this.$container.querySelector(".delayed")
+		this.$delayed = this.$container.querySelector(".delayed");
 		this.$clock = this.$container.querySelector(".clock");
 
 		// this.inputTime = new InputTime(this.$container, ".set-time_container");
@@ -38,12 +36,14 @@ class WatchUI extends WatchController {
 			this.start();
 		});
 		// botones de funciones principales
+		this.$btnDelete = this.$container.querySelector(".delete");
 		this.$btnSwitch = this.$container.querySelector(".switch");
 		this.$btnStart = this.$container.querySelector(".start");
 		this.$btnPause = this.$container.querySelector(".pause");
 		this.$btnReset = this.$container.querySelector(".reset");
 
 		// asignacion de funcionalidades a los botones
+		this.$btnDelete.addEventListener("click", () => this.delete());
 		this.$btnSwitch.addEventListener("click", () => this.switch());
 		this.$btnStart.addEventListener("click", () => this.start());
 		this.$btnPause.addEventListener("click", () => this.pause());
@@ -55,8 +55,8 @@ class WatchUI extends WatchController {
 	onFinishTimer = () => {
 		// console.log(this);
 		this.$container.classList.add("complete");
-		active(this.$delayed,true)
-		
+		active(this.$delayed, true);
+
 		super.onFinishTimer();
 	};
 	// asigna los correspondientes valores al relog
@@ -83,7 +83,9 @@ class WatchUI extends WatchController {
 		let m = mode ? mode : this.mode;
 
 		if (m == "stopwatch") {
+			active(this.$delayed, false);
 			this.$container.classList.add("stopwatch");
+
 			this.$container.classList.remove("timer");
 			this.$btnSwitch.querySelector("span").innerHTML = "hourglass_empty";
 		}
@@ -128,8 +130,9 @@ class WatchUI extends WatchController {
 		active(this.$btnStart, false);
 		active(this.$btnPause, true);
 		this.$btnReset.disabled = true;
+		this.$btnSwitch.disabled = true;
 
-		console.log("startstarte");
+		console.log("start");
 		if (this.mode === "timer") {
 			active(this.$setTime, false);
 			active(this.$timeSetedContainer, true);
@@ -144,7 +147,8 @@ class WatchUI extends WatchController {
 		}
 
 		clearInterval(this.update);
-		this.update = setInterval(this.updateFrame, 1000);
+
+		// this.update = setInterval(this.updateFrame, 1000);
 	}
 
 	pauseState() {
@@ -153,12 +157,11 @@ class WatchUI extends WatchController {
 		active(this.$btnReset, true);
 		this.$btnReset.disabled = false;
 
-		if (this.mode === "timer") 
-		
-		{
-			this.$container.classList.remove("complete");
-			active(this.$delayed,false)
+		this.$btnSwitch.disabled = false;
 
+		if (this.mode === "timer") {
+			this.$container.classList.remove("complete");
+			// active(this.$delayed, false);
 		}
 
 		this.showTime();
@@ -175,6 +178,7 @@ class WatchUI extends WatchController {
 			active(this.$setTime, true);
 			active(this.$timeSetedContainer, false);
 			active(this.$clock, false);
+			active(this.$delayed, false);
 
 			this.getValuesFormTimer();
 			this.$container.classList.remove("complete");
@@ -230,6 +234,14 @@ class WatchUI extends WatchController {
 		this.cambiarAparaciencia(dataWatch.mode);
 
 		// asignaerle a los imputs el valor que viene del servidor
+	}
+
+	enableDelete() {
+		active(this.$btnDelete);
+	}
+
+	delete() {
+		super.delete();
 	}
 }
 

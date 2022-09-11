@@ -1,10 +1,10 @@
-const ClocksModel = require("../models/Clocks.model");
+const WatchModel = require("../models/Watch.model");
 
-const ClocksController = {
+const WatchController = {
 	getAll: async () => {
 		const res = {};
 
-		res.watches = await ClocksModel.find();
+		res.watches = await WatchModel.find();
 
 		return res;
 	},
@@ -12,19 +12,43 @@ const ClocksController = {
 	updateWatch: async (data) => {
 		const { watch: w } = data;
 
-		const watch = await ClocksModel.findById(w._id);
+		const watch = await WatchModel.findById(w._id);
 
-		watch.mode = w.mode;
-		watch.timesToSet = w.timesToSet;
-
-		watch.timeSeted = w.timeSeted;
+		if (w.name) watch.name = w.name;
+		if (w.mode) watch.mode = w.mode;
+		if (w.timesToSet) watch.timesToSet = w.timesToSet;
+		if (w.timeSeted) watch.timeSeted = w.timeSeted;
 
 		await watch.save();
 
-		console.log(w);
+		// console.log(w);
 		console.log(watch);
 
 		return { watches: [watch] };
+	},
+
+	// crear nuevo reloj
+
+	newWatch: async (data) => {
+		const { name } = data;
+
+		const watch = new WatchModel({ name });
+
+		// watch.name=name
+
+		await watch.save();
+
+		console.log(watch);
+
+		return { watches: [watch] };
+	},
+
+	deleteWatch: async (data) => {
+		const { watch } = data;
+
+		await WatchModel.deleteOne({ _id: watch._id });
+
+		return data
 	},
 
 	// newWaypoint: async (data) => {
@@ -57,4 +81,4 @@ const ClocksController = {
 	// },
 };
 
-module.exports = ClocksController;
+module.exports = WatchController;

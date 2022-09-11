@@ -99,7 +99,11 @@ class WatchController {
 
 		console.log(data1);
 
-		JEANGER_APP.clocksApp.sendUpdate(data1);
+		JEANGER_APP.WatchApp.sendUpdate(data1);
+	}
+
+	delete(){
+		JEANGER_APP.WatchApp.sendToDelete(this._id)
 	}
 }
 

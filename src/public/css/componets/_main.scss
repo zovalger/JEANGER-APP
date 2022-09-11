@@ -17,14 +17,14 @@
 }
 
 .section {
-	@include active(flex);
+	@include active-display(flex);
 	flex-direction: column;
 	position: relative;
 	// padding-top: 50px;
 }
 
 .sub-section {
-	@include active(flex);
+	@include active-display(flex);
 
 	flex-direction: column;
 	position: relative;

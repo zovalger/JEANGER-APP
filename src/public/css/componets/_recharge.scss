@@ -1,4 +1,4 @@
-@mixin active($display) {
+@mixin active-display($display) {
 	display: none;
 
 	&.active {

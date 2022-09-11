@@ -4,23 +4,26 @@
 // ********************************************************************
 
 .watch {
-	// display: inline-flex;
-
-	background-color: var(--color-secondary-background);
-	flex-direction: column;
-	align-items: center;
-
-	margin: 0.5rem;
-
-	border-radius: 10px;
-	width: 300px;
-	// max-width: 450;
-	// height: min-content;
+	// display: flex;
+	// // flex-wrap: wrap;
+	// flex-direction: column;
+	width: 200px;
+	// min-width: 100;
+	// height: 100%;
 	flex-grow: 1;
 
-	user-select: none;
+	height: fit-content;
+	margin: 0.5rem;
+	border-radius: 10px;
 
+	overflow: hidden;
+	background-color: var(--color-secondary-background);
+	user-select: none;
 	box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 20%);
+
+	transition: height 0.2s;
+
+	// transition: all 1s;
 
 	// ********************************************************************
 	//  						nav de la parte superior del relog
@@ -28,17 +31,21 @@
 
 	.w-header {
 		display: flex;
-
 		align-items: center;
+
 		.name {
 			font-size: 25px;
 			margin-left: 1rem;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			text-transform: capitalize;
 		}
 		button {
 			border: none;
-			@include button-size("small+");
 			cursor: pointer;
 
+			@include button-size("small+");
 			@include button-colors(
 				var(--color-alpha-container),
 				var(--color-alpha-container-hover),
@@ -46,47 +53,52 @@
 				var(--color-alpha-container-on)
 			);
 
-			// &:active span {
-			// 	transform: scale(0.9);
-			// 	transition: transform 0.01s;
-			// }
-			transition: transform 0.05s;
-			&:active {
-				transform: scale(0.9);
-			}
+			@include press-button;
+		}
+
+		.delete {
+			@include active-display();
+			color: red;
 		}
 	}
 
-	.delayed {
-		@include active(block);
+	.delayed,
+	.time-seted {
+		@include active-display();
+
+		text-align: center;
+	}
+
+	.time-seted {
+		margin-top: 0.5rem;
 	}
 
 	// ********************************************************************
 	//  					form en donde estan los inputs de hrs mins sec
 	// ********************************************************************
-	.time-seted {
-		@include active(block);
-	}
 
 	.set-time {
-		@include active(flex);
+		@include active-display(flex);
 
 		width: 100%;
 		flex-grow: 1;
 		align-items: center;
+		justify-content: center;
+		// padding: 1rem;
 
 		input {
+			width: 10px;
+			flex-grow: 1;
+
+			text-align: center;
+			font-size: var(--font-size-large);
+			border: none;
+			background: none;
 			&::-webkit-inner-spin-button,
 			&::-webkit-outer-spin-button {
 				-webkit-appearance: none;
 				margin: 0;
 			}
-
-			flex-grow: 1;
-			text-align: center;
-			width: 10px;
-
-			font-size: var(--font-size-large);
 		}
 	}
 
@@ -97,6 +109,7 @@
 	.clock {
 		text-align: center;
 		font-size: var(--font-size-large);
+		flex-grow: 1;
 	}
 
 	// ********************************************************************
@@ -115,16 +128,13 @@
 				var(--color-alpha-container-on)
 			);
 
-			@include active();
+			@include active-display();
 			cursor: pointer;
 
 			border: none;
 			flex-grow: 1;
 
-			transition: transform 0.05s;
-			&:active {
-				transform: scale(0.9);
-			}
+			@include press-button;
 		}
 
 		.reset {
@@ -153,44 +163,26 @@
 	&.timer {
 		// border: 3px solid hsl(60, 100%, 50%);
 		background-color: hsl(60, 100%, 50%, 0.3);
-		outline: 5px solid rgba(255, 0, 0, 0);
+		// outline: 5px solid rgba(255, 0, 0, 0);
 
 		&.complete {
-			animation-duration: 0.5s;
+			animation-duration: 0.25s;
 			animation-name: alert;
 			animation-iteration-count: infinite;
 			animation-direction: alternate;
 		}
 
 		.clock {
-			@include active(block);
+			@include active-display();
 		}
 	}
 }
 
 @keyframes alert {
-	// 0% {
-	// 	transform: rotateZ(0deg);
-
-	// 	// outline: 5px solid rgb(255, 199, 95);
-	// }
-	// 25% {
-	// 	transform: rotateZ(1deg);
-	// 	outline: 5px solid rgb(255, 199, 95);
-	// }
-	// 75% {
-	// 	transform: rotateZ(-1deg);
-	// }
-	// 100% {
-	// 	transform: rotateZ(0deg);
-
-	// 	// outline: 5px solid rgb(255, 199, 95);
-	// }
-
 	from {
+		outline: 3px solid #0000;
 	}
 	to {
-		// transform: scale(1.02);
 		transform: translateY(-5px);
 
 		outline: 3px solid yellow;

@@ -1,9 +1,41 @@
+// @mixin active-size($w: false, $h: false) {
+// 	opacity: 0;
+// 	visibility: hidden;
+
+// 	@if $w {
+// 		width: 0;
+// 	}
+// 	@if $h {
+// 		height: 0;
+// 	}
+
+// 	&.is-active {
+// 		opacity: 1;
+// 		visibility: visible;
+
+// 		@if $w {
+// 			width: $w;
+// 		}
+// 		@if $h {
+// 			height: $h;
+// 		}
+// 	}
+// }
+
+@mixin active-display($display: block) {
+	display: none;
+
+	&.is-active {
+		display: $display;
+	}
+}
+
 @mixin button-size($size) {
 	$rule: 0px;
 
 	@if $size == "small" {
 		$rule: 30px;
-	}@else if $size == "small+" {
+	} @else if $size == "small+" {
 		$rule: 40px;
 	} @else if $size == "midle" {
 		$rule: 50px;
@@ -25,6 +57,15 @@
 ) {
 	background-color: $idle;
 
+	&[disabled] {
+		&:hover,
+		&:active,
+		&.select {
+			background-color: inherit;
+			cursor: default;
+		}
+	}
+
 	&:hover {
 		background-color: $hover;
 	}
@@ -36,18 +77,24 @@
 	}
 }
 
+@mixin press-button {
+	transition: transform 0.05s;
+
+	&[disabled]:active {
+		border-radius: 0px;
+		transform: scale(1);
+	}
+
+	&:active {
+		border-radius: 10px;
+		transform: scale(0.9);
+	}
+}
+
 @mixin fill-container-abs {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-}
-
-@mixin active($display: block) {
-	display: none;
-
-	&.is-active {
-		display: $display;
-	}
 }

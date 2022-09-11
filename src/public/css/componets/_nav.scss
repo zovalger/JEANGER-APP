@@ -13,5 +13,19 @@
 }
 
 .nav-top {
+  button{
+    border: none;
+    cursor: pointer;
+
+    @include button-size("midle");
+    @include button-colors(
+      var(--color-alpha-container),
+      var(--color-alpha-container-hover),
+      var(--color-alpha-container-action),
+      var(--color-alpha-container-on)
+    );
+
+    @include press-button;
+  }
   
 }

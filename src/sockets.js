@@ -1,8 +1,8 @@
-const ClocksSocketController = require("./controllers/Clocks.socket.controller");
+const WatchSocketController = require("./controllers/Watch.socket.controller");
 
 module.exports = (io) => {
 	io.on("connection", (socket) => {
 		// todas las peticiones de escucha de los waypoints
-		ClocksSocketController(io, socket);
+		WatchSocketController(io, socket);
 	});
 };

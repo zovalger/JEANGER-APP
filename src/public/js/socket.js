@@ -1,4 +1,4 @@
-import ClockAppSocket from "./modules/clockApp/Clocks.socket.js";
+import WatchAppSocket from "./modules/WatchApp/WatchApp.socket.js";
 // import WaypointsSocket from "./modules/Waypoints.socket.js";
 
 const initSockets = () => {
@@ -10,7 +10,7 @@ const initSockets = () => {
 	JEANGER_APP.socket = socket;
 
 	// WaypointsSocket(socket);
-	ClockAppSocket(socket);
+	WatchAppSocket(socket);
 };
 
 export default initSockets;

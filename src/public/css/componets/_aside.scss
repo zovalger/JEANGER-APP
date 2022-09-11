@@ -39,18 +39,16 @@
 	text-transform: capitalize;
 	cursor: pointer;
 
-	transition: transform 0.05s;
-	&:active {
-		transform: scale(0.9);
-	}
+	@include press-button;
 
 	span {
 		transition: transform 0.1s;
 	}
+
 	&:hover span {
-	
 		transform: translateY(-5px);
 	}
+	
 	&.select {
 		color: var(--color-primary-text-on);
 	}
