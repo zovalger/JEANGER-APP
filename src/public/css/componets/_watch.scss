@@ -33,7 +33,33 @@
 		display: flex;
 		align-items: center;
 
+		// max-width: 100%;
+
+
+
+		.name-input{
+			@include active-display();
+
+			background: none;
+
+			padding: 0 0.5rem;
+			// margin-left: 1rem;
+			// border: none;
+			// flex-grow: 1;
+			width:50%;
+			height: 40px;
+						font-size: 25px;
+
+
+			border-radius: 10px;
+
+
+
+		}
+
 		.name {
+			@include active-display();
+
 			font-size: 25px;
 			margin-left: 1rem;
 			white-space: nowrap;

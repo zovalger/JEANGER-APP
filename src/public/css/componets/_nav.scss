@@ -13,6 +13,9 @@
 }
 
 .nav-top {
+
+
+	box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 20%);
   button{
     border: none;
     cursor: pointer;
@@ -24,6 +27,11 @@
       var(--color-alpha-container-action),
       var(--color-alpha-container-on)
     );
+
+
+    &.select {
+      color: var(--color-primary-text-on);
+    }
 
     @include press-button;
   }

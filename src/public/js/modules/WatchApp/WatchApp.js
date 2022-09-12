@@ -46,18 +46,23 @@ const offlineData = {
 
 export default class WatchApp {
 	constructor() {
+		this.watchs = {};
+		this.isEditing = false;
+
 		this.$container = document.getElementById("watch-app");
 		this.$watchList = this.$container.querySelector("#watch-list");
 
 		this.$btnAdd = this.$container.querySelector(".add");
-
 		this.$btnEdit = this.$container.querySelector(".edit");
 
 		this.$btnAdd.addEventListener("click", () => this.newWatch());
-		this.$btnEdit.addEventListener("click", () => this.enableDelete());
+		this.$btnEdit.addEventListener("click", () => {
+			this.$btnEdit.classList.toggle("select");
+			this.isEditing = !this.isEditing;
+			this.enableEditing(this.isEditing);
+		});
 
 		this.$watchList.innerHTML = "";
-		this.watchs = {};
 
 		// TODO: variable para el set interval
 
@@ -86,7 +91,8 @@ export default class WatchApp {
 		for (const _id in this.watchs) {
 			if (Object.hasOwnProperty.call(this.watchs, _id)) {
 				const watch = this.watchs[_id];
-				watch.showTime();
+
+				if (watch.isStart) watch.showTime()
 			}
 		}
 
@@ -141,6 +147,8 @@ export default class WatchApp {
 		data.watches.map((watch) => {
 			this.updateWatch(watch);
 		});
+
+		this.enableEditing();
 	}
 
 	sendUpdate(watch) {
@@ -160,17 +168,18 @@ export default class WatchApp {
 	newWatch() {
 		const name = prompt("Nombre del reloj", "reloj ##");
 
-		if(!name) return
+		if (!name) return;
 
 		WatchAppSocketSend.newWatch({ name });
 	}
 
-	enableDelete() {
+	enableEditing(s) {
+		let editin = s | this.isEditing;
+
 		for (const _id in this.watchs) {
 			if (Object.hasOwnProperty.call(this.watchs, _id)) {
 				const watch = this.watchs[_id];
-
-				watch.enableDelete();
+				watch.enableEdit(editin);
 			}
 		}
 	}
@@ -180,9 +189,8 @@ export default class WatchApp {
 		WatchAppSocketSend.deleteWatch(data);
 	}
 
-	reciveToDelete (data){
-		
+	reciveToDelete(data) {
 		console.log(data);
-		this.watchs[data.watch._id].$container.remove()
+		this.watchs[data.watch._id].$container.remove();
 	}
 }

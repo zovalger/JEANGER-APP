@@ -9,6 +9,8 @@
 
 .aside-left {
 	// max-width: 200px;
+	box-shadow: 2px 2px 5px hsl(0, 0%, 0%, 20%);
+	
 
 	&:hover {
 		.aside-item .info {

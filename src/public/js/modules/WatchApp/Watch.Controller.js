@@ -7,6 +7,8 @@ class WatchController {
 		this.mode = "stopwatch";
 		this.nameWatch = "reloj";
 
+		this.isStart=false
+
 		// solo cuando es timer
 		this.timeSeted = 0;
 
@@ -29,18 +31,23 @@ class WatchController {
 	}
 
 	start() {
+		// this.isStart=true
 		if (this.mode == "stopwatch") this.stopwatch.start();
 		if (this.mode == "timer") this.timer.start();
 
 		this.sendUpdate();
 	}
 	pause() {
+		// this.isStart=false
+
 		if (this.mode == "stopwatch") this.stopwatch.pause();
 		if (this.mode == "timer") this.timer.pause();
 
 		this.sendUpdate();
 	}
 	reset() {
+				// this.isStart=false
+
 		if (this.mode == "stopwatch") this.stopwatch.reset();
 		if (this.mode == "timer") this.timer.reset();
 

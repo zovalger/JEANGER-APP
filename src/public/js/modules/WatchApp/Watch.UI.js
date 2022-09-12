@@ -24,25 +24,36 @@ class WatchUI extends WatchController {
 		this.$container.appendChild(this.$content);
 
 		this.$name = this.$container.querySelector(".name");
+		this.$nameInput = this.$container.querySelector(".name-input");
 		this.$delayed = this.$container.querySelector(".delayed");
 		this.$clock = this.$container.querySelector(".clock");
-
-		// this.inputTime = new InputTime(this.$container, ".set-time_container");
 		this.$timeSetedContainer = this.$container.querySelector(".time-seted");
 		this.$setTime = this.$container.querySelector(".set-time");
 
-		this.$setTime.addEventListener("submit", (e) => {
-			e.preventDefault();
-			this.start();
-		});
-		// botones de funciones principales
 		this.$btnDelete = this.$container.querySelector(".delete");
 		this.$btnSwitch = this.$container.querySelector(".switch");
 		this.$btnStart = this.$container.querySelector(".start");
 		this.$btnPause = this.$container.querySelector(".pause");
 		this.$btnReset = this.$container.querySelector(".reset");
 
+		this.$setTime.addEventListener("submit", (e) => {
+			e.preventDefault();
+			this.start();
+		});
+
 		// asignacion de funcionalidades a los botones
+
+		this.$nameInput.addEventListener("change", () => {
+			let name = this.$nameInput.value.trim();
+
+			this.nameWatch = name;
+			this.$name.innerHTML = name;
+
+			console.log("cambiado");
+
+			JEANGER_APP.WatchApp.sendUpdate({ name, _id: this._id });
+		});
+
 		this.$btnDelete.addEventListener("click", () => this.delete());
 		this.$btnSwitch.addEventListener("click", () => this.switch());
 		this.$btnStart.addEventListener("click", () => this.start());
@@ -127,6 +138,8 @@ class WatchUI extends WatchController {
 	}
 
 	startState() {
+		this.isStart = true;
+
 		active(this.$btnStart, false);
 		active(this.$btnPause, true);
 		this.$btnReset.disabled = true;
@@ -152,6 +165,8 @@ class WatchUI extends WatchController {
 	}
 
 	pauseState() {
+		this.isStart = false;
+
 		active(this.$btnStart, true);
 		active(this.$btnPause, false);
 		active(this.$btnReset, true);
@@ -170,6 +185,8 @@ class WatchUI extends WatchController {
 	}
 
 	resetState() {
+		this.isStart = false;
+
 		active(this.$btnStart, true);
 		active(this.$btnPause, false);
 		active(this.$btnReset, true);
@@ -231,17 +248,29 @@ class WatchUI extends WatchController {
 		// visualizacion de modo
 
 		this.$name.innerHTML = this.nameWatch;
+		this.$nameInput.value = this.nameWatch;
 		this.cambiarAparaciencia(dataWatch.mode);
 
 		// asignaerle a los imputs el valor que viene del servidor
 	}
 
-	enableDelete() {
-		active(this.$btnDelete);
+	enableEdit(s) {
+		active(this.$btnDelete, s);
+		active(this.$nameInput, s);
+		active(this.$name, !s);
+
+		// this.$btnReset.disabled = s;
+		this.$btnPause.disabled = s;
+		this.$btnStart.disabled = s;
+		// this.$btnSwitch.disabled = s;
 	}
 
 	delete() {
-		super.delete();
+		let res = confirm(
+			`seguro que quieres eliminar el relog '${this.nameWatch}'`
+		);
+
+		if (res) super.delete();
 	}
 }
 
