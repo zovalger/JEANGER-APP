@@ -3,7 +3,7 @@ const moduleOptionsList = [
 	{
 		name: "Productos",
 		icon: Inventory2Icon,
-    link: "/productos"
+    link: "/dashboard/products"
 	},
 ];
 

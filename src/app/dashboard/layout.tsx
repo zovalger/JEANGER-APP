@@ -8,13 +8,10 @@ import AsidePanelDashboard from "./components/AsidePanelDashboard";
 import { useGlobalContext } from "@/contexts/Global.context";
 
 export default function Home(prop: any) {
-
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<AsidePanelDashboard
-
-			/>
+			<AsidePanelDashboard />
 
 			{prop.children}
 		</Box>

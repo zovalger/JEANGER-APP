@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -9,34 +9,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { asidePanelDashboardWidth } from "@/config";
 import { useGlobalContext } from "@/contexts/Global.context";
+import AppBarModule from "../components/AppBarModule";
 
 export default function Dashboard() {
-	const { handleAsidePanelToggle } = useGlobalContext();
-
 	return (
 		<>
-			<AppBar
-				position="fixed"
-				sx={{
-					width: { sm: `calc(100% - ${asidePanelDashboardWidth}px)` },
-					ml: { sm: `${asidePanelDashboardWidth}px` },
-				}}
-			>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						edge="start"
-						onClick={handleAsidePanelToggle}
-						sx={{ mr: 2, display: { sm: "none" } }}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						Responsive drawer
-					</Typography>
-				</Toolbar>
-			</AppBar>
+			<AppBarModule name="Responsive drawer" />
 
 			<Box
 				component="main"
