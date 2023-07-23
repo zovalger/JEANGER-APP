@@ -16,7 +16,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ProductReferenceItem from "./ProductReferenceItem";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { createProductRequest, updateProductRequest } from "@/api/Product.api";
+import {
+	createProductRequest,
+	deleteProductRequest,
+	updateProductRequest,
+} from "@/api/Product.api";
 
 interface props {
 	// productDataForm: Product;
@@ -117,9 +121,10 @@ export default function ProductForm({ open, setOpen }: props) {
 
 			setOnSubmited(true);
 
-			delete productsIndexed[formik.values._id];
+			await deleteProductRequest(formik.values._id);
 
 			// setProductsIndexed({ ...productsIndexed, [product._id]: undefined });
+			delete productsIndexed[formik.values._id];
 			setProductsIndexed(productsIndexed);
 			setProducts(products.filter((p) => p._id !== formik.values._id));
 			handleClose();
