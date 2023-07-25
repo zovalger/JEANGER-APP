@@ -19,18 +19,15 @@ export default function ProductReferenceItem({ data, onClick }: props) {
 
 	const { parentId, percentage, amount } = data;
 	return (
-		<Card
-			variant="outlined"
+		<Box
 			onClick={onClick}
-			sx={{
-				minWidth: 275,
-				mb: "0.2rem",
-				":hover": { transform: { scale: "99%" } },
-			}}
+			sx={{ display: "flex", justifyContent: "space-between" ,p:".5rem" }}
 		>
-			<CardContent onClick={onClick} sx={{ display: "flex", justifyContent: "space-between" }}>
-				<Typography>{productsIndexed[parentId]}</Typography>
-			</CardContent>
-		</Card>
+			<Typography>{productsIndexed[parentId].name}</Typography>
+			<Typography>{productsIndexed[parentId].cost}</Typography>
+			<Typography>{productsIndexed[parentId].currencyType}</Typography>
+			<Typography>{percentage}</Typography>
+			<Typography>{amount}</Typography>
+		</Box>
 	);
 }

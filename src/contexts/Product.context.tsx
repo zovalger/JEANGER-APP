@@ -16,8 +16,12 @@ interface ContextProps {
 	setProducts: Dispatch<SetStateAction<Product[]>>;
 	productDataForm: Product | null;
 	setProductDataForm: Dispatch<SetStateAction<Product | null>>;
-	productsIndexed: any;
+	productsIndexed: productsIndexed;
 	setProductsIndexed: Dispatch<SetStateAction<any>>;
+}
+
+interface productsIndexed {
+	[productId: string]: Product;
 }
 
 const ProductContext = createContext<ContextProps>({
@@ -40,7 +44,7 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	// lista de todos los productos
 	const [products, setProducts] = useState<Product[]>([]);
 	// productos indexados
-	const [productsIndexed, setProductsIndexed] = useState<any>({});
+	const [productsIndexed, setProductsIndexed] = useState<productsIndexed>({});
 
 	useEffect(() => {
 		getAllProductsRequest()

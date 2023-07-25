@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export interface propsWithChildren {
 	children: any;
 }
@@ -27,4 +29,8 @@ export interface ProductReference {
 	currencyType: CurrencyType;
 	percentage: number;
 	amount: number;
+}
+
+export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
+	_id?: string;
 }

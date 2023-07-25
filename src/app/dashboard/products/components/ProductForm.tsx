@@ -1,46 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { v4 as uuid } from "uuid";
 
-import { CurrencyType, Product, ProductReference } from "@/types";
+import {
+	CurrencyType,
+	Product,
+	ProductReference,
+	ProductReferenceForm,
+} from "@/types";
 import { useProductContext } from "@/contexts/Product.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ProductReferenceItem from "./ProductReferenceItem";
-import { Backdrop, CircularProgress } from "@mui/material";
 import {
 	createProductRequest,
 	deleteProductRequest,
+	getPosibleProductParents_by_productId_Request,
+	getProductsReferences_by_productChild_Request,
 	updateProductRequest,
 } from "@/api/Product.api";
+import ProductFormStyle from "./ProductFormStyle";
+import ReferenceModalForm from "./ProductReferenceForm";
+import { useGlobalContext } from "@/contexts/Global.context";
 
 interface props {
 	// productDataForm: Product;
 	open: boolean;
 	setOpen(value: boolean): void;
 }
-
-const style = {
-	position: "absolute" as "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "60vw",
-	bgcolor: "background.paper",
-	border: "2px solid #000",
-	boxShadow: 24,
-	pt: 2,
-	px: 4,
-	pb: 3,
-};
 
 const currencies = [
 	{
@@ -54,6 +49,8 @@ const currencies = [
 ];
 
 export default function ProductForm({ open, setOpen }: props) {
+	const { dolar } = useGlobalContext();
+
 	const {
 		products,
 		setProducts,
@@ -62,7 +59,11 @@ export default function ProductForm({ open, setOpen }: props) {
 		productsIndexed,
 		setProductsIndexed,
 	} = useProductContext();
-	const [references, setReferences] = useState<ProductReference[]>([]);
+
+	// *******************************************************************
+	// 													productos
+	// *******************************************************************
+
 	const [onSubmited, setOnSubmited] = useState(false);
 
 	const formik = useFormik({
@@ -135,6 +136,113 @@ export default function ProductForm({ open, setOpen }: props) {
 		setOnSubmited(false);
 	};
 
+	// *******************************************************************
+	// 													Referencias
+	// *******************************************************************
+
+	// referencias actuales
+	const [currentReferences, setCurrentReferences] = useState<
+		ProductReference[]
+	>([]);
+
+	const [deletedReferences, setDeletedReferences] = useState<string[]>([]);
+
+	// posibles padres
+	const [productsIdToParent, setProductsIdToParent] = useState<string[]>([]);
+
+	// controles del modal
+	const [modalReference, setModalReference] = useState(false);
+	const openModalReference = () => setModalReference(true);
+	const closeModalReference = () => {
+		setReferenceForm(null);
+		setModalReference(false);
+	};
+
+	// datos del formulario
+	const [referenceForm, setReferenceForm] = useState<ProductReference | null>(
+		null
+	);
+
+	// funciones
+	const onOpenReference = (referenceId: string) => {
+		const r = currentReferences.find((re) => re._id === referenceId);
+
+		if (!r) return;
+		setReferenceForm(r);
+		openModalReference();
+	};
+
+	const onCreateUpdateReference = (rp: ProductReference) => {
+		console.log(rp);
+
+		const i = currentReferences.findIndex((v) => v._id === rp._id);
+
+		console.log(rp);
+
+		if (i < 0) {
+			setCurrentReferences([...currentReferences, rp]);
+
+			closeModalReference();
+
+			return;
+		}
+
+		const newReferences = currentReferences.map((r) =>
+			r._id === rp._id ? rp : r
+		);
+
+		setCurrentReferences(newReferences);
+		updateCostByReferences(newReferences);
+
+	};
+
+	const onDeleteReference = (_id: string) => {
+		setDeletedReferences([...deletedReferences, _id]);
+
+		const newReferences = currentReferences.filter((v) => v._id !== _id);
+
+		setCurrentReferences(newReferences);
+		updateCostByReferences(newReferences);
+	};
+
+	const updateCostByReferences = (rs: ProductReference[]) => {
+		if (!dolar) return;
+
+		const newCost = rs.reduce((total: number, reference: ProductReference) => {
+			const { cost, currencyType, amount, percentage } = reference;
+
+			let toSum = cost * percentage * amount;
+
+			if (currencyType == CurrencyType.BSF) toSum = toSum / dolar.value;
+
+			console.log(reference, toSum);
+
+			return total + toSum;
+		}, 0);
+
+		formik.setFieldValue("cost", newCost);
+	};
+
+	// *******************************************************************
+	// 													peticiones
+	// *******************************************************************
+
+	useEffect(() => {
+		if (!productDataForm || !productDataForm._id) return;
+
+		getProductsReferences_by_productChild_Request(productDataForm._id)
+			.then((pr) => setCurrentReferences(pr))
+			.catch((error) => console.log(error));
+
+		getPosibleProductParents_by_productId_Request(productDataForm._id)
+			.then((ids) => setProductsIdToParent(ids))
+			.catch((error) => console.log(error));
+	}, [productDataForm]);
+
+	// *******************************************************************
+	// 													render
+	// *******************************************************************
+
 	return (
 		<div>
 			{/* <Button onClick={handleOpen}>{productDataForm.name}</Button> */}
@@ -144,8 +252,8 @@ export default function ProductForm({ open, setOpen }: props) {
 				aria-labelledby="parent-modal-title"
 				aria-describedby="parent-modal-description"
 			>
-				<Box sx={{ ...style }} component={"form"}>
-					<Box>
+				<Box sx={{ ...ProductFormStyle }} component={"form"}>
+					<Box sx={{ display: "flex" }}>
 						<TextField
 							// label="Nombre del producto"
 							placeholder="Nombre del producto"
@@ -153,6 +261,9 @@ export default function ProductForm({ open, setOpen }: props) {
 							name="name"
 							value={formik.values.name}
 							onChange={formik.handleChange}
+							sx={{ flexGrow: 1 }}
+
+							// fullWidth
 						/>
 
 						<TextField
@@ -162,6 +273,9 @@ export default function ProductForm({ open, setOpen }: props) {
 							name="cost"
 							value={formik.values.cost}
 							onChange={formik.handleChange}
+							style={{ textAlign: "end" }}
+							sx={{ width: "7rem", textAlign: "end" }}
+							disabled={!!currentReferences.length}
 						/>
 
 						<TextField
@@ -173,6 +287,8 @@ export default function ProductForm({ open, setOpen }: props) {
 							name="currencyType"
 							value={formik.values.currencyType}
 							onChange={formik.handleChange}
+							sx={{ width: "6rem" }}
+							disabled={!!currentReferences.length}
 						>
 							{currencies.map((option) => (
 								<MenuItem key={option.value} value={option.value}>
@@ -187,12 +303,41 @@ export default function ProductForm({ open, setOpen }: props) {
 							sx={{
 								outline: "1px solid black",
 								mt: "1rem",
+								borderRadius: "4px",
+								height: "60vh",
 							}}
 						>
-							{references.map((r) => (
-								<ProductReferenceItem key={r._id} data={r} onClick={() => {}} />
+							{/* lista de referencias */}
+							{currentReferences.map((r) => (
+								<ProductReferenceItem
+									key={r._id}
+									data={r}
+									onClick={() => {
+										onOpenReference(r._id);
+									}}
+								/>
 							))}
-							<ChildModal />
+
+							<Button
+								onClick={() => {
+									openModalReference();
+								}}
+							>
+								Añadir
+							</Button>
+
+							{/* panel de formulario de referencia */}
+							{modalReference && (
+								<ReferenceModalForm
+									data={referenceForm}
+									childId={formik.values._id}
+									currentReferences={currentReferences}
+									productsIdToParent={productsIdToParent}
+									onSubmit={onCreateUpdateReference}
+									onDelete={onDeleteReference}
+									close={closeModalReference}
+								/>
+							)}
 						</Box>
 					)}
 
@@ -218,29 +363,5 @@ export default function ProductForm({ open, setOpen }: props) {
 
 			{/* Barra de carga */}
 		</div>
-	);
-}
-
-function ChildModal() {
-	const [open, setOpen] = useState(false);
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	return (
-		<>
-			<Button onClick={handleOpen}>Open Child Modal</Button>
-			<Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="child-modal-title"
-				aria-describedby="child-modal-description"
-			>
-				<Box sx={{ ...style, width: 200 }}></Box>
-			</Modal>
-		</>
 	);
 }
