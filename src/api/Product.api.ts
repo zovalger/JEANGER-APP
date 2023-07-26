@@ -37,3 +37,17 @@ export const updateProductRequest = async (
 
 export const deleteProductRequest = async (id: string) =>
 	(await axios.delete(`${url}/${id}`)).data;
+
+// ***************** modificaciones	 Referencias *****************
+
+export const createUpdateProductsReference_Request = async (
+	data: ProductReference
+): Promise<ProductReference> =>
+	(await axios.post(`${url}/reference/${data.parentId}/${data.childId}`, data))
+		.data;
+
+export const deleteProductsReference_Request = async (
+	parentId: string,
+	childId: string
+): Promise<ProductReference> =>
+	(await axios.delete(`${url}/reference/${parentId}/${childId}`)).data;

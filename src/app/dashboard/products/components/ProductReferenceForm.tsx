@@ -26,7 +26,7 @@ interface ReferenceModalFormProps {
 	currentReferences: ProductReference[];
 	productsIdToParent: string[];
 
-	onSubmit(formData: ProductReference): void;
+	on_Submit(formData: ProductReference): void;
 	onDelete(_id: string): void;
 	close(): void;
 }
@@ -39,7 +39,7 @@ export default function ReferenceModalForm({
 	productsIdToParent,
 
 	// funciones
-	onSubmit,
+	on_Submit,
 	onDelete,
 	close,
 }: ReferenceModalFormProps) {
@@ -58,15 +58,15 @@ export default function ReferenceModalForm({
 		validationSchema: Yup.object({
 			_id: Yup.string().optional(),
 			parentId: Yup.string(),
-			childId: Yup.string(),
-			cost: Yup.number().positive(),
-			currencyType: Yup.string()
-				.oneOf([CurrencyType.USD, CurrencyType.BSF])
-				.default(CurrencyType.USD),
+			// childId: Yup.string(),
+			// cost: Yup.number().positive(),
+			// currencyType: Yup.string()
+			// 	.oneOf([CurrencyType.USD, CurrencyType.BSF])
+			// 	.default(CurrencyType.USD),
 			percentage: Yup.number().positive(),
 			amount: Yup.number().positive(),
 		}),
-		onSubmit: (formData) => {
+		onSubmit: async (formData) => {
 			console.log(formData);
 
 			const { _id } = formData;
@@ -82,7 +82,7 @@ export default function ReferenceModalForm({
 
 			console.log(formData);
 
-			onSubmit(toSend);
+			return on_Submit(toSend);
 		},
 	});
 
@@ -165,7 +165,7 @@ export default function ReferenceModalForm({
 						{formik.values._id && (
 							<Button
 								color="error"
-								onClick={() => onDelete(formik.values._id)}
+								onClick={() => onDelete(formik.values.parentId)}
 								sx={{ mr: "1rem" }}
 							>
 								Eliminar
@@ -174,11 +174,9 @@ export default function ReferenceModalForm({
 
 						<Button
 							color="primary"
-							// onClick={async () => {
-							// 	await formik.submitForm();
-							// }}
+							onClick={() => formik.submitForm()}
 							variant="contained"
-							type="submit"
+							// type="submit"
 							startIcon={<SaveIcon />}
 						>
 							Guardar

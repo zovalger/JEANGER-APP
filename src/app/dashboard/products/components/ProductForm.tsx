@@ -22,7 +22,9 @@ import * as Yup from "yup";
 import ProductReferenceItem from "./ProductReferenceItem";
 import {
 	createProductRequest,
+	createUpdateProductsReference_Request,
 	deleteProductRequest,
+	deleteProductsReference_Request,
 	getPosibleProductParents_by_productId_Request,
 	getProductsReferences_by_productChild_Request,
 	updateProductRequest,
@@ -101,6 +103,11 @@ export default function ProductForm({ open, setOpen }: props) {
 
 				setProducts(newarray);
 				formik.setValues(product);
+
+				// actualizar referencias
+				await saveChangesProductReferences();
+
+				handleClose();
 			} catch (error) {
 				console.log(error);
 			}
@@ -173,36 +180,32 @@ export default function ProductForm({ open, setOpen }: props) {
 	};
 
 	const onCreateUpdateReference = (rp: ProductReference) => {
-		console.log(rp);
-
 		const i = currentReferences.findIndex((v) => v._id === rp._id);
-
-		console.log(rp);
 
 		if (i < 0) {
 			setCurrentReferences([...currentReferences, rp]);
+		} else {
+			const newReferences = currentReferences.map((r) =>
+				r._id === rp._id ? rp : r
+			);
 
-			closeModalReference();
-
-			return;
+			setCurrentReferences(newReferences);
+			updateCostByReferences(newReferences);
 		}
 
-		const newReferences = currentReferences.map((r) =>
-			r._id === rp._id ? rp : r
+		closeModalReference();
+	};
+
+	const onDeleteParentProductReference = (parentId: string) => {
+		setDeletedReferences([...deletedReferences, parentId]);
+
+		const newReferences = currentReferences.filter(
+			(v) => v.parentId !== parentId
 		);
 
 		setCurrentReferences(newReferences);
 		updateCostByReferences(newReferences);
-
-	};
-
-	const onDeleteReference = (_id: string) => {
-		setDeletedReferences([...deletedReferences, _id]);
-
-		const newReferences = currentReferences.filter((v) => v._id !== _id);
-
-		setCurrentReferences(newReferences);
-		updateCostByReferences(newReferences);
+		closeModalReference();
 	};
 
 	const updateCostByReferences = (rs: ProductReference[]) => {
@@ -221,6 +224,20 @@ export default function ProductForm({ open, setOpen }: props) {
 		}, 0);
 
 		formik.setFieldValue("cost", newCost);
+	};
+
+	const saveChangesProductReferences = async () => {
+		await Promise.all(
+			await deletedReferences.map(
+				async (r) => await deleteProductsReference_Request(r, formik.values._id)
+			)
+		);
+
+		await Promise.all(
+			await currentReferences.map(
+				async (r) => await createUpdateProductsReference_Request(r)
+			)
+		);
 	};
 
 	// *******************************************************************
@@ -252,8 +269,8 @@ export default function ProductForm({ open, setOpen }: props) {
 				aria-labelledby="parent-modal-title"
 				aria-describedby="parent-modal-description"
 			>
-				<Box sx={{ ...ProductFormStyle }} component={"form"}>
-					<Box sx={{ display: "flex" }}>
+				<Box sx={{ ...ProductFormStyle }}>
+					<Box sx={{ display: "flex" }} component={"form"}>
 						<TextField
 							// label="Nombre del producto"
 							placeholder="Nombre del producto"
@@ -333,8 +350,8 @@ export default function ProductForm({ open, setOpen }: props) {
 									childId={formik.values._id}
 									currentReferences={currentReferences}
 									productsIdToParent={productsIdToParent}
-									onSubmit={onCreateUpdateReference}
-									onDelete={onDeleteReference}
+									on_Submit={onCreateUpdateReference}
+									onDelete={onDeleteParentProductReference}
 									close={closeModalReference}
 								/>
 							)}
