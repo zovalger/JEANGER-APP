@@ -17,7 +17,7 @@ const AsidePanelLinks = (
 		<Divider />
 		<List>
 			{moduleOptionsList.map((m) => (
-				<Link href={m.link} key={uuid()}>
+				<Link href={m.link} key={uuid()} style={{textDecoration:"none",color:"black"}}>
 					<ListItem disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{<m.icon />}</ListItemIcon>

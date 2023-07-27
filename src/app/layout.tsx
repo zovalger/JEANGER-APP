@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+//import { Inter } from "next/font/google";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import "@fontsource/roboto/300.css";
@@ -10,7 +10,7 @@ import "@fontsource/roboto/700.css";
 import { GlobalContextProvider } from "@/contexts/Global.context";
 import { ProductContextProvider } from "@/contexts/Product.context";
 
-const inter = Inter({ subsets: ["latin"] });
+//const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Jeanger App",
@@ -31,7 +31,12 @@ export default function RootLayout({
 			<GlobalContextProvider>
 				<ProductContextProvider>
 					<CssBaseline />
-					<body className={inter.className}>{children}</body>
+					<body
+
+					//</ProductContextProvider>className={inter.className					}
+					>
+						{children}
+					</body>
 				</ProductContextProvider>
 			</GlobalContextProvider>
 		</html>

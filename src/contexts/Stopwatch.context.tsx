@@ -12,24 +12,59 @@ import {
 } from "react";
 import { PROXY } from "@/config";
 import { StopwatchEvents } from "@/config/SocketEventsSystem";
+import { getAllStopwatchRequest } from "@/api/Stopwatch.api";
+import { log } from "console";
 
 interface ContextProps {
 	stopwatches: Stopwatch[];
 	setStopwatches: Dispatch<SetStateAction<Stopwatch[]>>;
-}
 
-interface productsIndexed {
-	[productId: string]: Stopwatch;
+	sendCreateStopwatch(data: Stopwatch): void;
+	sendUpdateStopwatch(data: Stopwatch): void;
+	sendDeleteStopwatch(_id: string): void;
 }
 
 const StopwatchContext = createContext<ContextProps>({
-	stopwatches: [],
+	stopwatches: [
+		{
+			_id: "1",
+			name: "pc 1",
+			timeDate: null,
+			accumulatedTime: 20,
+			timeSeted: 360,
+		},
+	],
 	setStopwatches: (): Stopwatch[] => [],
+	sendCreateStopwatch: (data: Stopwatch): void => {},
+	sendUpdateStopwatch: (data: Stopwatch): void => {},
+	sendDeleteStopwatch: (_id: string): void => {},
 });
 
 export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
-	const [stopwatches, setStopwatches] = useState<Stopwatch[]>([]);
+
+	const [stopwatches, setStopwatches] = useState<Stopwatch[]>([
+		{
+			_id: "1",
+			name: "pc 1",
+			timeDate: null,
+			accumulatedTime: 0,
+			timeSeted: 0,
+		},
+		{
+			_id: "2",
+			name: "pc 2",
+			timeDate: null,
+			accumulatedTime: 0,
+			timeSeted: 0,
+		},
+	]);
+
+	useEffect(() => {
+		getAllStopwatchRequest()
+			.then((data) => setStopwatches(data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	// ****************************************************************************
 	// 										          Funciones de gestion
@@ -62,11 +97,14 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	useEffect(() => {
 		if (socket) return;
 
-		const soc = io(`${PROXY}`);
+		try {
+			const soc = io(`${PROXY}`);
 
-		setSocket(soc);
-		setListeners(soc);
-
+			setSocket(soc);
+			setListeners(soc);
+		} catch (error) {
+			console.log(error);
+		}
 		// return () => {
 		// 	second;
 		// };
@@ -96,7 +134,15 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	};
 
 	return (
-		<StopwatchContext.Provider value={{ stopwatches, setStopwatches }}>
+		<StopwatchContext.Provider
+			value={{
+				stopwatches,
+				setStopwatches,
+				sendCreateStopwatch,
+				sendUpdateStopwatch,
+				sendDeleteStopwatch,
+			}}
+		>
 			{children}
 		</StopwatchContext.Provider>
 	);
