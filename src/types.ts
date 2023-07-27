@@ -34,3 +34,32 @@ export interface ProductReference {
 export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
 	_id?: string;
 }
+
+
+// ****************************************************************************
+// 										          Cronometros
+// ****************************************************************************
+
+export interface Stopwatch {
+	_id: string;
+	name: string;
+	timeDate: Date;
+	accumulatedTime: number;
+	timeSeted: number;
+}
+
+
+// ****************************************************************************
+// 										          sockets
+// ****************************************************************************
+
+
+interface ServerToClientEvents {
+  noArg: () => void;
+  basicEmit: (a: number, b: string, c: Buffer) => void;
+  withAck: (d: string, callback: (e: number) => void) => void;
+}
+
+interface ClientToServerEvents {
+  hello: () => void;
+}
