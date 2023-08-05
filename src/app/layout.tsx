@@ -8,7 +8,8 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { GlobalContextProvider } from "@/contexts/Global.context";
-import { ProductContextProvider } from "@/contexts/Product.context";
+import { ProductContextProvider } from "@/app/dashboard/products/context/Product.context";
+import { StopwatchContextProvider } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
 
 //const inter = Inter({ subsets: ["latin"] });
 
@@ -30,13 +31,15 @@ export default function RootLayout({
 
 			<GlobalContextProvider>
 				<ProductContextProvider>
-					<CssBaseline />
-					<body
+					<StopwatchContextProvider>
+						<CssBaseline />
+						<body
 
-					//</ProductContextProvider>className={inter.className					}
-					>
-						{children}
-					</body>
+						//</ProductContextProvider>className={inter.className					}
+						>
+							{children}
+						</body>
+					</StopwatchContextProvider>
 				</ProductContextProvider>
 			</GlobalContextProvider>
 		</html>

@@ -28,7 +28,7 @@ export default function ProductItem({ data, onClick }: props) {
 			<CardContent sx={{ display: "flex", justifyContent: "space-between" }}>
 				<Typography>{name}</Typography>
 				<Box sx={{ display: "flex" }}>
-					<Typography sx={{ mr: "1rem" }}>{cost}</Typography>
+					<Typography sx={{ mr: "1rem" }}>{cost.toFixed(2)}</Typography>
 					<Typography>{currencyType}</Typography>
 				</Box>
 			</CardContent>

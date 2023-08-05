@@ -19,22 +19,20 @@ interface ContextProps {
 	stopwatches: Stopwatch[];
 	setStopwatches: Dispatch<SetStateAction<Stopwatch[]>>;
 
+	stopwatchData: Stopwatch | null;
+	setStopwatchData: Dispatch<SetStateAction<Stopwatch | null>>;
+
 	sendCreateStopwatch(data: Stopwatch): void;
 	sendUpdateStopwatch(data: Stopwatch): void;
 	sendDeleteStopwatch(_id: string): void;
 }
 
 const StopwatchContext = createContext<ContextProps>({
-	stopwatches: [
-		{
-			_id: "1",
-			name: "pc 1",
-			timeDate: null,
-			accumulatedTime: 20,
-			timeSeted: 360,
-		},
-	],
+	stopwatches: [],
 	setStopwatches: (): Stopwatch[] => [],
+	stopwatchData: null,
+	setStopwatchData: (): Stopwatch | null => null,
+
 	sendCreateStopwatch: (data: Stopwatch): void => {},
 	sendUpdateStopwatch: (data: Stopwatch): void => {},
 	sendDeleteStopwatch: (_id: string): void => {},
@@ -42,23 +40,9 @@ const StopwatchContext = createContext<ContextProps>({
 
 export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
+	const [stopwatches, setStopwatches] = useState<Stopwatch[]>([]);
 
-	const [stopwatches, setStopwatches] = useState<Stopwatch[]>([
-		{
-			_id: "1",
-			name: "pc 1",
-			timeDate: null,
-			accumulatedTime: 0,
-			timeSeted: 0,
-		},
-		{
-			_id: "2",
-			name: "pc 2",
-			timeDate: null,
-			accumulatedTime: 0,
-			timeSeted: 0,
-		},
-	]);
+	const [stopwatchData, setStopwatchData] = useState<Stopwatch | null>(null);
 
 	useEffect(() => {
 		getAllStopwatchRequest()
@@ -71,19 +55,21 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	// ****************************************************************************
 
 	const updateStopwatch = (data: Stopwatch) => {
-		const swIndex = stopwatches.findIndex((item) => item._id === data._id);
+		{
+			return setStopwatches((prev) => {
+				let arr = [];
+				const swIndex = prev.findIndex((item) => item._id === data._id);
 
-		if (swIndex < 0) return setStopwatches([...stopwatches, data]);
+				if (swIndex < 0) arr = [...prev, data];
+				else arr = prev.map((item) => (item._id === data._id ? data : item));
 
-		const newStopwatch = stopwatches.map((item) =>
-			item._id === data._id ? data : item
-		);
-
-		setStopwatches(newStopwatch);
+				return arr;
+			});
+		}
 	};
 
 	const deleteStopwatch = (_id: string) =>
-		setStopwatches(stopwatches.filter((item) => item._id !== _id));
+		setStopwatches((prev) => prev.filter((item) => item._id !== _id));
 
 	// ****************************************************************************
 	// 										          socket Funciones
@@ -141,6 +127,9 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 				sendCreateStopwatch,
 				sendUpdateStopwatch,
 				sendDeleteStopwatch,
+
+				stopwatchData,
+				setStopwatchData,
 			}}
 		>
 			{children}

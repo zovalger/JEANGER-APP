@@ -42,9 +42,9 @@ export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
 export interface Stopwatch {
 	_id: string;
 	name: string;
-	timeDate: Date | null;
+	timeDate: number | null;
 	accumulatedTime: number;
-	timeSeted: number;
+	timeSeted: number | null;
 }
 
 // ****************************************************************************

@@ -16,7 +16,7 @@ import {
 	ProductReference,
 	ProductReferenceForm,
 } from "@/types";
-import { useProductContext } from "@/contexts/Product.context";
+import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ProductReferenceItem from "./ProductReferenceItem";

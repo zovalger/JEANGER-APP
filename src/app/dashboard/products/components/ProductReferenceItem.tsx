@@ -7,7 +7,7 @@ import {
 	CardContent,
 	Typography,
 } from "@mui/material";
-import { useProductContext } from "@/contexts/Product.context";
+import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 
 interface props {
 	data: ProductReference;

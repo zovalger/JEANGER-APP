@@ -6,7 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import { useProductContext } from "@/contexts/Product.context";
+import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { asidePanelDashboardWidth } from "@/config";
 import AppBarModule from "@/app/components/AppBarModule";
 import ProductItem from "./components/ProductItem";
