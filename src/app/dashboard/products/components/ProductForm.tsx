@@ -51,7 +51,7 @@ const currencies = [
 ];
 
 export default function ProductForm({ open, setOpen }: props) {
-	const { dolar } = useGlobalContext();
+	const { dolar, loadViewOpen, loadViewClose } = useGlobalContext();
 
 	const {
 		products,
@@ -60,6 +60,7 @@ export default function ProductForm({ open, setOpen }: props) {
 		setProductDataForm,
 		productsIndexed,
 		setProductsIndexed,
+		refreshProducts,
 	} = useProductContext();
 
 	// *******************************************************************
@@ -118,9 +119,15 @@ export default function ProductForm({ open, setOpen }: props) {
 	const handleOpen = () => {
 		setOpen(true);
 	};
-	const handleClose = () => {
+	const handleClose = async () => {
 		setProductDataForm(null);
 		setOpen(false);
+
+		loadViewOpen();
+
+		await refreshProducts();
+
+		loadViewClose();
 	};
 
 	const onDelete = async () => {
@@ -280,7 +287,6 @@ export default function ProductForm({ open, setOpen }: props) {
 							onChange={formik.handleChange}
 							sx={{ flexGrow: 1 }}
 							autoComplete="none"
-
 
 							// fullWidth
 						/>

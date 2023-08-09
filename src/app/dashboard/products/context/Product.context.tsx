@@ -18,6 +18,7 @@ interface ContextProps {
 	setProductDataForm: Dispatch<SetStateAction<Product | null>>;
 	productsIndexed: productsIndexed;
 	setProductsIndexed: Dispatch<SetStateAction<any>>;
+	refreshProducts(): Promise<void>;
 }
 
 interface productsIndexed {
@@ -38,6 +39,7 @@ const ProductContext = createContext<ContextProps>({
 
 	productsIndexed: {},
 	setProductsIndexed: (): any => ({}),
+	refreshProducts: (): Promise<void> => new Promise(() => {}),
 });
 
 export const ProductContextProvider = ({ children }: propsWithChildren) => {
@@ -47,33 +49,15 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	const [productsIndexed, setProductsIndexed] = useState<productsIndexed>({});
 
 	useEffect(() => {
-		getAllProductsRequest()
-			.then((products) => {
-				setDataAndIndexate(products);
-			})
-			.catch((error) => {
-				console.log(error);
-
-				const testData = [
-					{
-						_id: "64bb273a372bae4f95fe99ba",
-						name: "Bulto Harina",
-						cost: 22,
-						currencyType: CurrencyType.USD,
-						keywords: ["harina", "pan", "harina pan"],
-					},
-					{
-						_id: "64b6ffd95019b521c2aa01ee",
-						name: "Harina",
-						cost: 1.1,
-						currencyType: CurrencyType.USD,
-						keywords: ["harina", "pan", "pan pan"],
-					},
-				];
-
-				setDataAndIndexate(testData);
-			});
+		refreshProducts();
 	}, []);
+
+	const refreshProducts = async () => {
+		try {
+			const p = await getAllProductsRequest();
+			setDataAndIndexate(p);
+		} catch (error) {}
+	};
 
 	const setDataAndIndexate = (data: Product[]) => {
 		setProducts(data);
@@ -90,6 +74,8 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	return (
 		<ProductContext.Provider
 			value={{
+				refreshProducts,
+				
 				products,
 				setProducts,
 				productDataForm,
@@ -99,6 +85,7 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 			}}
 		>
 			{children}
+
 		</ProductContext.Provider>
 	);
 };

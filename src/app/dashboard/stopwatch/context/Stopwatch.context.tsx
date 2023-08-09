@@ -190,7 +190,7 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 				<ReactHowler
 					src="/sounds/ringtone-126505.mp3"
 					playing={soundAlarmPlay}
-					volume={0.6}
+					volume={0.5}
 				/>
 			)}
 			{children}

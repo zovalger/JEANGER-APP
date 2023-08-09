@@ -1,11 +1,14 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 import Toolbar from "@mui/material/Toolbar";
@@ -14,7 +17,8 @@ import AppBarModule from "../components/AppBarModule";
 import { useGlobalContext } from "@/contexts/Global.context";
 
 export default function Dashboard() {
-	const { dolar } = useGlobalContext();
+	const { dolar, refreshDolar, loadViewOpen, loadViewClose } =
+		useGlobalContext();
 
 	return (
 		<>
@@ -40,7 +44,20 @@ export default function Dashboard() {
 						</Typography>
 					</CardContent>
 					<CardActions>
-						<Button size="small">Actualizar</Button>
+						<Button
+							size="small"
+							onClick={async () => {
+								try {
+									loadViewOpen();
+									await refreshDolar();
+								} catch (error) {
+									console.log(error);
+								}
+								loadViewClose();
+							}}
+						>
+							Actualizar
+						</Button>
 					</CardActions>
 				</Card>
 			</Box>
