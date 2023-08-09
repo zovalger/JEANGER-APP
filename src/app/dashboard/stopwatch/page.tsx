@@ -23,14 +23,7 @@ export default function StopwatchHome() {
 
 	const [openStopwatchForm, setOpenStopwatchForm] = useState(false);
 	const [editing, setEditing] = useState(false);
-	const [referenceTime, setReferenceTime] = useState(Date.now());
-
-	useEffect(() => {
-		setInterval(() => {
-			setReferenceTime(Date.now());
-		}, 1000);
-	}, []);
-
+	
 	return (
 		<>
 			<AppBarModule
@@ -82,7 +75,6 @@ export default function StopwatchHome() {
 						<Grid item key={t._id} xs={12} sm={12} md={6} lg={4} xl={3}>
 							<ClockItem
 								data={t}
-								referenceTime={referenceTime}
 								onEdit={() => {
 									setStopwatchData(t);
 									setOpenStopwatchForm(true);

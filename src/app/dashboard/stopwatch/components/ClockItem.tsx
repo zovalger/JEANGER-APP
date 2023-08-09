@@ -27,17 +27,11 @@ import ClockTimeContainer from "./ClockTimeContainer";
 
 interface props {
 	data: Stopwatch;
-	referenceTime: number;
 	onEdit(): void;
 	editing: boolean;
 }
-export default function ClockItem({
-	data,
-	referenceTime,
-	onEdit,
-	editing,
-}: props) {
-	const { sendUpdateStopwatch } = useStopwatchContext();
+export default function ClockItem({ data, onEdit, editing }: props) {
+	const { sendUpdateStopwatch, referenceTime } = useStopwatchContext();
 	const [clock, setClock] = useState<Stopwatch>(data);
 
 	const theme = useTheme();
@@ -130,15 +124,16 @@ export default function ClockItem({
 				boxShadow: "1px 1px 5px #0003",
 				display: "inline-block",
 				overflow: "hidden",
-				// minWidth: "250px",
 				width: "100%",
-				// mb: "1rem",
-				// mr: "1rem",
-				// flexGrow: "1",
-				// [theme.breakpoints.down("sm")]: {
-				// 	mb: "1rem",
-				// },
+				bgcolor: clock.timeSeted !== null ? "#ff07" : "#0cf7",
 			}}
+			className={
+				clock.timeSeted !== null &&
+				clock.timeDate &&
+				clock.timeDate < referenceTime
+					? "animate__animated animate__headShake animate__infinite"
+					: ""
+			}
 		>
 			<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
 				<Typography

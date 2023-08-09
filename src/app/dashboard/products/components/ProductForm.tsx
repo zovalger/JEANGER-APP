@@ -279,6 +279,8 @@ export default function ProductForm({ open, setOpen }: props) {
 							value={formik.values.name}
 							onChange={formik.handleChange}
 							sx={{ flexGrow: 1 }}
+							autoComplete="none"
+
 
 							// fullWidth
 						/>

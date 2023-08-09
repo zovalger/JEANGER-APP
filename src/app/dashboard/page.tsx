@@ -1,17 +1,21 @@
 "use client";
 
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+
+import Toolbar from "@mui/material/Toolbar";
 import { asidePanelDashboardWidth } from "@/config";
-import { useGlobalContext } from "@/contexts/Global.context";
 import AppBarModule from "../components/AppBarModule";
+import { useGlobalContext } from "@/contexts/Global.context";
 
 export default function Dashboard() {
+	const { dolar } = useGlobalContext();
+
 	return (
 		<>
 			<AppBarModule name="Responsive drawer" />
@@ -28,6 +32,17 @@ export default function Dashboard() {
 				}}
 			>
 				<Toolbar />
+
+				<Card sx={{ minWidth: 275 }}>
+					<CardContent>
+						<Typography variant="h5" component="div">
+							Dolar: {dolar && dolar.value.toFixed(2)}
+						</Typography>
+					</CardContent>
+					<CardActions>
+						<Button size="small">Actualizar</Button>
+					</CardActions>
+				</Card>
 			</Box>
 		</>
 	);

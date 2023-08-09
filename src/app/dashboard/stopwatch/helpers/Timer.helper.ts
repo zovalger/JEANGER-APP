@@ -3,9 +3,11 @@ import { Stopwatch } from "@/types";
 export const startTimer = (data: Stopwatch) => {
 	const { timeDate: td, accumulatedTime: at, timeSeted: ts } = data;
 
+	if (ts == null) return data;
+
 	const timeDate =
 		!td && !at ? Date.now() + ts : td ? td : at ? Date.now() + at : Date.now();
-		
+
 	const accumulatedTime = 0;
 
 	return { ...data, accumulatedTime, timeDate };
