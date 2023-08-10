@@ -5,9 +5,12 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import MenuItem from "@mui/material/MenuItem";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import { v4 as uuid } from "uuid";
 
 import {
@@ -32,6 +35,7 @@ import {
 import ProductFormStyle from "./ProductFormStyle";
 import ReferenceModalForm from "./ProductReferenceForm";
 import { useGlobalContext } from "@/contexts/Global.context";
+import { Divider, Typography } from "@mui/material";
 
 interface props {
 	// productDataForm: Product;
@@ -61,6 +65,7 @@ export default function ProductForm({ open, setOpen }: props) {
 		productsIndexed,
 		setProductsIndexed,
 		refreshProducts,
+		allKeywords,
 	} = useProductContext();
 
 	// *******************************************************************
@@ -149,6 +154,11 @@ export default function ProductForm({ open, setOpen }: props) {
 
 		setOnSubmited(false);
 	};
+
+	const [keyword, setKeyword] = useState<string | null>("");
+	const [keywordInput, setKeywordInput] = useState("");
+	const onSaveKeyword = () => {};
+	const onDeleteKeyword = () => {};
 
 	// *******************************************************************
 	// 													Referencias
@@ -276,7 +286,23 @@ export default function ProductForm({ open, setOpen }: props) {
 				aria-labelledby="parent-modal-title"
 				aria-describedby="parent-modal-description"
 			>
-				<Box sx={{ ...ProductFormStyle }}>
+				<Box
+					sx={{
+						position: "absolute" as "absolute",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+						width: "60vw",
+						maxHeight: "80vh",
+						overflowY: "auto",
+						bgcolor: "background.paper",
+						border: "2px solid #000",
+						boxShadow: 24,
+						pt: 2,
+						px: 4,
+						pb: 3,
+					}}
+				>
 					<Box sx={{ display: "flex" }} component={"form"}>
 						<TextField
 							// label="Nombre del producto"
@@ -322,6 +348,46 @@ export default function ProductForm({ open, setOpen }: props) {
 							))}
 						</TextField>
 					</Box>
+
+					<Box sx={{ my: 1 }}>
+						<Box sx={{ display: "flex", my: 1 }}>
+							<Typography>Palabras Clave</Typography>
+
+							<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+							<Typography component={"span"} color={"text.secondary"}>
+								Para busquedas mas precisas
+							</Typography>
+						</Box>
+
+						<Stack direction="row" spacing={1}>
+							{formik.values.keywords.map((k) => (
+								<Chip
+									key={k}
+									label={k}
+									variant="outlined"
+									onDelete={onDeleteKeyword}
+								/>
+							))}
+						</Stack>
+					</Box>
+
+					<Autocomplete
+						value={keyword}
+						onChange={(event: any, newValue: string | null) => {
+							setKeyword(newValue);
+						}}
+						inputValue={keywordInput}
+						onInputChange={(event, newInputValue) => {
+							setKeywordInput(newInputValue);
+						}}
+						id="controllable-states-demo"
+						options={allKeywords}
+						sx={{ width: 300 }}
+						renderInput={(params) => (
+							<TextField {...params} label="Controllable" />
+						)}
+					/>
 
 					{formik.values._id && (
 						<Box

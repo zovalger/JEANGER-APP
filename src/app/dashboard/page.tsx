@@ -22,7 +22,7 @@ export default function Dashboard() {
 
 	return (
 		<>
-			<AppBarModule name="Responsive drawer" />
+			<AppBarModule name="Dashboard" />
 
 			<Box
 				component="main"

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
 import {
+	Badge,
 	Divider,
 	List,
 	ListItem,
@@ -17,10 +18,18 @@ const AsidePanelLinks = (
 		<Divider />
 		<List>
 			{moduleOptionsList.map((m) => (
-				<Link href={m.link} key={uuid()} style={{textDecoration:"none",color:"black"}}>
+				<Link
+					href={m.link}
+					key={uuid()}
+					style={{ textDecoration: "none", color: "black" }}
+				>
 					<ListItem disablePadding>
 						<ListItemButton>
-							<ListItemIcon>{<m.icon />}</ListItemIcon>
+							<ListItemIcon>
+								{/* <Badge color="secondary" badgeContent={2}> */}
+									{<m.icon />}
+								{/* </Badge> */}
+							</ListItemIcon>
 							<ListItemText primary={m.name} />
 						</ListItemButton>
 					</ListItem>

@@ -14,6 +14,7 @@ import {
 interface ContextProps {
 	products: Product[];
 	setProducts: Dispatch<SetStateAction<Product[]>>;
+	allKeywords:string[]
 	productDataForm: Product | null;
 	setProductDataForm: Dispatch<SetStateAction<Product | null>>;
 	productsIndexed: productsIndexed;
@@ -27,6 +28,7 @@ interface productsIndexed {
 
 const ProductContext = createContext<ContextProps>({
 	products: [],
+	allKeywords:[],
 	setProducts: (): Product[] => [],
 	productDataForm: null,
 	setProductDataForm: (): Product | null => ({
@@ -47,6 +49,7 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	const [products, setProducts] = useState<Product[]>([]);
 	// productos indexados
 	const [productsIndexed, setProductsIndexed] = useState<productsIndexed>({});
+	const [allKeywords, setAllKeywords] = useState<string[]>([]);
 
 	useEffect(() => {
 		refreshProducts();
@@ -55,6 +58,11 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	const refreshProducts = async () => {
 		try {
 			const p = await getAllProductsRequest();
+			const keywords = p.flatMap((pp) => pp.keywords);
+
+			console.log(keywords);
+			setAllKeywords(keywords);
+
 			setDataAndIndexate(p);
 		} catch (error) {}
 	};
@@ -75,7 +83,8 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 		<ProductContext.Provider
 			value={{
 				refreshProducts,
-				
+				allKeywords,
+
 				products,
 				setProducts,
 				productDataForm,
@@ -85,7 +94,6 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 			}}
 		>
 			{children}
-
 		</ProductContext.Provider>
 	);
 };
