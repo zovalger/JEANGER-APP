@@ -3,8 +3,10 @@
 import { io, Socket } from "socket.io-client";
 
 import dynamic from "next/dynamic";
-
-const ReactHowler = dynamic(() => import("react-howler"), { ssr: false });
+import CloseIcon from "@mui/icons-material/Close";
+import ReactHowler from "react-howler";
+import StopIcon from "@mui/icons-material/Stop";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { Stopwatch, propsWithChildren } from "@/types";
 
@@ -20,7 +22,10 @@ import {
 import { PROXY } from "@/config";
 import { StopwatchEvents } from "@/config/SocketEventsSystem";
 import { getAllStopwatchRequest } from "@/api/Stopwatch.api";
-import { useNotistackContext } from "@/contexts/Notistack.context";
+import { useSnackbarContext } from "@/contexts/Snackbar.context";
+import { Button, IconButton } from "@mui/material";
+import { pauseTimer } from "../helpers/Timer.helper";
+import { startStopwatch } from "../helpers/Stopwatch.helper";
 
 interface ContextProps {
 	stopwatches: Stopwatch[];
@@ -50,7 +55,7 @@ const StopwatchContext = createContext<ContextProps>({
 });
 
 export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
-	const { Notification } = useNotistackContext();
+	const { createNotification, closeNotification } = useSnackbarContext();
 
 	const [socket, setSocket] = useState<Socket | null>(null);
 
@@ -84,11 +89,55 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 				item.timeDate < referenceTime
 		);
 
-		console.log(pasados);
-
 		if (pasados.length) {
-			if (!soundAlarmPlay)
-				Notification("info", `Termino el tiempo de ${pasados[0].name}`);
+			if (!soundAlarmPlay) {
+				createNotification({
+					message: `Tiempo terminado: ${pasados[0].name}`,
+					autoHideDuration: 10000,
+					action: (
+						<>
+							{/* <Button
+								// color=""
+								variant="outlined"
+								size="small"
+								onClick={() => {
+									const newStopwatch = startStopwatch(pasados[0]);
+									sendUpdateStopwatch(newStopwatch);
+									closeNotification();
+								}}
+							>
+								Seguir contando
+							</Button> */}
+							<IconButton
+								size="small"
+								aria-label="close"
+								color="inherit"
+								onClick={() => {
+									const newStopwatch = startStopwatch(pasados[0]);
+									sendUpdateStopwatch(newStopwatch);
+									closeNotification();
+								}}
+							>
+								<PlayArrowIcon fontSize="small" sx={{ color: "#0cf7" }} />
+
+								{/* <CloseIcon /> */}
+							</IconButton>
+							<IconButton
+								size="small"
+								aria-label="close"
+								color="inherit"
+								onClick={() => {
+									const newTimer = pauseTimer(pasados[0]);
+									sendUpdateStopwatch(newTimer);
+									closeNotification();
+								}}
+							>
+								<CloseIcon fontSize="small" />
+							</IconButton>
+						</>
+					),
+				});
+			}
 
 			setSoundAlarmPlay(true);
 		} else {
@@ -164,8 +213,6 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	};
 
 	const sendDeleteStopwatch = (_id: string) => {
-		// todo: enviar datos
-
 		if (!socket) return;
 
 		socket.emit(StopwatchEvents.delete, _id);
@@ -190,9 +237,11 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 				<ReactHowler
 					src="/sounds/ringtone-126505.mp3"
 					playing={soundAlarmPlay}
-					volume={0.5}
+					volume={0.4}
+					html5={true}
 				/>
 			)}
+
 			{children}
 		</StopwatchContext.Provider>
 	);

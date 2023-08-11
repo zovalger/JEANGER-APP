@@ -5,8 +5,9 @@ export const startStopwatch = (data: Stopwatch) => {
 
 	const timeDate = td ? td : at ? Date.now() - at : Date.now();
 	const accumulatedTime = 0;
+	const timeSeted = null;
 
-	return { ...data, accumulatedTime, timeDate };
+	return { ...data, accumulatedTime, timeDate, timeSeted };
 };
 
 export const pauseStopwatch = (data: Stopwatch) => {
@@ -19,8 +20,9 @@ export const pauseStopwatch = (data: Stopwatch) => {
 	const accumulatedTime = at ? at : Date.now() - td;
 
 	const timeDate = null;
+	const timeSeted = null;
 
-	return { ...data, accumulatedTime, timeDate };
+	return { ...data, accumulatedTime, timeDate, timeSeted };
 };
 
 export const getTimeStopwatch = (data: Stopwatch, referenceTime: number) => {

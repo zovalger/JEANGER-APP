@@ -11,7 +11,7 @@ import "@fontsource/roboto/700.css";
 import { GlobalContextProvider } from "@/contexts/Global.context";
 import { ProductContextProvider } from "@/app/dashboard/products/context/Product.context";
 import { StopwatchContextProvider } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
-import { NotistackContextProvider } from "@/contexts/Notistack.context";
+import { SnackbarContextProvider } from "@/contexts/Snackbar.context";
 
 //const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +31,7 @@ export default function RootLayout({
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</head>
 
-			<NotistackContextProvider>
+			<SnackbarContextProvider>
 				<GlobalContextProvider>
 					<ProductContextProvider>
 						<StopwatchContextProvider>
@@ -40,7 +40,7 @@ export default function RootLayout({
 						</StopwatchContextProvider>
 					</ProductContextProvider>
 				</GlobalContextProvider>
-			</NotistackContextProvider>
+			</SnackbarContextProvider>
 		</html>
 	);
 }
