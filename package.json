@@ -1,35 +1,43 @@
 {
 	"name": "jeanger-app",
-	"version": "1.0.0",
-	"description": "aplicacion para automatizar tareas",
-	"main": "index.js",
+	"version": "0.1.0",
+	"private": true,
 	"scripts": {
-		"start": "node ./src/index.js",
-		"dev": "nodemon ./src/index.js"
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/zovalger/JEANGER-APP.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/zovalger/JEANGER-APP/issues"
-	},
-	"homepage": "https://github.com/zovalger/JEANGER-APP#readme",
 	"dependencies": {
-		"cookie-parser": "~1.4.4",
-		"debug": "~2.6.9",
-		"dotenv": "^10.0.0",
-		"express": "~4.16.1",
-		"http-errors": "~1.6.3",
-		"mongoose": "^5.12.12",
-		"morgan": "~1.9.1",
-		"request": "^2.88.2",
-		"socket.io": "^4.5.1"
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@fontsource/roboto": "^5.0.5",
+		"@mui/icons-material": "^5.14.1",
+		"@mui/lab": "^5.0.0-alpha.137",
+		"@mui/material": "^5.14.1",
+		"@types/node": "20.4.0",
+		"@types/react": "18.2.14",
+		"@types/react-dom": "18.2.6",
+		"@types/react-howler": "^5.2.0",
+		"animate.css": "^4.1.1",
+		"axios": "^1.4.0",
+		"eslint": "8.44.0",
+		"eslint-config-next": "13.4.9",
+		"formik": "^2.4.2",
+		"moment": "^2.29.4",
+		"next": "13.4.9",
+		"notistack": "^3.0.1",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-howler": "^5.2.0",
+		"sass": "^1.63.6",
+		"socket.io-client": "^4.7.1",
+		"typescript": "5.1.6",
+		"uuid": "^9.0.0",
+		"yup": "^1.2.0"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.19"
-	}
+		"@types/uuid": "^9.0.2"
+	},
+	"proxy": "http://localhost:5000/"
 }
