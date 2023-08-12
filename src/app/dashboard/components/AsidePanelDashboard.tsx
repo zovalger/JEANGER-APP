@@ -29,7 +29,7 @@ const AsidePanelDashboard = () => {
 					},
 				}}
 			>
-				{AsidePanelLinks}
+				<AsidePanelLinks />{" "}
 			</Drawer>
 			<Drawer
 				variant="permanent"
@@ -42,7 +42,7 @@ const AsidePanelDashboard = () => {
 				}}
 				open
 			>
-				{AsidePanelLinks}
+				<AsidePanelLinks />
 			</Drawer>
 		</Box>
 	);

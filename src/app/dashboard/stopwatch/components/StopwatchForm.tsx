@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import SaveIcon from "@mui/icons-material/Save";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { v4 as uuid } from "uuid";
 
 import {
@@ -171,15 +170,13 @@ export default function StopwatchForm({ open, setOpen }: props) {
 							</Button>
 						)}
 
-						<LoadingButton
-							loading={onSubmited}
-							loadingPosition="start"
-							startIcon={<SaveIcon />}
+						<Button
+		
 							variant="contained"
 							onClick={() => formik.submitForm()}
 						>
 							Guardar
-						</LoadingButton>
+						</Button>
 					</Box>
 				</Box>
 			</Modal>

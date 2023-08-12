@@ -2,7 +2,6 @@
 
 import { getDolarRequest } from "@/api/Dolar.api";
 import { DolarValue, propsWithChildren } from "@/types";
-import { Backdrop, CircularProgress } from "@mui/material";
 import { createContext, useState, useContext, useEffect } from "react";
 
 interface ContextProps {
@@ -47,6 +46,7 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 			setDolarValue(d);
 		} catch (error) {
 			console.log(error);
+			// setDolarValue();
 		}
 	};
 
@@ -67,13 +67,13 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 			}}
 		>
 			{children}
-			<Backdrop
+			{/* <Backdrop
 				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
 				open={open}
 				onClick={loadViewClose}
 			>
 				<CircularProgress color="inherit" />
-			</Backdrop>
+			</Backdrop> */}
 		</GlobalContext.Provider>
 	);
 };
