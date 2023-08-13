@@ -60,3 +60,23 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
 	hello: () => void;
 }
+
+// ****************************************************************************
+// 										          calculadora
+// ****************************************************************************
+
+export enum MathOperation {
+	sum = "+",
+	subtract = "-",
+	division = "/",
+	multiply = "*",
+}
+
+export interface CalculatorState {
+	_id: string;
+	a: number;
+	b: number | null;
+	mathOperation: MathOperation;
+	result: number | null;
+	currencyType: CurrencyType;
+}
