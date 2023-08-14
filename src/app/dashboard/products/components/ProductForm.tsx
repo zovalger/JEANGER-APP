@@ -8,7 +8,6 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import MenuItem from "@mui/material/MenuItem";
 import SaveIcon from "@mui/icons-material/Save";
-import LoadingButton from "@mui/lab/LoadingButton";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import { v4 as uuid } from "uuid";
@@ -439,15 +438,9 @@ export default function ProductForm({ open, setOpen }: props) {
 							</Button>
 						)}
 
-						<LoadingButton
-							loading={onSubmited}
-							loadingPosition="start"
-							startIcon={<SaveIcon />}
-							variant="contained"
-							onClick={() => formik.submitForm()}
-						>
+						<Button variant="contained" onClick={() => formik.submitForm()}>
 							Guardar
-						</LoadingButton>
+						</Button>
 					</Box>
 				</Box>
 			</Modal>

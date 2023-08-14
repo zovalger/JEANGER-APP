@@ -15,6 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { asidePanelDashboardWidth } from "@/config";
 import AppBarModule from "../components/AppBarModule";
 import { useGlobalContext } from "@/contexts/Global.context";
+import CalculatorSwitch from "./components/CalculatorSwitch";
 
 export default function Dashboard() {
 	const { dolar, refreshDolar, loadViewOpen, loadViewClose } =
@@ -40,7 +41,7 @@ export default function Dashboard() {
 				<Card sx={{ minWidth: 275 }}>
 					<CardContent>
 						<Typography variant="h5" component="div">
-							Dolar: {dolar && dolar.value}
+							Dolar BCV: {dolar && dolar.value}
 						</Typography>
 					</CardContent>
 					<CardActions>
@@ -60,6 +61,9 @@ export default function Dashboard() {
 						</Button>
 					</CardActions>
 				</Card>
+
+
+				<CalculatorSwitch />
 			</Box>
 		</>
 	);

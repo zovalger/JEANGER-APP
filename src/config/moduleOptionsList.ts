@@ -13,11 +13,11 @@ const moduleOptionsList = [
 		icon: AccessAlarmIcon,
 		link: "/dashboard/stopwatch",
 	},
-	// {
-	// 	name: "Productos",
-	// 	icon: Inventory2Icon,
-	// 	link: "/dashboard/products",
-	// },
+	{
+		name: "Productos",
+		icon: Inventory2Icon,
+		link: "/dashboard/products",
+	},
 ];
 
 export default moduleOptionsList;
