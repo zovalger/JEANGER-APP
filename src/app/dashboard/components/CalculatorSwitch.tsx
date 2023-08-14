@@ -7,6 +7,7 @@ import { calculateResult } from "./CalculatorHelper";
 import CalculatorSwitchHistory from "./CalculatorSwitchHistory";
 import CalculatorSwitchVisor from "./CalculatorSwitchVisor";
 import CalculatorSwitchBoard from "./CalculatorSwitchBoard";
+import { useGlobalContext } from "@/contexts/Global.context";
 
 const initialState = {
 	_id: uuid(),
@@ -18,6 +19,7 @@ const initialState = {
 };
 
 export default function CalculatorSwitch() {
+	const { dolar } = useGlobalContext();
 	const [history, setHistory] = useState<CalculatorState[]>([]);
 	const [dataCalculator, setDataCalculator] =
 		useState<CalculatorState>(initialState);
@@ -40,17 +42,21 @@ export default function CalculatorSwitch() {
 		setDataCalculator({ ...newState, _id: uuid() });
 	};
 
-	const calculateResultAndNext = (data: CalculatorState) => {
+	const calculateResultAndNext = (
+		data: CalculatorState,
+		key: MathOperation
+	) => {
 		const currentState = calculateResult(data);
 		saveCalculatorStateInList(currentState);
 
 		if (currentState.result === null) return;
 		if (currentState.b === null) return;
 
-		const newState = {
+		const newState: CalculatorState = {
 			...currentState,
 			_id: uuid(),
 			a: currentState.result,
+			mathOperation: key,
 			b: null,
 			result: null,
 		};
@@ -58,13 +64,43 @@ export default function CalculatorSwitch() {
 		setDataCalculator(newState);
 	};
 
-	const onChangeHanddle = (value: string) => {
+	const switchCurrencyType = () => {
+		const { a, b, result, currencyType } = dataCalculator;
+
+		if (!dolar) return;
+
+		const converter = (n: number) =>
+			currencyType === CurrencyType.USD ? n * dolar.value : n / dolar.value;
+
+		setDataCalculator({
+			...dataCalculator,
+			a: converter(a),
+			b: b != null ? converter(b) : null,
+			result: result != null ? converter(result) : null,
+			currencyType:
+				currencyType == CurrencyType.USD ? CurrencyType.BSF : CurrencyType.USD,
+		});
+	};
+
+	const deleteOneNumber = () => {
+		if (dataCalculator.b == null) return;
+
+		const next = dataCalculator.b.toString().split("").slice(0, -1).join("");
+
+		onInputNumberHanddle(next);
+	};
+
+	const onInputNumberHanddle = (value: string) => {
 		const bValue = value ? parseFloat(value) : 0;
 
 		setDataCalculator({ ...dataCalculator, b: bValue });
 	};
 
-	const onKeyDownHanddle = (key: string, altKey: boolean, ctrlKey: boolean) => {
+	const onSpecialKeyDownHanddle = (
+		key: string,
+		altKey: boolean,
+		ctrlKey: boolean
+	) => {
 		console.log(key, altKey, ctrlKey);
 
 		if (
@@ -73,7 +109,7 @@ export default function CalculatorSwitch() {
 			key === MathOperation.division ||
 			key === MathOperation.multiply
 		) {
-			calculateResultAndNext({ ...dataCalculator, mathOperation: key });
+			calculateResultAndNext(dataCalculator, key);
 		} else if (key === "Enter") {
 			calculateCurrentResult(dataCalculator);
 		} else if (key === "Escape") {
@@ -95,11 +131,17 @@ export default function CalculatorSwitch() {
 				<CalculatorSwitchHistory data={history} />
 				<CalculatorSwitchVisor
 					data={dataCalculator}
-					onChange={onChangeHanddle}
-					onKeyDown={onKeyDownHanddle}
+					onChange={onInputNumberHanddle}
+					onKeyDown={onSpecialKeyDownHanddle}
 				/>
 				{/* teclado */}
-				<CalculatorSwitchBoard />
+				<CalculatorSwitchBoard
+					data={dataCalculator}
+					onInputNumberHanddle={onInputNumberHanddle}
+					onSpecialKeyDownHanddle={onSpecialKeyDownHanddle}
+					deleteOneNumber={deleteOneNumber}
+					switchCurrencyType={switchCurrencyType}
+				/>
 			</Box>
 		</>
 	);

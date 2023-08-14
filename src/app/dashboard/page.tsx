@@ -41,7 +41,7 @@ export default function Dashboard() {
 				<Card sx={{ minWidth: 275 }}>
 					<CardContent>
 						<Typography variant="h5" component="div">
-							Dolar: {dolar && dolar.value}
+							Dolar BCV: {dolar && dolar.value}
 						</Typography>
 					</CardContent>
 					<CardActions>

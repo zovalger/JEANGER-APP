@@ -19,10 +19,10 @@ export default function CalculatorSwitchVisor({
 	let textMiniVisor = ``;
 	if (a == 0 && b == null && result == null) {
 		textMiniVisor = "";
-	} else if (a && b != null && !result) {
-		textMiniVisor = `${a} ${mathOperation}`;
+	} else if (a && !result) {
+		textMiniVisor = `${a.toFixed(2)} ${mathOperation}`;
 	} else if (a && b && result) {
-		textMiniVisor = `${a} ${mathOperation} ${b} =`;
+		textMiniVisor = `${a.toFixed(2)} ${mathOperation} ${b.toFixed(2)} =`;
 		valueVisor = result;
 	}
 
@@ -35,7 +35,7 @@ export default function CalculatorSwitchVisor({
 					alignItems: "center",
 				}}
 			>
-				<Box sx={{ mr: "1rem" }}>{currencyType}</Box>
+				{/* <Box sx={{ mr: "1rem" }}>{currencyType}</Box> */}
 				<TextField
 					name=""
 					value={valueVisor}
@@ -55,6 +55,7 @@ export default function CalculatorSwitchVisor({
 					}}
 					autoComplete="none"
 					variant="standard"
+				fullWidth
 					inputProps={{
 						style: {
 							textAlign: "right",
