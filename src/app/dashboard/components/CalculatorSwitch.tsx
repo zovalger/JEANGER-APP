@@ -119,7 +119,7 @@ export default function CalculatorSwitch() {
 
 	return (
 		<>
-			<Box>instancias</Box>
+			{/* <Box>instancias</Box> */}
 			<Box
 				boxShadow={2}
 				sx={{

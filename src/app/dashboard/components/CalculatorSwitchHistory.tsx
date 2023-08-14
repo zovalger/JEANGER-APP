@@ -6,7 +6,6 @@ export default function CalculatorSwitchHistory({
 }: {
 	data: CalculatorState[];
 }) {
-	return;
 	if (!data.length) return;
 
 	return (
