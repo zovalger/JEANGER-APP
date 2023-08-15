@@ -124,6 +124,8 @@ export default function CalculatorSwitch() {
 				boxShadow={2}
 				sx={{
 					p: 1,
+					bgcolor:
+						dataCalculator.currencyType == CurrencyType.USD ? "#0f52" : "",
 					borderRadius: "8px",
 				}}
 			>
