@@ -29,6 +29,8 @@ const GlobalContext = createContext<ContextProps>({
 // ****************************************************************************
 
 export const GlobalContextProvider = ({ children }: propsWithChildren) => {
+const [varEnv, setVarEnv] = useState({PROXY:""})
+
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
 	const handleAsidePanelToggle = () =>
 		setAsidePanelMobilOpen(!asidePanelMobileOpen);
@@ -36,7 +38,9 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	const [dolar, setDolarValue] = useState<DolarValue | null>(null);
 
 	useEffect(() => {
+		
 		refreshDolar();
+
 	}, []);
 
 	const refreshDolar = async () => {

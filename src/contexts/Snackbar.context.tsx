@@ -1,7 +1,7 @@
 "use client";
 import Snackbar from "@mui/material/Snackbar";
 import { propsWithChildren } from "@/types";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 interface NotificationObj {
 	action: any;
@@ -22,8 +22,17 @@ const SnackbarContext = createContext<ContextProps>({
 });
 
 export const SnackbarContextProvider = ({ children }: propsWithChildren) => {
-	const [notification, setNotification] = useState<NotificationObj | null>();
+	const [queueNotification, setQueueNotification] = useState<NotificationObj[]>(
+		[]
+	);
+
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		if (queueNotification.length) {
+			setOpen(true);
+		}
+	}, [queueNotification]);
 
 	const handleClose = (
 		event: React.SyntheticEvent | Event,
@@ -36,23 +45,24 @@ export const SnackbarContextProvider = ({ children }: propsWithChildren) => {
 	};
 
 	const closeNotification = () => {
+		const newArr = queueNotification.slice(1, -1);
 		setOpen(false);
+		setQueueNotification(newArr);
 	};
 
 	const createNotification = (notificationObj: NotificationObj) => {
-		setOpen(true);
-		setNotification(notificationObj);
+		setQueueNotification([...queueNotification, notificationObj]);
 	};
 
 	return (
 		<SnackbarContext.Provider value={{ createNotification, closeNotification }}>
-			{notification && (
+			{open && (
 				<Snackbar
 					open={open}
-					autoHideDuration={notification.autoHideDuration}
+					autoHideDuration={queueNotification[0].autoHideDuration}
 					onClose={handleClose}
-					message={notification.message}
-					action={notification.action}
+					message={queueNotification[0].message}
+					action={queueNotification[0].action}
 				/>
 			)}
 
