@@ -11,7 +11,7 @@ export const getVisorDataFormated = (data: CalculatorState): string => {
 
 	let valueVisor = b === null ? "0" : b.toFixed(2).toString();
 
-	if (a && b && result) {
+	if (a != null && b != null && result != null) {
 		valueVisor = result.toFixed(2).toString();
 	}
 

@@ -35,7 +35,9 @@ export default function CalculatorSwitchVisor({
 					alignItems: "center",
 				}}
 			>
-				{/* <Box sx={{ mr: "1rem" }}>{currencyType}</Box> */}
+				<Box sx={{ mx: "1rem", fontSize:"1.2rem" }}>
+					<strong>{currencyType}</strong>
+				</Box>
 				<TextField
 					name=""
 					value={dataVisor}

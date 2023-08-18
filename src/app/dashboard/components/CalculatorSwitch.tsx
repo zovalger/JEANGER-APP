@@ -30,7 +30,16 @@ export default function CalculatorSwitch() {
 	const [dataVisor, setDataVisor] = useState("");
 
 	const handdleChageDataVisor = (data: string) => {
-		setDataVisor(data);
+		// const str =data.split("").slice(0, -1).join("");
+
+		const str = data.split("");
+
+		const d =
+			str[0] == "0" && str[1] != "," && str[1] != "." && str.length > 2
+				? str.slice(1, -1).join("")
+				: data;
+
+		setDataVisor(d);
 	};
 
 	const saveCalculatorStateInList = (
@@ -60,7 +69,11 @@ export default function CalculatorSwitch() {
 		data: CalculatorState,
 		key: MathOperation
 	) => {
-		const currentState = calculateResult(data);
+		const { a, b, result } = data;
+
+		const currentState =
+			a != null && b != null && result != null ? data : calculateResult(data);
+
 		saveCalculatorStateInList(currentState);
 
 		if (currentState.result === null) return;
@@ -97,7 +110,13 @@ export default function CalculatorSwitch() {
 		};
 
 		setDataCalculator(newState);
-		handdleChageDataVisor(getVisorDataFormated(newState));
+		handdleChageDataVisor(
+			newState.b != null
+				? getVisorDataFormated(newState)
+				: dataVisor != ""
+				? converter(parseFloat(dataVisor)).toString()
+				: "0"
+		);
 	};
 
 	const deleteOneNumber = () => {
