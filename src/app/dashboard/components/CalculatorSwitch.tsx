@@ -32,14 +32,13 @@ export default function CalculatorSwitch() {
 	const handdleChageDataVisor = (data: string) => {
 		// const str =data.split("").slice(0, -1).join("");
 
-		const str = data.split("");
+		const str = data.trim().split("");
 
-		const d =
-			str[0] == "0" && str[1] != "," && str[1] != "." && str.length > 2
-				? str.slice(1, -1).join("")
-				: data;
+		if (str[0] == "0" && str[1] != "," && str[1] != "." && str.length > 1) {
+			str[0] = "";
+		}
 
-		setDataVisor(d);
+		setDataVisor(str.join(""));
 	};
 
 	const saveCalculatorStateInList = (
@@ -59,6 +58,8 @@ export default function CalculatorSwitch() {
 	};
 
 	const calculateCurrentResult = (data: CalculatorState) => {
+		if (data.result != null) return data;
+
 		const newState = calculateResult(data);
 		saveCalculatorStateInList({ ...newState, _id: uuid() });
 		setDataCalculator({ ...newState, _id: uuid() });
