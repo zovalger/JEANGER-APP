@@ -3,7 +3,11 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 
 import { CalculatorState, CurrencyType, MathOperation } from "@/types";
-import { calculateResult } from "./CalculatorHelper";
+import {
+	calculateResult,
+	getNumberByVisorData,
+	getVisorDataFormated,
+} from "./CalculatorHelper";
 import CalculatorSwitchHistory from "./CalculatorSwitchHistory";
 import CalculatorSwitchVisor from "./CalculatorSwitchVisor";
 import CalculatorSwitchBoard from "./CalculatorSwitchBoard";
@@ -23,6 +27,20 @@ export default function CalculatorSwitch() {
 	const [history, setHistory] = useState<CalculatorState[]>([]);
 	const [dataCalculator, setDataCalculator] =
 		useState<CalculatorState>(initialState);
+	const [dataVisor, setDataVisor] = useState("");
+
+	const handdleChageDataVisor = (data: string) => {
+		// const str =data.split("").slice(0, -1).join("");
+
+		const str = data.split("");
+
+		const d =
+			str[0] == "0" && str[1] != "," && str[1] != "." && str.length > 2
+				? str.slice(1, -1).join("")
+				: data;
+
+		setDataVisor(d);
+	};
 
 	const saveCalculatorStateInList = (
 		data: CalculatorState
@@ -33,20 +51,29 @@ export default function CalculatorSwitch() {
 	};
 
 	const resetDataCalculator = () => {
-		setDataCalculator(initialState);
+		setDataCalculator({
+			...initialState,
+			currencyType: dataCalculator.currencyType,
+		});
+		handdleChageDataVisor("");
 	};
 
 	const calculateCurrentResult = (data: CalculatorState) => {
 		const newState = calculateResult(data);
 		saveCalculatorStateInList({ ...newState, _id: uuid() });
 		setDataCalculator({ ...newState, _id: uuid() });
+		handdleChageDataVisor(getVisorDataFormated(newState));
 	};
 
 	const calculateResultAndNext = (
 		data: CalculatorState,
 		key: MathOperation
 	) => {
-		const currentState = calculateResult(data);
+		const { a, b, result } = data;
+
+		const currentState =
+			a != null && b != null && result != null ? data : calculateResult(data);
+
 		saveCalculatorStateInList(currentState);
 
 		if (currentState.result === null) return;
@@ -62,6 +89,7 @@ export default function CalculatorSwitch() {
 		};
 
 		setDataCalculator(newState);
+		handdleChageDataVisor(getVisorDataFormated(newState));
 	};
 
 	const switchCurrencyType = () => {
@@ -72,14 +100,23 @@ export default function CalculatorSwitch() {
 		const converter = (n: number) =>
 			currencyType === CurrencyType.USD ? n * dolar.value : n / dolar.value;
 
-		setDataCalculator({
+		const newState = {
 			...dataCalculator,
 			a: converter(a),
 			b: b != null ? converter(b) : null,
 			result: result != null ? converter(result) : null,
 			currencyType:
 				currencyType == CurrencyType.USD ? CurrencyType.BSF : CurrencyType.USD,
-		});
+		};
+
+		setDataCalculator(newState);
+		handdleChageDataVisor(
+			newState.b != null
+				? getVisorDataFormated(newState)
+				: dataVisor != ""
+				? converter(parseFloat(dataVisor)).toString()
+				: "0"
+		);
 	};
 
 	const deleteOneNumber = () => {
@@ -109,9 +146,17 @@ export default function CalculatorSwitch() {
 			key === MathOperation.division ||
 			key === MathOperation.multiply
 		) {
-			calculateResultAndNext(dataCalculator, key);
+			calculateResultAndNext(
+				{ ...dataCalculator, b: getNumberByVisorData(dataVisor) },
+				key
+			);
+		} else if (key === "$") {
+			switchCurrencyType();
 		} else if (key === "Enter") {
-			calculateCurrentResult(dataCalculator);
+			calculateCurrentResult({
+				...dataCalculator,
+				b: getNumberByVisorData(dataVisor),
+			});
 		} else if (key === "Escape") {
 			resetDataCalculator();
 		}
@@ -133,17 +178,18 @@ export default function CalculatorSwitch() {
 				<CalculatorSwitchHistory data={history} />
 				<CalculatorSwitchVisor
 					data={dataCalculator}
-					onChange={onInputNumberHanddle}
+					dataVisor={dataVisor}
+					onChange={handdleChageDataVisor}
 					onKeyDown={onSpecialKeyDownHanddle}
 				/>
 				{/* teclado */}
-				<CalculatorSwitchBoard
+				{/* <CalculatorSwitchBoard
 					data={dataCalculator}
-					onInputNumberHanddle={onInputNumberHanddle}
+					onInputNumberHanddle={handdleChageDataVisor}
 					onSpecialKeyDownHanddle={onSpecialKeyDownHanddle}
 					deleteOneNumber={deleteOneNumber}
 					switchCurrencyType={switchCurrencyType}
-				/>
+				/> */}
 			</Box>
 		</>
 	);
