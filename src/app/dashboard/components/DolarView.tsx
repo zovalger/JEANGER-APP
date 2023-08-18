@@ -1,3 +1,5 @@
+"use client";
+
 import { useGlobalContext } from "@/contexts/Global.context";
 import { Box, IconButton, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -12,6 +14,7 @@ export default function DolarView() {
 
 	const copyDolarValueToClipboard = () => {
 		if (!dolar) return;
+
 		const textToCopy = dolar.value.toString().replace(".", ",");
 		navigator.clipboard.writeText(textToCopy);
 		setCopy(true);
