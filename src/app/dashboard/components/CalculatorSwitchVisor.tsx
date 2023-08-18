@@ -4,17 +4,18 @@ import { CalculatorState, MathOperation } from "@/types";
 
 interface CalculatorSwitchVisorProps {
 	data: CalculatorState;
+	dataVisor: string;
 	onChange(value: string): void;
 	onKeyDown(key: string, altKey: boolean, ctrlKey: boolean): void;
 }
 
 export default function CalculatorSwitchVisor({
 	data,
+	dataVisor,
 	onChange,
 	onKeyDown,
 }: CalculatorSwitchVisorProps) {
 	const { a, b, mathOperation, result, currencyType } = data;
-	let valueVisor = b === null ? 0 : b;
 
 	let textMiniVisor = ``;
 	if (a == 0 && b == null && result == null) {
@@ -23,7 +24,6 @@ export default function CalculatorSwitchVisor({
 		textMiniVisor = `${a.toFixed(2)} ${mathOperation}`;
 	} else if (a && b && result) {
 		textMiniVisor = `${a.toFixed(2)} ${mathOperation} ${b.toFixed(2)} =`;
-		valueVisor = result;
 	}
 
 	return (
@@ -38,7 +38,7 @@ export default function CalculatorSwitchVisor({
 				{/* <Box sx={{ mr: "1rem" }}>{currencyType}</Box> */}
 				<TextField
 					name=""
-					value={valueVisor}
+					value={dataVisor}
 					onChange={(event) => onChange(event.target.value)}
 					onKeyDown={(event) => {
 						if (
@@ -47,7 +47,8 @@ export default function CalculatorSwitchVisor({
 							event.key === MathOperation.division ||
 							event.key === MathOperation.multiply ||
 							event.key === "Enter" ||
-							event.key === "Escape"
+							event.key === "Escape" ||
+							event.key === "$"
 						) {
 							event.preventDefault();
 							onKeyDown(event.key, event.altKey, event.ctrlKey);
@@ -55,7 +56,7 @@ export default function CalculatorSwitchVisor({
 					}}
 					autoComplete="none"
 					variant="standard"
-				fullWidth
+					fullWidth
 					inputProps={{
 						style: {
 							textAlign: "right",

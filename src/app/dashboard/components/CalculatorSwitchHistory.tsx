@@ -37,10 +37,12 @@ export default function CalculatorSwitchHistory({
 				>
 					<Box>{item.currencyType}</Box>
 					<Box>
-						<Box
-							component={"span"}
-						>{`${item.a} ${item.mathOperation} ${item.b}`}</Box>
-						<Box component={"span"}>={`${item.result || "xx"}`}</Box>
+						<Box component={"span"}>{`${item.a.toFixed(0)} ${
+							item.mathOperation
+						} ${item.b?.toFixed(2)}`}</Box>
+						<Box component={"span"}>
+							={`${item.result?.toFixed(2) || "xx"}`}
+						</Box>
 					</Box>
 				</Box>
 			))}

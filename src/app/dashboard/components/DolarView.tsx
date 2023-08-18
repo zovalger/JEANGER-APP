@@ -2,10 +2,11 @@ import { useGlobalContext } from "@/contexts/Global.context";
 import { Box, IconButton, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+import ReplayIcon from "@mui/icons-material/Replay";
 import { useState } from "react";
 
 export default function DolarView() {
-	const { dolar } = useGlobalContext();
+	const { dolar, refreshDolar } = useGlobalContext();
 
 	const [copy, setCopy] = useState(false);
 
@@ -33,6 +34,9 @@ export default function DolarView() {
 			</Typography>
 			<IconButton onClick={copyDolarValueToClipboard}>
 				{copy ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
+			</IconButton>
+			<IconButton onClick={refreshDolar}>
+				<ReplayIcon />
 			</IconButton>
 		</Box>
 	);
