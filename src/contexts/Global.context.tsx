@@ -1,8 +1,13 @@
 "use client";
 
+import { io, Socket } from "socket.io-client";
+
 import { getDolarRequest } from "@/api/Dolar.api";
 import { DolarValue, propsWithChildren } from "@/types";
 import { createContext, useState, useContext, useEffect } from "react";
+import { PROXY } from "@/config";
+import { DolarEvent } from "@/config/SocketEventsSystem";
+import { useSnackbarContext } from "./Snackbar.context";
 
 interface ContextProps {
 	asidePanelMobileOpen: boolean;
@@ -24,23 +29,16 @@ const GlobalContext = createContext<ContextProps>({
 	loadViewOpen: (): void => {},
 });
 
-// ****************************************************************************
-// 			este es un contexto que se utilizara para darles datos al mapa
-// ****************************************************************************
-
 export const GlobalContextProvider = ({ children }: propsWithChildren) => {
-const [varEnv, setVarEnv] = useState({PROXY:""})
-
-	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
-	const handleAsidePanelToggle = () =>
-		setAsidePanelMobilOpen(!asidePanelMobileOpen);
+	const { createNotification } = useSnackbarContext();
+	// ****************************************************************************
+	// 										          Dolar
+	// ****************************************************************************
 
 	const [dolar, setDolarValue] = useState<DolarValue | null>(null);
 
 	useEffect(() => {
-		
 		refreshDolar();
-
 	}, []);
 
 	const refreshDolar = async () => {
@@ -53,6 +51,45 @@ const [varEnv, setVarEnv] = useState({PROXY:""})
 			// setDolarValue();
 		}
 	};
+	// ****************************************************************************
+	// 										          socket Funciones
+	// ****************************************************************************
+	const [socket, setSocket] = useState<Socket | null>(null);
+
+	const updateDolar = (dolar: DolarValue) => {
+		setDolarValue(dolar);
+
+		createNotification({
+			message: `Dolar actualizado: ${dolar.value}`,
+			autoHideDuration: 5000,
+			action: <></>,
+		});
+	};
+
+	const setListeners = async (socket: Socket) => {
+		socket.on(DolarEvent.update, updateDolar);
+	};
+
+	useEffect(() => {
+		if (socket) return;
+
+		try {
+			const soc = io(`${PROXY}`);
+
+			setSocket(soc);
+			setListeners(soc);
+		} catch (error) {
+			console.log(error);
+		}
+	}, [socket]);
+
+	// ****************************************************************************
+	// 										          Panel lateral
+	// ****************************************************************************
+
+	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
+	const handleAsidePanelToggle = () =>
+		setAsidePanelMobilOpen(!asidePanelMobileOpen);
 
 	const [open, setOpen] = useState(false);
 	const loadViewClose = () => setOpen(false);

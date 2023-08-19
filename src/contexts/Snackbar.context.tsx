@@ -45,13 +45,13 @@ export const SnackbarContextProvider = ({ children }: propsWithChildren) => {
 	};
 
 	const closeNotification = () => {
-		const newArr = queueNotification.slice(1, -1);
 		setOpen(false);
-		setQueueNotification(newArr);
+
+		setQueueNotification((prev) => prev.slice(1));
 	};
 
 	const createNotification = (notificationObj: NotificationObj) => {
-		setQueueNotification([...queueNotification, notificationObj]);
+		setQueueNotification((prev) => [...prev, notificationObj]);
 	};
 
 	return (

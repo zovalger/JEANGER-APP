@@ -4,6 +4,10 @@ export interface propsWithChildren {
 	children: any;
 }
 
+// ****************************************************************************
+// 										          productos
+// ****************************************************************************
+
 export enum CurrencyType {
 	USD = "USD",
 	BSF = "BSF",
