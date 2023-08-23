@@ -15,6 +15,8 @@ import { useStopwatchContext } from "@/app/dashboard/stopwatch/context/Stopwatch
 import ClockItem from "./components/ClockItem";
 import StopwatchForm from "./components/StopwatchForm";
 import { Stopwatch } from "@/types";
+import DolarView from "../components/DolarView";
+import CalculatorSwitch from "../components/CalculatorSwitch";
 
 export default function StopwatchHome() {
 	const theme = useTheme();
@@ -23,7 +25,7 @@ export default function StopwatchHome() {
 
 	const [openStopwatchForm, setOpenStopwatchForm] = useState(false);
 	const [editing, setEditing] = useState(false);
-	
+
 	return (
 		<>
 			<AppBarModule
@@ -91,6 +93,10 @@ export default function StopwatchHome() {
 						setOpen={setOpenStopwatchForm}
 					/>
 				)}
+
+				<DolarView />
+
+				<CalculatorSwitch />
 			</Box>
 		</>
 	);
