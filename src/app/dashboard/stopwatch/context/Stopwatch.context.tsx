@@ -2,10 +2,8 @@
 
 import { io, Socket } from "socket.io-client";
 
-import dynamic from "next/dynamic";
 import CloseIcon from "@mui/icons-material/Close";
 import ReactHowler from "react-howler";
-import StopIcon from "@mui/icons-material/Stop";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { Stopwatch, propsWithChildren } from "@/types";
@@ -66,6 +64,7 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 	const [referenceTime, setReferenceTime] = useState(Date.now());
 
 	const [soundAlarmPlay, setSoundAlarmPlay] = useState(false);
+	const [lastTimer, setLastTimer] = useState("");
 
 	const [isClient, setIsClient] = useState(false);
 
@@ -90,24 +89,13 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 		);
 
 		if (pasados.length) {
-			if (!soundAlarmPlay) {
+			if (pasados[0]._id != lastTimer) {
+				setLastTimer(pasados[0]._id);
 				createNotification({
 					message: `Tiempo terminado: ${pasados[0].name}`,
-					autoHideDuration: 10000,
+					autoHideDuration: null,
 					action: (
 						<>
-							{/* <Button
-								// color=""
-								variant="outlined"
-								size="small"
-								onClick={() => {
-									const newStopwatch = startStopwatch(pasados[0]);
-									sendUpdateStopwatch(newStopwatch);
-									closeNotification();
-								}}
-							>
-								Seguir contando
-							</Button> */}
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -142,6 +130,7 @@ export const StopwatchContextProvider = ({ children }: propsWithChildren) => {
 			setSoundAlarmPlay(true);
 		} else {
 			setSoundAlarmPlay(false);
+			setLastTimer("");
 		}
 	}, [referenceTime]);
 
