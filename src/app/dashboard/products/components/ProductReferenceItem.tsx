@@ -1,10 +1,8 @@
 import Box from "@mui/material/Box";
-import { Product, ProductReference } from "@/types";
+import {  ProductReference } from "@/types";
 import {
-	Button,
-	Card,
-	CardActions,
-	CardContent,
+
+	Grid,
 	Typography,
 } from "@mui/material";
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
@@ -19,15 +17,27 @@ export default function ProductReferenceItem({ data, onClick }: props) {
 
 	const { parentId, percentage, amount } = data;
 	return (
-		<Box
+		<Grid
+			container
+			spacing={2}
 			onClick={onClick}
-			sx={{ display: "flex", justifyContent: "space-between" ,p:".5rem" }}
+			//sx={{ border: "1px solid black" }}
 		>
-			<Typography>{productsIndexed[parentId].name}</Typography>
-			<Typography>{productsIndexed[parentId].cost}</Typography>
-			<Typography>{productsIndexed[parentId].currencyType}</Typography>
-			<Typography>{percentage}</Typography>
-			<Typography>{amount}</Typography>
-		</Box>
+			<Grid item xs={5} sm={5} md={6} lg={6} xl={6}>
+				<Typography>{productsIndexed[parentId].name}</Typography>
+			</Grid>
+
+			<Grid item xs={3} sm={3} md={2} lg={2} xl={2}>
+				<Typography>
+					{`${productsIndexed[parentId].cost.toFixed(2)} ${productsIndexed[parentId].currencyType}`}
+				</Typography>
+			</Grid>
+			<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Typography>{percentage}</Typography>
+			</Grid>
+			<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Typography>{amount}</Typography>
+			</Grid>
+		</Grid>
 	);
 }

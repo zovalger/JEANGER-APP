@@ -30,7 +30,7 @@ import {
 	updateProductRequest,
 } from "@/api/Product.api";
 import ProductFormStyle from "../../products/components/ProductFormStyle";
-import ReferenceModalForm from "../../products/components/ProductReferenceForm";
+import ProductReferenceModalForm from "../../products/components/ProductReferenceModalForm";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useStopwatchContext } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
 

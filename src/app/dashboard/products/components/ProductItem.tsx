@@ -37,22 +37,45 @@ export default function ProductItem({ data, onClick }: props) {
 			}}
 		>
 			{/* <CardContent> */}
-			<Grid container spacing={2}>
-				<Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
+			{/* <Grid container spacing={2}>
+				<Grid item xs={12} sm={5} md={6} lg={6} xl={6}>
 					<Typography>{name}</Typography>
 				</Grid>
 
-				<Grid item xs={3} sx={{ textAlign: "right" }}>
+				<Grid item xs={12} sm={4} md={3} lg={3} xl={3} sx={{ textAlign: "right" }}>
 					<Typography component={"span"}>{BSF.toFixed(2)}</Typography>
 					<Typography component={"span"} sx={{ ml: 1 }}>
 						{CurrencyType.BSF}
 					</Typography>
 				</Grid>
-				<Grid item xs={2} sx={{ textAlign: "right" }}>
+				<Grid item xs={12} sm={3} md={3} lg={3} xl={3} sx={{ textAlign: "right" }}>
 					<Typography component={"span"}>{USD.toFixed(2)}</Typography>
 					<Typography component={"span"} sx={{ ml: 1 }} color={"#0a6f"}>
 						{CurrencyType.USD}
 					</Typography>
+				</Grid>
+			</Grid> */}
+
+			<Grid container spacing={2} alignItems={"center"} >
+				<Grid item xs={8} sm={6} md={8} lg={8} xl={8}>
+					<Typography>{name}</Typography>
+				</Grid>
+
+				<Grid item xs={4} sm={6} md={4} lg={4} xl={4}>
+					<Grid container columnSpacing={2}>
+						<Grid item  xs={12} sm={6} md={6} lg={6} xl={6} sx={{ textAlign: "right" }} >
+							<Typography component={"span"}>{BSF.toFixed(2)}</Typography>
+							<Typography component={"span"} sx={{ ml: 1 }}>
+								{CurrencyType.BSF}
+							</Typography>
+						</Grid>
+						<Grid item xs={12} sm={6} md={6} lg={6} xl={6} sx={{ textAlign: "right" }}>
+							<Typography component={"span"}>{USD.toFixed(2)}</Typography>
+							<Typography component={"span"} sx={{ ml: 1 }} color={"#0a6f"}>
+								{CurrencyType.USD}
+							</Typography>
+						</Grid>
+					</Grid>
 				</Grid>
 			</Grid>
 			{/* </CardContent> */}
