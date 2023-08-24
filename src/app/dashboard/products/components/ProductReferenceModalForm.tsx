@@ -23,7 +23,7 @@ import { Grid } from "@mui/material";
 
 interface ReferenceModalFormProps {
 	onSubmit(formData: ProductReference): void;
-	onDelete(_id: string): void;
+	onDelete(formData: ProductReference): void;
 	onClose(): void;
 }
 
@@ -152,7 +152,7 @@ export default function ProductReferenceModalForm({
 						{formik.values._id && (
 							<Button
 								color="error"
-								onClick={() => onDelete(formik.values.parentId)}
+								onClick={() => onDelete(formik.values)}
 								sx={{ mr: "1rem" }}
 							>
 								Eliminar

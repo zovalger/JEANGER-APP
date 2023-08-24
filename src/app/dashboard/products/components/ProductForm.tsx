@@ -11,7 +11,12 @@ import * as Yup from "yup";
 import { Grid, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { CurrencyType, initialValuesProductReferenceManipulate } from "@/types";
+import {
+	CurrencyType,
+	Product,
+	ProductReference,
+	initialValuesProductReferenceManipulate,
+} from "@/types";
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import {
 	createProductRequest,
@@ -100,6 +105,34 @@ export default function ProductForm({ setOpen }: props) {
 
 	// todo: Añadir y eliminar todas las referencias
 
+	const startSyncRefererences = async (product: Product) => {
+		const { _id: childId } = product;
+		const { toDelete, toAdd, current } = productReferenceManipulate;
+
+		const indexedParents: { [productId: string]: ProductReference } = {};
+
+		current.map((item) => {
+			indexedParents[item.parentId] = item;
+		});
+
+		try {
+			await Promise.all([
+				...toDelete.map(async (parentId) => {
+					try {
+						await deleteProductsReference_Request(parentId, childId);
+					} catch (error) {}
+				}),
+				...toAdd.map(
+					async (parentId) =>
+						await createUpdateProductsReference_Request({
+							...indexedParents[parentId],
+							childId,
+						})
+				),
+			]);
+		} catch (error) {}
+	};
+
 	// *******************************************************************
 	// 													Formulario
 	// *******************************************************************
@@ -134,6 +167,10 @@ export default function ProductForm({ setOpen }: props) {
 
 				formik.setValues(product);
 				setProductDataForm(product);
+
+				await startSyncRefererences(product);
+
+				await handleClose();
 			} catch (error) {
 				console.log(error);
 			}
@@ -189,7 +226,7 @@ export default function ProductForm({ setOpen }: props) {
 						</Button>
 					</Box>
 					<Grid container component={"form"} spacing={1}>
-						<Grid item xs={12}  md={8}>
+						<Grid item xs={12} md={8}>
 							<TextField
 								// label="Nombre del producto"
 								placeholder="Nombre del producto"
@@ -205,7 +242,7 @@ export default function ProductForm({ setOpen }: props) {
 								fullWidth
 							/>
 						</Grid>
-						<Grid item xs={12 } sm={6}  md={2}>
+						<Grid item xs={12} sm={6} md={2}>
 							<TextField
 								// label="Precio"
 								placeholder="Precio"
@@ -224,7 +261,7 @@ export default function ProductForm({ setOpen }: props) {
 								// disabled={!!currentReferences.length}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={6}  md={2}>
+						<Grid item xs={12} sm={6} md={2}>
 							<TextField
 								id="outlined-select-currency"
 								select

@@ -11,6 +11,10 @@ import {
 	getPosibleProductParents_by_productId_Request,
 	getProductsReferences_by_productChild_Request,
 } from "@/api/Product.api";
+import {
+	addInReferenceManipulate,
+	deleteInReferenceManipulate,
+} from "../helpers/Product.helpers";
 
 export default function ProductFormReferences() {
 	const {
@@ -49,40 +53,25 @@ export default function ProductFormReferences() {
 	};
 
 	const handdleOnSubmitModal = (formData: ProductReference) => {
-		const data = !formData._id ? { ...formData, _id: uuid() } : formData;
+		const newProReManipulate = addInReferenceManipulate(
+			formData,
+			productReferenceManipulate
+		);
 
-		const toA = !toAdd.includes(data._id) ? [...toAdd, data._id] : toAdd;
-
-		const toD = toDelete.includes(data._id)
-			? toDelete.filter((_id) => _id != data._id)
-			: toDelete;
-
-		const currIndex = current.findIndex((item) => item._id === data._id);
-
-		const curr =
-			currIndex >= 0
-				? current.map((item) => (item._id === data._id ? data : item))
-				: [...current, data];
-
-		const posParent = posibleParents.filter((item) => item != data.parentId);
-
-		setProductReferenceManipulate((prev) => ({
-			...prev,
-			toAdd: toA,
-			toDelete: toD,
-			current: curr,
-			posibleParents: posParent,
-		}));
+		setProductReferenceManipulate(newProReManipulate);
 
 		onCloseModal();
 	};
-	const handdleOnDeleteReference = (_id: string) => {
-//todo: eliminar de toAdd
-//todo: eliminar de current
-//todo: añadir a toDelete
-//todo: añadir a posibleParent
 
+	const handdleOnDeleteReference = (formData: ProductReference) => {
+		const newProReManipulate = deleteInReferenceManipulate(
+			formData,
+			productReferenceManipulate
+		);
 
+		setProductReferenceManipulate(newProReManipulate);
+
+		onCloseModal();
 	};
 
 	// *******************************************************************
