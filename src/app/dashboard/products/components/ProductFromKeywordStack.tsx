@@ -22,10 +22,13 @@ export default function ProductFromKeywordStack() {
 	const [keywordInput, setKeywordInput] = useState("");
 
 	const onAddKeyword = () => {
-		if (!productDataForm) return;
-		if (!keywordInput) return;
+		const value = keywordInput.trim();
 
-		const newKeywords = [...productDataForm.keywords, keywordInput];
+		if (!value) return;
+		if (!productDataForm) return;
+		if (productDataForm.keywords.includes(value)) return;
+
+		const newKeywords = [...productDataForm.keywords, value];
 		setProductDataForm({ ...productDataForm, keywords: newKeywords });
 
 		setKeyword("");
@@ -54,7 +57,7 @@ export default function ProductFromKeywordStack() {
 				<Box sx={{ display: "flex", flexWrap: "wrap" }}>
 					{productDataForm.keywords.map((k) => (
 						<Chip
-							key={k}
+							key={uuid()}
 							label={k}
 							variant="outlined"
 							onDelete={() => onDeleteKeyword(k)}
@@ -67,12 +70,13 @@ export default function ProductFromKeywordStack() {
 				value={keyword}
 				onChange={(event: any, newValue: string | null) => {
 					setKeyword(newValue || "");
-					onAddKeyword();
+					//onAddKeyword();
 				}}
 				inputValue={keywordInput}
 				onKeyDown={(e) => {
 					if (e.key === "Enter") onAddKeyword();
 				}}
+				onBlur={() => onAddKeyword()}
 				onInputChange={(event, newInputValue) => setKeywordInput(newInputValue)}
 				id="controllable-states-demo"
 				options={allKeywords}

@@ -7,7 +7,7 @@ export const getAllKeywordsProducts = (products: Product[]): string[] => {
 	const uniqueKeywords: string[] = [];
 
 	flatKeywords.map((k) => {
-		if (!uniqueKeywords.includes(k)) uniqueKeywords.push(k);
+		if (!uniqueKeywords.includes(k.trim())) uniqueKeywords.push(k.trim());
 	});
 
 	return uniqueKeywords;

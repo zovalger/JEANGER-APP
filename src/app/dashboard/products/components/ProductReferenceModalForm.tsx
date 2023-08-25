@@ -14,7 +14,6 @@ import { CurrencyType, Product, ProductReference } from "@/types";
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import ProductFormStyle from "./ProductFormStyle";
 import { Grid } from "@mui/material";
 
 // *****************************************************************************
