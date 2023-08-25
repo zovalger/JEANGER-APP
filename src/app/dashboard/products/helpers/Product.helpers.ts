@@ -1,6 +1,7 @@
 import { Product, ProductReference, ProductReferenceManipulate } from "@/types";
 import { v4 as uuid } from "uuid";
 
+// obtener una lista de palabras clave sin repeticiones
 export const getAllKeywordsProducts = (products: Product[]): string[] => {
 	const flatKeywords = products.flatMap((product) => product.keywords);
 	const uniqueKeywords: string[] = [];
@@ -12,6 +13,7 @@ export const getAllKeywordsProducts = (products: Product[]): string[] => {
 	return uniqueKeywords;
 };
 
+// anadir una referencia y actualizar los demas arreglos
 export const addInReferenceManipulate = (
 	formData: ProductReference,
 	proReManipulate: ProductReferenceManipulate
@@ -20,13 +22,17 @@ export const addInReferenceManipulate = (
 
 	const data = !formData._id ? { ...formData, _id: uuid() } : formData;
 
-	const toA = !toAdd.includes(data.parentId) ? [...toAdd, data.parentId] : toAdd;
+	const toA = !toAdd.includes(data.parentId)
+		? [...toAdd, data.parentId]
+		: toAdd;
 
 	const toD = toDelete.includes(data.parentId)
 		? toDelete.filter((parentId) => parentId != data.parentId)
 		: toDelete;
 
-	const currIndex = current.findIndex((item) => item.parentId === data.parentId);
+	const currIndex = current.findIndex(
+		(item) => item.parentId === data.parentId
+	);
 
 	const curr =
 		currIndex >= 0
@@ -44,6 +50,7 @@ export const addInReferenceManipulate = (
 	};
 };
 
+// eliminar una referencia y actualizar los demas arreglos
 export const deleteInReferenceManipulate = (
 	formData: ProductReference,
 	proReManipulate: ProductReferenceManipulate
@@ -51,18 +58,19 @@ export const deleteInReferenceManipulate = (
 	const data = formData;
 
 	const { toAdd, current, toDelete, posibleParents } = proReManipulate;
-	//todo: eliminar de toAdd
 
+	// eliminar de toAdd
 	const toA = toAdd.filter((_id) => _id != data.parentId);
 
-	//todo: eliminar de current
-
+	// eliminar de current
 	const curr = current.filter((item) => item.parentId != data.parentId);
 
-	//todo: añadir a toDelete
-	const toD = !toDelete.includes(data.parentId) ? [...toDelete, data.parentId] : toDelete;
+	// añadir a toDelete
+	const toD = !toDelete.includes(data.parentId)
+		? [...toDelete, data.parentId]
+		: toDelete;
 
-	//todo: añadir a posibleParent
+	// añadir a posibleParent
 	const posParent = !posibleParents.includes(data.parentId)
 		? [...posibleParents, data.parentId]
 		: posibleParents;
@@ -75,3 +83,19 @@ export const deleteInReferenceManipulate = (
 		posibleParents: posParent,
 	};
 };
+
+export function searchProductsByWord(
+	query: string,
+	products: Product[]
+): Product[] {
+	const reg = new RegExp(`${query}`, "i");
+
+	const resultProducts = products.filter((item) => {
+		const resultName = reg.test(item.name);
+		const resultKeywords = item.keywords.find((i) => reg.test(i));
+
+		return resultName || resultKeywords;
+	});
+
+	return resultProducts;
+}

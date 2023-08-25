@@ -16,10 +16,17 @@ import ProductForm, {
 } from "./components/ProductForm";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { CurrencyType } from "@/types";
+import ProductBasicSearch from "./components/ProductBasicSearch";
 
 export default function Dashboard() {
 	const { loadViewOpen, loadViewClose } = useGlobalContext();
-	const { products, setProductDataForm, refreshProducts } = useProductContext();
+	const {
+		products,
+		inQuery,
+		productsInQuery,
+		setProductDataForm,
+		refreshProducts,
+	} = useProductContext();
 	const [openProductForm, setOpenProductForm] = useState<boolean>(false);
 
 	// const [open, setOpen] = useState(false);
@@ -79,16 +86,29 @@ export default function Dashboard() {
 			>
 				<Toolbar />
 
-				{products.map((d) => (
-					<ProductItem
-						key={d._id}
-						data={d}
-						onClick={() => {
-							setOpenProductForm(true);
-							setProductDataForm(d);
-						}}
-					/>
-				))}
+				<ProductBasicSearch />
+
+				{!inQuery
+					? products.map((p) => (
+							<ProductItem
+								key={p._id}
+								data={p}
+								onClick={() => {
+									setOpenProductForm(true);
+									setProductDataForm(p);
+								}}
+							/>
+					  ))
+					: productsInQuery.map((p) => (
+							<ProductItem
+								key={p._id}
+								data={p}
+								onClick={() => {
+									setOpenProductForm(true);
+									setProductDataForm(p);
+								}}
+							/>
+					  ))}
 
 				{openProductForm && <ProductForm setOpen={setOpenProductForm} />}
 			</Box>

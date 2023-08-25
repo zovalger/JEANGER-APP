@@ -18,11 +18,20 @@ import {
 	useEffect,
 } from "react";
 import { getAllKeywordsProducts } from "../helpers/Product.helpers";
+import { BlobOptions } from "buffer";
 
 interface ContextProps {
 	products: Product[];
+
 	setProducts: Dispatch<SetStateAction<Product[]>>;
+
 	allKeywords: string[];
+
+	inQuery: boolean;
+	setInQuery: Dispatch<SetStateAction<boolean>>;
+
+	productsInQuery: Product[];
+	setProductsInQuery: Dispatch<SetStateAction<Product[]>>;
 
 	productsIndexed: productsIndexed;
 	setProductsIndexed: Dispatch<SetStateAction<SetStateAction<any>>>;
@@ -43,8 +52,15 @@ interface productsIndexed {
 
 const ProductContext = createContext<ContextProps>({
 	products: [],
-	allKeywords: [],
 	setProducts: (): Product[] => [],
+
+	allKeywords: [],
+
+	inQuery: false,
+	setInQuery: (): boolean => false,
+
+	productsInQuery: [],
+	setProductsInQuery: (): Product[] => [],
 
 	productsIndexed: {},
 	setProductsIndexed: (): any => ({}),
@@ -70,6 +86,9 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	// productos indexados
 	const [productsIndexed, setProductsIndexed] = useState<productsIndexed>({});
 	const [allKeywords, setAllKeywords] = useState<string[]>([]);
+
+	const [inQuery, setInQuery] = useState(false);
+	const [productsInQuery, setProductsInQuery] = useState<Product[]>([]);
 
 	useEffect(() => {
 		refreshProducts();
@@ -111,11 +130,18 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 	return (
 		<ProductContext.Provider
 			value={{
-				refreshProducts,
-				allKeywords,
-
 				products,
 				setProducts,
+				allKeywords,
+
+				inQuery,
+				setInQuery,
+				
+				productsInQuery,
+				setProductsInQuery,
+
+				refreshProducts,
+
 				productsIndexed,
 				setProductsIndexed,
 
