@@ -1,37 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import SaveIcon from "@mui/icons-material/Save";
-import { v4 as uuid } from "uuid";
-
-import {
-	CurrencyType,
-	Product,
-	ProductReference,
-	ProductReferenceForm,
-	Stopwatch,
-} from "@/types";
-import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import ProductReferenceItem from "../../products/components/ProductReferenceItem";
-import {
-	createProductRequest,
-	createUpdateProductsReference_Request,
-	deleteProductRequest,
-	deleteProductsReference_Request,
-	getPosibleProductParents_by_productId_Request,
-	getProductsReferences_by_productChild_Request,
-	updateProductRequest,
-} from "@/api/Product.api";
-import ProductFormStyle from "../../products/components/ProductFormStyle";
-import ReferenceModalForm from "../../products/components/ProductReferenceForm";
-import { useGlobalContext } from "@/contexts/Global.context";
+
 import { useStopwatchContext } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
 
 interface props {
@@ -170,11 +146,7 @@ export default function StopwatchForm({ open, setOpen }: props) {
 							</Button>
 						)}
 
-						<Button
-		
-							variant="contained"
-							onClick={() => formik.submitForm()}
-						>
+						<Button variant="contained" onClick={() => formik.submitForm()}>
 							Guardar
 						</Button>
 					</Box>

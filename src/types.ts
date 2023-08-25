@@ -4,6 +4,10 @@ export interface propsWithChildren {
 	children: any;
 }
 
+// ****************************************************************************
+// 										          productos
+// ****************************************************************************
+
 export enum CurrencyType {
 	USD = "USD",
 	BSF = "BSF",
@@ -21,6 +25,10 @@ export interface Product {
 	keywords: string[];
 }
 
+// ****************************************************************************
+// 										          Referencias de Productos
+// ****************************************************************************
+
 export interface ProductReference {
 	_id: string;
 	parentId: string;
@@ -30,6 +38,22 @@ export interface ProductReference {
 	percentage: number;
 	amount: number;
 }
+
+export interface ProductReferenceManipulate {
+	toAdd: string[];
+	current: ProductReference[];
+	toDelete: string[];
+	editing: ProductReference | null;
+	posibleParents: string[];
+}
+
+export const initialValuesProductReferenceManipulate = {
+	toAdd: [],
+	current: [],
+	toDelete: [],
+	editing: null,
+	posibleParents: [],
+};
 
 export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
 	_id?: string;
