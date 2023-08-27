@@ -91,12 +91,12 @@ export default function ProductForm({ setOpen }: props) {
 	};
 
 	const handleClose = async () => {
-		await refreshProducts();
-
-		setProductDataForm(null);
-		setProductReferenceManipulate(initialValuesProductReferenceManipulate);
-
 		setOpen(false);
+
+		setProductReferenceManipulate(initialValuesProductReferenceManipulate);
+		setProductDataForm(null);
+
+		await refreshProducts();
 	};
 
 	// *******************************************************************

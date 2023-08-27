@@ -88,13 +88,22 @@ export function searchProductsByWord(
 	query: string,
 	products: Product[]
 ): Product[] {
-	const reg = new RegExp(`${query}`, "i");
+	if (!products.length) return products;
 
-	const resultProducts = products.filter((item) => {
-		const resultName = reg.test(item.name);
-		const resultKeywords = item.keywords.find((i) => reg.test(i));
+	const regExps = query
+		.split(" ")
+		.filter((word) => !!word)
+		.map((word) => new RegExp(`${word}`, "i"));
 
-		return resultName || resultKeywords;
+	const resultProducts = products.filter((prod) => {
+		let score = 0;
+
+		regExps.map((reg) => {
+			if (reg.test(prod.name) || prod.keywords.find((i) => reg.test(i)))
+				score++;
+		});
+
+		return score > Math.floor(regExps.length / 2) ? true : false;
 	});
 
 	return resultProducts;
