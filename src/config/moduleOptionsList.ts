@@ -9,6 +9,11 @@ const moduleOptionsList = [
 		link: "/dashboard",
 	},
 	{
+		name: "Factura",
+		icon: HomeIcon,
+		link: "/dashboard/bill",
+	},
+	{
 		name: "Cronometros",
 		icon: AccessAlarmIcon,
 		link: "/dashboard/stopwatch",

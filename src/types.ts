@@ -104,3 +104,18 @@ export interface CalculatorState {
 	result: number | null;
 	currencyType: CurrencyType;
 }
+
+// ****************************************************************************
+// 										          Facturas
+// ****************************************************************************
+
+export interface BillItem {
+	productId: string;
+	quantity: number;
+}
+
+export interface Bill {
+	items: BillItem[];
+	total: number;
+
+}

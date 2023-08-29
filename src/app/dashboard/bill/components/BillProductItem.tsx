@@ -3,7 +3,7 @@ import { CurrencyType } from "@/types";
 import { Card, Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
-import { useProductContext } from "../context/Product.context";
+import { useProductContext } from "../../products/context/Product.context";
 
 interface props {
 	_id: string;
