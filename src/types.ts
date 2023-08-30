@@ -116,6 +116,6 @@ export interface BillItem {
 
 export interface Bill {
 	items: BillItem[];
-	total: number;
+	// total: number;
 
 }

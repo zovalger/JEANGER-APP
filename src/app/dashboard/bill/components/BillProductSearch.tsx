@@ -8,14 +8,14 @@ interface props {
 	onChange(value: string): void;
 	onClear(): void;
 	onEnter(): void;
-	onEspace(): void;
+	moveSelected(direction:number): void;
 }
 export default function BillProductSearch({
 	value,
 	onChange,
 	onClear,
 	onEnter,
-	onEspace,
+	moveSelected,
 }: props) {
 	return (
 		<Box sx={{ mb: "1rem" }}>
@@ -30,7 +30,8 @@ export default function BillProductSearch({
 				onKeyDown={(event) => {
 					console.log(event.key);
 					if (event.key === "Escape") onClear();
-					if (event.key === "Espace") onEspace();
+					if (event.key === "ArrowUp") moveSelected(-1);
+					if (event.key === "ArrowDown") moveSelected(1);
 					if (event.key === "Enter") onEnter();
 				}}
 				InputProps={{

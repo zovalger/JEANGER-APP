@@ -11,7 +11,7 @@ import { asidePanelDashboardWidth } from "@/config";
 import AppBarModule from "@/app/components/AppBarModule";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { Product } from "@/types";
-import ProductItem from "./components/BillProductItem";
+import BillProductItem from "./components/BillProductItem";
 import BillAdder from "./components/BillAdder";
 
 export default function BillPage() {
@@ -31,7 +31,7 @@ export default function BillPage() {
 	return (
 		<>
 			<AppBarModule
-				name="Productos"
+				name="Facturas"
 				right={
 					<>
 						<IconButton
