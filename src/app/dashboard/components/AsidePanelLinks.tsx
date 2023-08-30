@@ -11,26 +11,36 @@ import {
 } from "@mui/material";
 import moduleOptionsList from "@/config/moduleOptionsList";
 import { useGlobalContext } from "@/contexts/Global.context";
+import { useEffect } from "react";
 
 export default function AsidePanelLinks() {
-	const { handleAsidePanelToggle } = useGlobalContext();
+	const { handleAsidePanelToggle, selectedPage, setSelectedPage } =
+		useGlobalContext();
+
+		useEffect(() => {
+			// todo: tomar url de pagina y colocar id
+		
+	
+		}, [])
+		
 
 	return (
 		<div>
 			<Toolbar />
 			<Divider />
 			<List>
-				{moduleOptionsList.map((m) => (
+				{moduleOptionsList.map((m, index) => (
 					<Link
 						href={m.link}
 						key={uuid()}
 						style={{ textDecoration: "none", color: "black" }}
 						onClick={() => {
 							handleAsidePanelToggle();
+							setSelectedPage(index);
 						}}
 					>
 						<ListItem disablePadding>
-							<ListItemButton>
+							<ListItemButton selected={selectedPage === index}>
 								<ListItemIcon>
 									{/* <Badge color="secondary" badgeContent={2}> */}
 									{<m.icon />}

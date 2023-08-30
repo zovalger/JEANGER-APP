@@ -1,6 +1,7 @@
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import HomeIcon from "@mui/icons-material/Home";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const moduleOptionsList = [
 	{
@@ -10,7 +11,7 @@ const moduleOptionsList = [
 	},
 	{
 		name: "Factura",
-		icon: HomeIcon,
+		icon: ShoppingCartIcon,
 		link: "/dashboard/bill",
 	},
 	{

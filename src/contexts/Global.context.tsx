@@ -4,12 +4,22 @@ import { io, Socket } from "socket.io-client";
 
 import { getDolarRequest } from "@/api/Dolar.api";
 import { DolarValue, propsWithChildren } from "@/types";
-import { createContext, useState, useContext, useEffect } from "react";
+import {
+	createContext,
+	useState,
+	useContext,
+	useEffect,
+	Dispatch,
+	SetStateAction,
+} from "react";
 import { PROXY } from "@/config";
 import { DolarEvent } from "@/config/SocketEventsSystem";
 import { useSnackbarContext } from "./Snackbar.context";
+import { number } from "yup";
 
 interface ContextProps {
+	selectedPage: number;
+	setSelectedPage: Dispatch<SetStateAction<number>>;
 	asidePanelMobileOpen: boolean;
 	handleAsidePanelToggle(): void;
 	dolar: DolarValue | null;
@@ -20,6 +30,8 @@ interface ContextProps {
 }
 
 const GlobalContext = createContext<ContextProps>({
+	selectedPage: 0,
+	setSelectedPage: () => {},
 	asidePanelMobileOpen: false,
 	handleAsidePanelToggle: (): void => {},
 	dolar: null,
@@ -87,6 +99,7 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	// 										          Panel lateral
 	// ****************************************************************************
 
+	const [selectedPage, setSelectedPage] = useState(0);
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
 	const handleAsidePanelToggle = () =>
 		setAsidePanelMobilOpen(!asidePanelMobileOpen);
@@ -98,8 +111,12 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	return (
 		<GlobalContext.Provider
 			value={{
+				selectedPage,
+				setSelectedPage,
+
 				asidePanelMobileOpen,
 				handleAsidePanelToggle,
+				
 				dolar,
 				refreshDolar,
 
