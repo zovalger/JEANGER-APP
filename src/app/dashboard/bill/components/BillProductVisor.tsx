@@ -3,12 +3,12 @@ import { v4 as uuid } from "uuid";
 import { Box } from "@mui/material";
 import { useBillContext } from "../context/Bill.context";
 import { useProductContext } from "../../products/context/Product.context";
+import BillProductVisorItem from "./BillProductVisorItem";
 
 interface props {}
 
 export default function BillProductVisor({}: props) {
 	const { currentBill } = useBillContext();
-	const { productsIndexed } = useProductContext();
 
 	useEffect(() => {
 		return () => {};
@@ -22,13 +22,7 @@ export default function BillProductVisor({}: props) {
 		<Box>
 			{currentBill &&
 				currentBill.items.map((item) => (
-					<Box key={uuid()}>
-						{/* <Box>{item.productId}</Box> */}
-						<Box>{item.quantity}</Box>
-						<Box>{productsIndexed[item.productId].name}</Box>
-						<Box>{productsIndexed[item.productId].cost}</Box>
-						<Box>{productsIndexed[item.productId].cost * item.quantity}</Box>
-					</Box>
+					<BillProductVisorItem key={uuid()} data={item} />
 				))}
 		</Box>
 	);

@@ -4,7 +4,7 @@ import BillProductVisor from "../components/BillProductVisor";
 export const updateBillItem = (bill: Bill | null, billItem: BillItem): Bill => {
 	const currentBill = bill || { items: [], total: 0 };
 
-	let newItems = [];
+	let newItems: BillItem[] = currentBill.items;
 
 	const oldBillItem = currentBill.items.find(
 		(item) => item.productId == billItem.productId
@@ -14,28 +14,34 @@ export const updateBillItem = (bill: Bill | null, billItem: BillItem): Bill => {
 
 	const newQuantity = oldQuantity + billItem.quantity;
 
+	// todo: anadirlo
+
 	if (!oldBillItem && newQuantity > 0) {
+		console.log("anadir");
 		newItems = [...currentBill.items, billItem];
 		return { items: newItems };
 	}
 
 	if (!oldBillItem) return currentBill;
 
+	// todo quitarlo
+	if (newQuantity <= 0) {
+		console.log("eliminar");
 
+		newItems = currentBill.items.filter(
+			(item) => item.productId != billItem.productId
+		);
 
-		if (newQuantity <= 0) {
-			// todo quitarlo
-			newBill.items = newBill.items.filter(
-				(item) => item.productId != billItem.productId
-			);
-		} else {
-			newBill.items = [
-				...newBill.items,
-				{ ...billItem, quantity: newQuantity },
-			];
-		}
+		return { items: newItems };
+	}
 
-	console.log(newBill.items);
+	// todo actualizarlo
+	console.log("actualizar");
+	newItems = newItems.map((item) =>
+		item.productId == billItem.productId
+			? { ...item, quantity: newQuantity }
+			: item
+	);
 
-	return newBill;
+	return { items: newItems };
 };

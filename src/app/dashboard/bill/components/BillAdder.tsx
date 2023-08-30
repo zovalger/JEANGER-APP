@@ -26,18 +26,20 @@ export default function BillAdder() {
 	// *******************************************************************
 
 	const refreshShowList = (search: string) => {
-		if (search.length < 5) {
+		const sanitizedQuery = search.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "");
+
+		if (sanitizedQuery.length < 5) {
 			setProductList([]);
 			setSelected(-1);
 			return;
 		}
 
-		const productsIds = searchProductIdsByWord(search, products);
+		const productsIds = searchProductIdsByWord(sanitizedQuery, products);
 		setProductList(productsIds);
 	};
 
 	useEffect(() => {
-		refreshShowList(inputValue.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, ""));
+		refreshShowList(inputValue);
 	}, [inputValue]);
 
 	// *******************************************************************
@@ -65,7 +67,7 @@ export default function BillAdder() {
 		let newInputText = inputValue;
 		let quantity = adderValue || 1;
 
-		if (adderValue != null && matching) {
+		if (adderValue == null && matching) {
 			quantity = parseInt(matching[0]);
 			newInputText = inputValue.replace(regExpAdder, "");
 		}
@@ -77,6 +79,8 @@ export default function BillAdder() {
 			};
 
 			const newBill = updateBillItem(currentBill, newItemBill);
+
+			console.log(newBill.items);
 
 			setCurrentBill(newBill);
 
@@ -103,9 +107,9 @@ export default function BillAdder() {
 
 	return (
 		<Box>
-			<Box>{adderValue}</Box>
 			<BillProductSearch
 				value={inputValue}
+				adderValue={adderValue}
 				onChange={onChange}
 				onClear={onClear}
 				onEnter={onEnter}

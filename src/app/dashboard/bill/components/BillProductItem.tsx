@@ -29,13 +29,13 @@ export default function BillProductItem({
 	const USD = currencyType == CurrencyType.USD ? cost : cost / d.value;
 
 	return (
-		<Card
-			variant="outlined"
+		<Box
 			onClick={onClick}
 			sx={{
+				width: "100%",
 				mb: "0.2rem",
 				p: 1,
-				bgcolor: selected == index ? "#0001" : "",
+				bgcolor: selected == index ? "#eee" : "",
 			}}
 		>
 			<Grid container spacing={2} alignItems={"center"}>
@@ -76,6 +76,6 @@ export default function BillProductItem({
 					</Grid>
 				</Grid>
 			</Grid>
-		</Card>
+		</Box>
 	);
 }

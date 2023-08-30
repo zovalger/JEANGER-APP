@@ -21,16 +21,32 @@ export default function BillProductSelector({
 	// *******************************************************************
 
 	return (
-		<Box>
-			{productIdList.map((_id, index) => (
-				<BillProductItem
-					key={_id}
-					_id={_id}
-					onClick={() => {}}
-					index={index}
-					selected={selected}
-				/>
-			))}
+		<Box sx={{ position: "relative" }}>
+			<Box
+				sx={{
+					position: "absolute",
+					left: 0,
+					right: 0,
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					mx: "2rem",
+
+					background: "#fff",
+					borderRadius: "8px",
+				}}
+				boxShadow={2}
+			>
+				{productIdList.map((_id, index) => (
+					<BillProductItem
+						key={_id}
+						_id={_id}
+						onClick={() => {}}
+						index={index}
+						selected={selected}
+					/>
+				))}
+			</Box>
 		</Box>
 	);
 }
