@@ -1,8 +1,18 @@
-import { Bill, BillItem } from "@/types";
-import BillProductVisor from "../components/BillProductVisor";
+import { Bill, BillItem, DolarValue } from "@/types";
 
-export const updateBillItem = (bill: Bill | null, billItem: BillItem): Bill => {
-	const currentBill = bill || { items: [], total: 0 };
+const initialValuesBill = {
+	items: [],
+	totals: { BSF: 0, USD: 0 },
+	dolarValue: { value: 0, date: new Date() },
+};
+
+export const updateBillItem = (
+	bill: Bill | null,
+	billItem: BillItem,
+	dolar: DolarValue | null
+): Bill => {
+	const currentBill = bill || initialValuesBill;
+	const dolarValue = dolar || { value: 0, date: new Date() };
 
 	let newItems: BillItem[] = currentBill.items;
 
@@ -16,32 +26,39 @@ export const updateBillItem = (bill: Bill | null, billItem: BillItem): Bill => {
 
 	// todo: anadirlo
 
-	if (!oldBillItem && newQuantity > 0) {
-		console.log("anadir");
+	if (!oldBillItem && newQuantity > 0)
 		newItems = [...currentBill.items, billItem];
-		return { items: newItems };
-	}
 
 	if (!oldBillItem) return currentBill;
 
 	// todo quitarlo
-	if (newQuantity <= 0) {
-		console.log("eliminar");
-
+	if (newQuantity <= 0)
 		newItems = currentBill.items.filter(
 			(item) => item.productId != billItem.productId
 		);
 
-		return { items: newItems };
-	}
-
 	// todo actualizarlo
-	console.log("actualizar");
-	newItems = newItems.map((item) =>
-		item.productId == billItem.productId
-			? { ...item, quantity: newQuantity }
-			: item
+	if (newQuantity > 0)
+		newItems = newItems.map((item) =>
+			item.productId == billItem.productId
+				? { ...item, quantity: newQuantity }
+				: item
+		);
+
+	const newBillWithTotals = calculateTotals(
+		{
+			...currentBill,
+			items: newItems,
+		},
+		dolarValue
 	);
 
-	return { items: newItems };
+	return newBillWithTotals;
+};
+
+const calculateTotals = (
+	bill: Bill,
+	dolar: DolarValue = { value: 0, date: new Date() }
+): Bill => {
+	return bill;
 };

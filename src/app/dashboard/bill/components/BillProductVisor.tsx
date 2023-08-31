@@ -10,6 +10,9 @@ interface props {}
 export default function BillProductVisor({}: props) {
 	const { currentBill } = useBillContext();
 
+	const [totals, setTotals] = useState(0)
+
+
 	useEffect(() => {
 		return () => {};
 	}, []);
@@ -17,6 +20,11 @@ export default function BillProductVisor({}: props) {
 	// *******************************************************************
 	// 													Render
 	// *******************************************************************
+
+
+	const iterateItems = ()=>{
+
+	}
 
 	return (
 		<Box>

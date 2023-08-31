@@ -114,8 +114,13 @@ export interface BillItem {
 	quantity: number;
 }
 
+export interface BillTotals {
+	BSF: number;
+	USD: number;
+}
+
 export interface Bill {
 	items: BillItem[];
-	// total: number;
-
+	dolarValue: DolarValue;
+	totals: BillTotals;
 }

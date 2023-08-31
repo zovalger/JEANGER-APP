@@ -8,10 +8,12 @@ import { useProductContext } from "../../products/context/Product.context";
 import { useBillContext } from "../context/Bill.context";
 import BillProductVisor from "./BillProductVisor";
 import { updateBillItem } from "../helpers/Bill.helpers";
+import { useGlobalContext } from "@/contexts/Global.context";
 
 const regExpAdder = /^(\+|\-)\d{1,}/i;
 
 export default function BillAdder() {
+	const { dolar } = useGlobalContext();
 	const { products } = useProductContext();
 	const { currentBill, setCurrentBill } = useBillContext();
 
@@ -26,7 +28,9 @@ export default function BillAdder() {
 	// *******************************************************************
 
 	const refreshShowList = (search: string) => {
-		const sanitizedQuery = search.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "");
+		const sanitizedQuery = search
+			.trim()
+			.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "");
 
 		if (sanitizedQuery.length < 5) {
 			setProductList([]);
@@ -69,7 +73,7 @@ export default function BillAdder() {
 
 		if (adderValue == null && matching) {
 			quantity = parseInt(matching[0]);
-			newInputText = inputValue.replace(regExpAdder, "");
+			newInputText = inputValue.trim().replace(regExpAdder, "");
 		}
 
 		if (selected > -1) {
@@ -78,7 +82,7 @@ export default function BillAdder() {
 				quantity,
 			};
 
-			const newBill = updateBillItem(currentBill, newItemBill);
+			const newBill = updateBillItem(currentBill, newItemBill, dolar);
 
 			console.log(newBill.items);
 
