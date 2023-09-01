@@ -104,3 +104,32 @@ export interface CalculatorState {
 	result: number | null;
 	currencyType: CurrencyType;
 }
+
+// ****************************************************************************
+// 										          Facturas
+// ****************************************************************************
+
+export interface BillItem {
+	productId: string;
+	quantity: number;
+	cost: number;
+	currencyType: CurrencyType;
+}
+
+export interface BillTotals {
+	BSF: number;
+	USD: number;
+}
+
+
+export const initialValuesBill = {
+	items: [],
+	totals: { BSF: 0, USD: 0 },
+	dolarValue: { value: 0, date: new Date() },
+};
+
+export interface Bill {
+	items: BillItem[];
+	dolarValue: DolarValue;
+	totals: BillTotals;
+}

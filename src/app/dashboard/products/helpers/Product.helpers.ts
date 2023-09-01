@@ -84,13 +84,15 @@ export const deleteInReferenceManipulate = (
 	};
 };
 
-export function searchProductsByWord(
+export const searchProductsByWord = (
 	query: string,
 	products: Product[]
-): Product[] {
+): Product[] => {
 	if (!products.length) return products;
 
 	const regExps = query
+		.trim()
+		.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "")
 		.split(" ")
 		.filter((word) => !!word)
 		.map((word) => new RegExp(`${word}`, "i"));
@@ -103,8 +105,19 @@ export function searchProductsByWord(
 				score++;
 		});
 
-		return score > Math.floor(regExps.length / 2) ? true : false;
+		return score >=
+			Math.floor(regExps.length > 5 ? regExps.length - 1 : regExps.length)
+			? true
+			: false;
+
+		return score >= regExps.length ? true : false;
 	});
 
 	return resultProducts;
-}
+};
+
+export const searchProductIdsByWord = (
+	query: string,
+	products: Product[]
+): string[] =>
+	searchProductsByWord(query, products).map((product) => product._id);

@@ -15,23 +15,41 @@ import ProductForm, {
 	initialValuesProductDataForm,
 } from "./components/ProductForm";
 import { useGlobalContext } from "@/contexts/Global.context";
-import { CurrencyType } from "@/types";
+import { CurrencyType, Product } from "@/types";
 import ProductBasicSearch from "./components/ProductBasicSearch";
 
 export default function Dashboard() {
 	const { loadViewOpen, loadViewClose } = useGlobalContext();
+
 	const {
 		products,
 		inQuery,
 		productsInQuery,
 		setProductDataForm,
 		refreshProducts,
+		productsIndexed,
 	} = useProductContext();
+
 	const [openProductForm, setOpenProductForm] = useState<boolean>(false);
 
 	// const [open, setOpen] = useState(false);
 	// const handleClose = () => setOpen(false);
 	// const handleOpen = () => setOpen(true);
+
+	const showLimitedProducts = (arr: Product[]) => {
+		const limited = arr.slice(0,15)
+
+		return limited.map(({ _id }) => (
+			<ProductItem
+				key={_id}
+				_id={_id}
+				onClick={() => {
+					setOpenProductForm(true);
+					setProductDataForm(productsIndexed[_id]);
+				}}
+			/>
+		));
+	};
 
 	return (
 		<>
@@ -88,27 +106,7 @@ export default function Dashboard() {
 
 				<ProductBasicSearch />
 
-				{!inQuery
-					? products.map((p) => (
-							<ProductItem
-								key={p._id}
-								data={p}
-								onClick={() => {
-									setOpenProductForm(true);
-									setProductDataForm(p);
-								}}
-							/>
-					  ))
-					: productsInQuery.map((p) => (
-							<ProductItem
-								key={p._id}
-								data={p}
-								onClick={() => {
-									setOpenProductForm(true);
-									setProductDataForm(p);
-								}}
-							/>
-					  ))}
+				{!inQuery ? showLimitedProducts(products) : showLimitedProducts(productsInQuery)}
 
 				{openProductForm && <ProductForm setOpen={setOpenProductForm} />}
 			</Box>

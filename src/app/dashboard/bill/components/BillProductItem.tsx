@@ -3,14 +3,21 @@ import { CurrencyType } from "@/types";
 import { Card, Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
-import { useProductContext } from "../context/Product.context";
+import { useProductContext } from "../../products/context/Product.context";
 
 interface props {
 	_id: string;
+	index: number;
+	selected: number;
 	onClick(): void;
 }
 
-export default function ProductItem({ _id, onClick }: props) {
+export default function BillProductItem({
+	_id,
+	index,
+	selected,
+	onClick,
+}: props) {
 	const { dolar } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
 
@@ -22,13 +29,13 @@ export default function ProductItem({ _id, onClick }: props) {
 	const USD = currencyType == CurrencyType.USD ? cost : cost / d.value;
 
 	return (
-		<Card
-			variant="outlined"
+		<Box
 			onClick={onClick}
 			sx={{
+				width: "100%",
 				mb: "0.2rem",
 				p: 1,
-				":hover": { bgcolor: "#0001" },
+				bgcolor: selected == index ? "#eee" : "",
 			}}
 		>
 			<Grid container spacing={2} alignItems={"center"}>
@@ -69,7 +76,6 @@ export default function ProductItem({ _id, onClick }: props) {
 					</Grid>
 				</Grid>
 			</Grid>
-			{/* </CardContent> */}
-		</Card>
+		</Box>
 	);
 }

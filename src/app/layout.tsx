@@ -12,6 +12,7 @@ import { GlobalContextProvider } from "@/contexts/Global.context";
 import { ProductContextProvider } from "@/app/dashboard/products/context/Product.context";
 import { StopwatchContextProvider } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
 import { SnackbarContextProvider } from "@/contexts/Snackbar.context";
+import { BillContextProvider } from "./dashboard/bill/context/Bill.context";
 
 //const inter = Inter({ subsets: ["latin"] });
 
@@ -34,10 +35,12 @@ export default function RootLayout({
 			<SnackbarContextProvider>
 				<GlobalContextProvider>
 					<ProductContextProvider>
-						<StopwatchContextProvider>
-							<CssBaseline />
-							<body>{children}</body>
-						</StopwatchContextProvider>
+						<BillContextProvider>
+							<StopwatchContextProvider>
+								<CssBaseline />
+								<body>{children}</body>
+							</StopwatchContextProvider>
+						</BillContextProvider>
 					</ProductContextProvider>
 				</GlobalContextProvider>
 			</SnackbarContextProvider>
