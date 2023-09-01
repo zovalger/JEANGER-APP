@@ -1,9 +1,34 @@
-import { Bill, BillItem, DolarValue } from "@/types";
+import {
+	Bill,
+	BillItem,
+	CurrencyType,
+	DolarValue,
+	initialValuesBill,
+} from "@/types";
 
-const initialValuesBill = {
-	items: [],
-	totals: { BSF: 0, USD: 0 },
-	dolarValue: { value: 0, date: new Date() },
+const calculateTotals = (
+	bill: Bill,
+	dolar: DolarValue = { value: 0, date: new Date() }
+): Bill => {
+	const { items } = bill;
+
+	const USD = items.reduce((total: number, item: BillItem) => {
+		const { cost, currencyType, quantity } = item;
+
+		let toSum = cost * quantity;
+
+		if (currencyType == CurrencyType.BSF) toSum = toSum / dolar.value;
+
+		console.log(toSum);
+
+		return total + toSum;
+	}, 0);
+
+	return {
+		...bill,
+		dolarValue: dolar,
+		totals: { USD, BSF: USD * dolar.value },
+	};
 };
 
 export const updateBillItem = (
@@ -26,24 +51,29 @@ export const updateBillItem = (
 
 	// todo: anadirlo
 
-	if (!oldBillItem && newQuantity > 0)
-		newItems = [...currentBill.items, billItem];
+	if (!oldBillItem && newQuantity > 0) {
+		console.log("anadirlo");
 
-	if (!oldBillItem) return currentBill;
+		newItems = [...newItems, billItem];
+	} else if (!oldBillItem) return currentBill;
 
 	// todo quitarlo
-	if (newQuantity <= 0)
-		newItems = currentBill.items.filter(
-			(item) => item.productId != billItem.productId
-		);
+	if (newQuantity <= 0) {
+		console.log("quitar");
+
+		newItems = newItems.filter((item) => item.productId != billItem.productId);
+	}
 
 	// todo actualizarlo
-	if (newQuantity > 0)
+	if (newQuantity > 0) {
+		console.log("actualizar");
+
 		newItems = newItems.map((item) =>
 			item.productId == billItem.productId
 				? { ...item, quantity: newQuantity }
 				: item
 		);
+	}
 
 	const newBillWithTotals = calculateTotals(
 		{
@@ -56,9 +86,19 @@ export const updateBillItem = (
 	return newBillWithTotals;
 };
 
-const calculateTotals = (
-	bill: Bill,
-	dolar: DolarValue = { value: 0, date: new Date() }
+export const deleteItemInBill = (
+	bill: Bill | null,
+	productId: string
 ): Bill => {
-	return bill;
+	const currentBill = bill || initialValuesBill;
+
+	const { items } = currentBill;
+
+	currentBill.items = items.filter((item) => item.productId != productId);
+
+	return calculateTotals(currentBill);
+};
+
+export const clearBill = (): Bill => {
+	return initialValuesBill;
 };

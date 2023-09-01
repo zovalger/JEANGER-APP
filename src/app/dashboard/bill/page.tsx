@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { IconButton } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { asidePanelDashboardWidth } from "@/config";
@@ -13,20 +14,11 @@ import { useGlobalContext } from "@/contexts/Global.context";
 import { Product } from "@/types";
 import BillProductItem from "./components/BillProductItem";
 import BillAdder from "./components/BillAdder";
+import { useBillContext } from "./context/Bill.context";
+import { clearBill } from "./helpers/Bill.helpers";
 
 export default function BillPage() {
-	const { loadViewOpen, loadViewClose } = useGlobalContext();
-	const { products, refreshProducts } = useProductContext();
-
-	// const [inQuery, setInQuery] = useState(false);
-
-	// const showLimitedProducts = (arr: Product[]) => {
-	// 	const limited = arr.slice(0, 15);
-
-	// 	return limited.map(({ _id }) => (
-	// 		<ProductItem key={_id} _id={_id} onClick={() => {}} />
-	// 	));
-	// };
+	const { currentBill, setCurrentBill } = useBillContext();
 
 	return (
 		<>
@@ -39,17 +31,11 @@ export default function BillPage() {
 							aria-label="open drawer"
 							edge="start"
 							onClick={async () => {
-								try {
-									loadViewOpen();
-									await refreshProducts();
-								} catch (error) {
-									console.log(error);
-								}
-								loadViewClose();
+								setCurrentBill(clearBill());
 							}}
 							// sx={{ mr: 2}}
 						>
-							<RefreshIcon />
+							<DeleteIcon />
 						</IconButton>
 					</>
 				}
@@ -68,7 +54,7 @@ export default function BillPage() {
 			>
 				<Toolbar />
 
-        <BillAdder />
+				<BillAdder />
 
 				{/* {inQuery && showLimitedProducts(products)} */}
 			</Box>

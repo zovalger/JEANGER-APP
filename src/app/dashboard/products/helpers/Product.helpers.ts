@@ -91,6 +91,8 @@ export const searchProductsByWord = (
 	if (!products.length) return products;
 
 	const regExps = query
+		.trim()
+		.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "")
 		.split(" ")
 		.filter((word) => !!word)
 		.map((word) => new RegExp(`${word}`, "i"));

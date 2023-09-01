@@ -2,19 +2,20 @@ import { Box } from "@mui/material";
 import BillProductSearch from "./BillProductSearch";
 import BillProductSelector from "./BillProductSelector";
 import { useState, useEffect } from "react";
-import { BillItem, Product } from "@/types";
+import { BillItem, CurrencyType, Product } from "@/types";
 import { searchProductIdsByWord } from "../../products/helpers/Product.helpers";
 import { useProductContext } from "../../products/context/Product.context";
 import { useBillContext } from "../context/Bill.context";
 import BillProductVisor from "./BillProductVisor";
 import { updateBillItem } from "../helpers/Bill.helpers";
 import { useGlobalContext } from "@/contexts/Global.context";
+import CalculatorSwitch from "../../components/CalculatorSwitch";
 
 const regExpAdder = /^(\+|\-)\d{1,}/i;
 
 export default function BillAdder() {
 	const { dolar } = useGlobalContext();
-	const { products } = useProductContext();
+	const { products, productsIndexed } = useProductContext();
 	const { currentBill, setCurrentBill } = useBillContext();
 
 	const [inputValue, setInputValue] = useState("");
@@ -28,17 +29,15 @@ export default function BillAdder() {
 	// *******************************************************************
 
 	const refreshShowList = (search: string) => {
-		const sanitizedQuery = search
-			.trim()
-			.replace(/(^(\+|\-)\d{1,})|(^(\+|\-))/, "");
 
-		if (sanitizedQuery.length < 5) {
+
+		if (search.length < 5) {
 			setProductList([]);
 			setSelected(-1);
 			return;
 		}
 
-		const productsIds = searchProductIdsByWord(sanitizedQuery, products);
+		const productsIds = searchProductIdsByWord(search, products);
 		setProductList(productsIds);
 	};
 
@@ -57,8 +56,8 @@ export default function BillAdder() {
 
 		const newPos =
 			brutePos < 0
-				? productList.length
-				: brutePos > productList.length - 1
+				? productList.length-1
+				: brutePos >= productList.length
 				? 0
 				: brutePos;
 
@@ -77,9 +76,12 @@ export default function BillAdder() {
 		}
 
 		if (selected > -1) {
+			const productId = productList[selected];
 			const newItemBill: BillItem = {
-				productId: productList[selected],
+				productId,
 				quantity,
+				cost: productsIndexed[productId].cost,
+				currencyType: productsIndexed[productId].currencyType,
 			};
 
 			const newBill = updateBillItem(currentBill, newItemBill, dolar);
@@ -123,6 +125,7 @@ export default function BillAdder() {
 			<BillProductSelector productIdList={productList} selected={selected} />
 
 			<BillProductVisor />
+			<CalculatorSwitch />
 		</Box>
 	);
 }
