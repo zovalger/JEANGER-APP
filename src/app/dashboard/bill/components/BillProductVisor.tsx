@@ -5,13 +5,19 @@ import { useBillContext } from "../context/Bill.context";
 import { useProductContext } from "../../products/context/Product.context";
 import BillProductVisorItem from "./BillProductVisorItem";
 import { CurrencyType, initialValuesBill } from "@/types";
+import { getOnlyFavoriteProduct } from "../../products/helpers/Product.helpers";
 
 interface props {}
 
 export default function BillProductVisor({}: props) {
 	const { currentBill, setCurrentBill } = useBillContext();
+	const { products } = useProductContext();
 
 	const { totals, items } = currentBill || initialValuesBill;
+
+	const productsFavorites = getOnlyFavoriteProduct(products).filter(
+		(prod) => !items.some((item) => item.productId === prod._id)
+	);
 
 	useEffect(() => {
 		return () => {};
@@ -23,6 +29,13 @@ export default function BillProductVisor({}: props) {
 
 	return (
 		<Box>
+			{/* // todo: que no se desordenen al agregarlos a la factura  */}
+			{productsFavorites.map(({ _id, currencyType, cost }) => (
+				<BillProductVisorItem
+					key={uuid()}
+					data={{ productId: _id, quantity: 0, currencyType, cost }}
+				/>
+			))}
 			{currentBill &&
 				items.map((item) => <BillProductVisorItem key={uuid()} data={item} />)}
 			<Grid

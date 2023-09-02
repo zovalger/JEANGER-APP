@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -8,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Grid, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import {
@@ -46,17 +47,17 @@ const currencies = [
 	},
 ];
 
-export const initialValuesProductDataForm = {
+export const initialValuesProductDataForm: Product = {
 	_id: "",
 	name: "",
 	cost: 0,
 	currencyType: CurrencyType.USD,
 	keywords: [],
+	priority: 0,
+	favorite: false,
 };
 
 export default function ProductForm({ setOpen }: props) {
-	const { dolar } = useGlobalContext();
-
 	const {
 		productDataForm,
 		setProductDataForm,
@@ -69,7 +70,7 @@ export default function ProductForm({ setOpen }: props) {
 	// 													Funcionalidades
 	// *******************************************************************
 
-	const handleChange = async (key: string, value: string) => {
+	const handleChange = async (key: string, value: string | boolean) => {
 		const newValue = productDataForm
 			? { ...productDataForm, [key]: value }
 			: { ...initialValuesProductDataForm, [key]: value };
@@ -285,6 +286,41 @@ export default function ProductForm({ setOpen }: props) {
 								))}
 							</TextField>
 						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								select
+								label="Prioridad"
+								defaultValue={0}
+								name="priority"
+								value={formik.values.priority}
+								onChange={(e) => {
+									const { name, value } = e.target;
+									formik.handleChange(e);
+									handleChange(name, value);
+								}}
+								fullWidth
+							>
+								<MenuItem value={0}>0</MenuItem>
+								<MenuItem value={1}>1</MenuItem>
+							</TextField>
+						</Grid>
+
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={formik.values.favorite}
+									name="favorite"
+									onChange={(e) => {
+										const { name, checked } = e.target;
+
+										formik.handleChange(e);
+										handleChange(name, checked);
+									}}
+									inputProps={{ "aria-label": "controlled" }}
+								/>
+							}
+							label="Favorito"
+						/>
 					</Grid>
 
 					<ProductFormReferences />
@@ -293,7 +329,7 @@ export default function ProductForm({ setOpen }: props) {
 
 					<Box sx={{ display: "flex", justifyContent: "flex-end", mt: "1rem" }}>
 						{formik.values._id && (
-							<Button color="error" onClick={onDelete} sx={{ mr: "1rem" }}>
+							<Button color="error" onClick={onDelete} sx={{ mr: "auto" }}>
 								Eliminar
 							</Button>
 						)}

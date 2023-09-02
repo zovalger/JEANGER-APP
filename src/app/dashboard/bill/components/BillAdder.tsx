@@ -3,7 +3,11 @@ import BillProductSearch from "./BillProductSearch";
 import BillProductSelector from "./BillProductSelector";
 import { useState, useEffect } from "react";
 import { BillItem, CurrencyType, Product } from "@/types";
-import { searchProductIdsByWord } from "../../products/helpers/Product.helpers";
+import {
+	searchProductIdsByWord,
+	searchProductsByWord,
+	sortProductByPriority,
+} from "../../products/helpers/Product.helpers";
 import { useProductContext } from "../../products/context/Product.context";
 import { useBillContext } from "../context/Bill.context";
 import BillProductVisor from "./BillProductVisor";
@@ -29,21 +33,37 @@ export default function BillAdder() {
 	// *******************************************************************
 
 	const refreshShowList = (search: string) => {
-
-
-		if (search.length < 5) {
+		if (search.length < 2) {
 			setProductList([]);
 			setSelected(-1);
 			return;
 		}
 
-		const productsIds = searchProductIdsByWord(search, products);
+		const resultSearch = searchProductsByWord(search, products);
+
+		const productsIds = sortProductByPriority(resultSearch).map(
+			(product) => product._id
+		);
+
 		setProductList(productsIds);
 	};
 
 	useEffect(() => {
 		refreshShowList(inputValue);
 	}, [inputValue]);
+
+	const addProductToBill = (productId: string, quantity?: number) => {
+		const newItemBill: BillItem = {
+			productId,
+			quantity: quantity ? quantity : adderValue ? adderValue : 1,
+			cost: productsIndexed[productId].cost,
+			currencyType: productsIndexed[productId].currencyType,
+		};
+
+		const newBill = updateBillItem(currentBill, newItemBill, dolar);
+
+		setCurrentBill(newBill);
+	};
 
 	// *******************************************************************
 	// 													controls
@@ -56,7 +76,7 @@ export default function BillAdder() {
 
 		const newPos =
 			brutePos < 0
-				? productList.length-1
+				? productList.length - 1
 				: brutePos >= productList.length
 				? 0
 				: brutePos;
@@ -64,31 +84,25 @@ export default function BillAdder() {
 		setSelected(newPos);
 	};
 
-	const onEnter = () => {
+	const moveSelectedToPos = (index: number) => {
+		setSelected(index);
+	};
+
+	const onEnter = (position?: number) => {
 		const matching = inputValue.match(regExpAdder);
 
 		let newInputText = inputValue;
 		let quantity = adderValue || 1;
 
-		if (adderValue == null && matching) {
+		if (matching) {
 			quantity = parseInt(matching[0]);
 			newInputText = inputValue.trim().replace(regExpAdder, "");
 		}
 
-		if (selected > -1) {
-			const productId = productList[selected];
-			const newItemBill: BillItem = {
-				productId,
-				quantity,
-				cost: productsIndexed[productId].cost,
-				currencyType: productsIndexed[productId].currencyType,
-			};
+		if (selected > -1 || position != undefined) {
 
-			const newBill = updateBillItem(currentBill, newItemBill, dolar);
-
-			console.log(newBill.items);
-
-			setCurrentBill(newBill);
+			const productId = productList[position!= undefined? position:selected]
+			addProductToBill(productId, quantity);
 
 			quantity = 0;
 			newInputText = "";
@@ -122,7 +136,11 @@ export default function BillAdder() {
 				moveSelected={moveSelected}
 			/>
 
-			<BillProductSelector productIdList={productList} selected={selected} />
+			<BillProductSelector
+				productIdList={productList}
+				selected={selected}
+				addProductToBill={onEnter}
+			/>
 
 			<BillProductVisor />
 			<CalculatorSwitch />

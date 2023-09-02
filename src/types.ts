@@ -23,6 +23,8 @@ export interface Product {
 	cost: number;
 	currencyType: CurrencyType;
 	keywords: string[];
+	priority: number;
+	favorite: boolean;
 }
 
 // ****************************************************************************
@@ -120,7 +122,6 @@ export interface BillTotals {
 	BSF: number;
 	USD: number;
 }
-
 
 export const initialValuesBill = {
 	items: [],

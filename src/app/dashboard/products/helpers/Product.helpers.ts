@@ -121,3 +121,11 @@ export const searchProductIdsByWord = (
 	products: Product[]
 ): string[] =>
 	searchProductsByWord(query, products).map((product) => product._id);
+
+export const sortProductByPriority = (products: Product[]): Product[] => {
+	return products.sort((a, b) => (a.priority > b.priority ? -1 : 1));
+};
+
+export const getOnlyFavoriteProduct = (products: Product[]): Product[] => {
+	return products.filter((product) => product.favorite);
+};
