@@ -71,7 +71,7 @@ export default function BillProductVisorItem({ data }: props) {
 
 				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
-						<Typography component={"span"}>{BSF.toFixed(2)}</Typography>
+						<Typography component={"span"}>{Math.round(BSF)}</Typography>
 						<Typography component={"span"} sx={{ ml: 1 }}>
 							{CurrencyType.BSF}
 						</Typography>
