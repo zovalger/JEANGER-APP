@@ -52,6 +52,19 @@ export default function BillAdder() {
 		refreshShowList(inputValue);
 	}, [inputValue]);
 
+	const addProductToBill = (productId: string, quantity?: number) => {
+		const newItemBill: BillItem = {
+			productId,
+			quantity: quantity ? quantity : adderValue ? adderValue : 1,
+			cost: productsIndexed[productId].cost,
+			currencyType: productsIndexed[productId].currencyType,
+		};
+
+		const newBill = updateBillItem(currentBill, newItemBill, dolar);
+
+		setCurrentBill(newBill);
+	};
+
 	// *******************************************************************
 	// 													controls
 	// *******************************************************************
@@ -71,31 +84,25 @@ export default function BillAdder() {
 		setSelected(newPos);
 	};
 
-	const onEnter = () => {
+	const moveSelectedToPos = (index: number) => {
+		setSelected(index);
+	};
+
+	const onEnter = (position?: number) => {
 		const matching = inputValue.match(regExpAdder);
 
 		let newInputText = inputValue;
 		let quantity = adderValue || 1;
 
-		if (adderValue == null && matching) {
+		if (matching) {
 			quantity = parseInt(matching[0]);
 			newInputText = inputValue.trim().replace(regExpAdder, "");
 		}
 
-		if (selected > -1) {
-			const productId = productList[selected];
-			const newItemBill: BillItem = {
-				productId,
-				quantity,
-				cost: productsIndexed[productId].cost,
-				currencyType: productsIndexed[productId].currencyType,
-			};
+		if (selected > -1 || position != undefined) {
 
-			const newBill = updateBillItem(currentBill, newItemBill, dolar);
-
-			console.log(newBill.items);
-
-			setCurrentBill(newBill);
+			const productId = productList[position!= undefined? position:selected]
+			addProductToBill(productId, quantity);
 
 			quantity = 0;
 			newInputText = "";
@@ -129,7 +136,11 @@ export default function BillAdder() {
 				moveSelected={moveSelected}
 			/>
 
-			<BillProductSelector productIdList={productList} selected={selected} />
+			<BillProductSelector
+				productIdList={productList}
+				selected={selected}
+				addProductToBill={onEnter}
+			/>
 
 			<BillProductVisor />
 			<CalculatorSwitch />

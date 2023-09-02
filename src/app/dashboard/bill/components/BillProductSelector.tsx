@@ -2,19 +2,39 @@ import { useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
 import BillProductItem from "./BillProductItem";
+import { useBillContext } from "../context/Bill.context";
+import { BillItem } from "@/types";
 
 interface props {
 	productIdList: string[];
 	selected: number;
+	addProductToBill(idex: number): void;
 }
 
 export default function BillProductSelector({
 	productIdList,
 	selected,
+	addProductToBill,
 }: props) {
 	useEffect(() => {
 		return () => {};
 	}, []);
+
+	const showLimitedProducts = (arr: string[]) => {
+		const limited = arr.slice(0, 15);
+
+		return limited.map((_id, index) => (
+			<BillProductItem
+				key={_id}
+				_id={_id}
+				onClick={() => {
+					addProductToBill(index);
+				}}
+				index={index}
+				selected={selected}
+			/>
+		));
+	};
 
 	// *******************************************************************
 	// 													Render
@@ -37,15 +57,7 @@ export default function BillProductSelector({
 					}}
 					boxShadow={8}
 				>
-					{ productIdList.map((_id, index) => (
-						<BillProductItem
-							key={_id}
-							_id={_id}
-							onClick={() => {}}
-							index={index}
-							selected={selected}
-						/>
-					))}
+					{showLimitedProducts(productIdList)}
 				</Box>
 			)}
 		</Box>

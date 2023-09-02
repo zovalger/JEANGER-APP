@@ -36,6 +36,7 @@ export default function BillProductItem({
 				mb: "0.2rem",
 				p: 1,
 				bgcolor: selected == index ? "#eee" : "",
+				":hover": { bgcolor: "#0001", cursor: "pointer" },
 			}}
 		>
 			<Grid container spacing={2} alignItems={"center"}>
