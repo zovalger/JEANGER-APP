@@ -288,9 +288,8 @@ export default function ProductForm({ setOpen }: props) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								select
 								label="Prioridad"
-								defaultValue={0}
+								type="number"
 								name="priority"
 								value={formik.values.priority}
 								onChange={(e) => {
@@ -299,10 +298,7 @@ export default function ProductForm({ setOpen }: props) {
 									handleChange(name, value);
 								}}
 								fullWidth
-							>
-								<MenuItem value={0}>0</MenuItem>
-								<MenuItem value={1}>1</MenuItem>
-							</TextField>
+							/>
 						</Grid>
 
 						<FormControlLabel

@@ -54,7 +54,6 @@ export default function BillProductVisorItem({ data }: props) {
 			sx={{
 				mb: "0.2rem",
 				pl: "1rem",
-				py: 1,
 				":hover": { bgcolor: "#0001" },
 			}}
 		>
@@ -77,12 +76,6 @@ export default function BillProductVisorItem({ data }: props) {
 							{CurrencyType.BSF}
 						</Typography>
 					</Box>
-					<Box textAlign={"right"}>
-						<Typography component={"span"}>{USD.toFixed(2)}</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }} color={"#0a6f"}>
-							{CurrencyType.USD}
-						</Typography>
-					</Box>
 				</Grid>
 
 				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
@@ -92,14 +85,6 @@ export default function BillProductVisorItem({ data }: props) {
 						</Typography>
 						<Typography component={"span"} sx={{ ml: 1 }}>
 							{CurrencyType.BSF}
-						</Typography>
-					</Box>
-					<Box textAlign={"right"}>
-						<Typography component={"span"}>
-							{(USD * quantity).toFixed(2)}
-						</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }} color={"#0a6f"}>
-							{CurrencyType.USD}
 						</Typography>
 					</Box>
 				</Grid>
