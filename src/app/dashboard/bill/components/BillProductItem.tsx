@@ -55,7 +55,7 @@ export default function BillProductItem({
 							xl={6}
 							sx={{ textAlign: "right" }}
 						>
-							<Typography component={"span"}>{BSF.toFixed(2)}</Typography>
+							<Typography component={"span"}>{Math.round(BSF)}</Typography>
 							<Typography component={"span"} sx={{ ml: 1 }}>
 								{CurrencyType.BSF}
 							</Typography>
