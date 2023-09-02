@@ -74,6 +74,7 @@ const ProductContext = createContext<ContextProps>({
 		currencyType: CurrencyType.USD,
 		keywords: ["string"],
 		priority: 0,
+		favorite: false,
 	}),
 
 	productReferenceManipulate: initialValuesProductReferenceManipulate,

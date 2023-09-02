@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Grid, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import {
@@ -47,13 +47,14 @@ const currencies = [
 	},
 ];
 
-export const initialValuesProductDataForm = {
+export const initialValuesProductDataForm: Product = {
 	_id: "",
 	name: "",
 	cost: 0,
 	currencyType: CurrencyType.USD,
 	keywords: [],
 	priority: 0,
+	favorite: false,
 };
 
 export default function ProductForm({ setOpen }: props) {
@@ -69,7 +70,7 @@ export default function ProductForm({ setOpen }: props) {
 	// 													Funcionalidades
 	// *******************************************************************
 
-	const handleChange = async (key: string, value: string) => {
+	const handleChange = async (key: string, value: string | boolean) => {
 		const newValue = productDataForm
 			? { ...productDataForm, [key]: value }
 			: { ...initialValuesProductDataForm, [key]: value };
@@ -303,6 +304,23 @@ export default function ProductForm({ setOpen }: props) {
 								<MenuItem value={1}>1</MenuItem>
 							</TextField>
 						</Grid>
+
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={formik.values.favorite}
+									name="favorite"
+									onChange={(e) => {
+										const { name, checked } = e.target;
+
+										formik.handleChange(e);
+										handleChange(name, checked);
+									}}
+									inputProps={{ "aria-label": "controlled" }}
+								/>
+							}
+							label="Favorito"
+						/>
 					</Grid>
 
 					<ProductFormReferences />

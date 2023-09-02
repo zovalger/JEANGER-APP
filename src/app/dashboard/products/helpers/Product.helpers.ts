@@ -125,3 +125,7 @@ export const searchProductIdsByWord = (
 export const sortProductByPriority = (products: Product[]): Product[] => {
 	return products.sort((a, b) => (a.priority > b.priority ? -1 : 1));
 };
+
+export const getOnlyFavoriteProduct = (products: Product[]): Product[] => {
+	return products.filter((product) => product.favorite);
+};

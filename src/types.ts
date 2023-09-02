@@ -24,6 +24,7 @@ export interface Product {
 	currencyType: CurrencyType;
 	keywords: string[];
 	priority: number;
+	favorite: boolean;
 }
 
 // ****************************************************************************

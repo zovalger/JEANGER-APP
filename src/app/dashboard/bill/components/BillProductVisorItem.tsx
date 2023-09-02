@@ -9,6 +9,7 @@ import { Card, Grid, Typography } from "@mui/material";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useBillContext } from "../context/Bill.context";
 import { deleteItemInBill } from "../helpers/Bill.helpers";
+import BillProductVisorItemModalForm from "./BillProductVisorItemModalForm";
 
 interface props {
 	data: BillItem;
@@ -21,6 +22,15 @@ export default function BillProductVisorItem({ data }: props) {
 
 	const { quantity, productId } = data;
 	const { name, cost, currencyType } = productsIndexed[data.productId];
+
+	const [openModal, setOpenModal] = useState(false);
+
+	const handdleOpenModal = () => {
+		setOpenModal(true);
+	};
+	const handdleCloseModal = () => {
+		setOpenModal(false);
+	};
 
 	useEffect(() => {
 		return () => {};
@@ -38,7 +48,9 @@ export default function BillProductVisorItem({ data }: props) {
 	return (
 		<Card
 			variant="outlined"
-			// onClick={onClick}
+			onClick={() => {
+				handdleOpenModal();
+			}}
 			sx={{
 				mb: "0.2rem",
 				pl: "1rem",
@@ -105,7 +117,13 @@ export default function BillProductVisorItem({ data }: props) {
 					</IconButton>
 				</Grid>
 			</Grid>
-			{/* </CardContent> */}
+
+			{openModal && (
+				<BillProductVisorItemModalForm
+					data={data}
+					onClose={handdleCloseModal}
+				/>
+			)}
 		</Card>
 	);
 }
