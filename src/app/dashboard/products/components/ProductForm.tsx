@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -52,11 +53,10 @@ export const initialValuesProductDataForm = {
 	cost: 0,
 	currencyType: CurrencyType.USD,
 	keywords: [],
+	priority: 0,
 };
 
 export default function ProductForm({ setOpen }: props) {
-	const { dolar } = useGlobalContext();
-
 	const {
 		productDataForm,
 		setProductDataForm,
@@ -285,6 +285,24 @@ export default function ProductForm({ setOpen }: props) {
 								))}
 							</TextField>
 						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								select
+								label="Prioridad"
+								defaultValue={0}
+								name="priority"
+								value={formik.values.priority}
+								onChange={(e) => {
+									const { name, value } = e.target;
+									formik.handleChange(e);
+									handleChange(name, value);
+								}}
+								fullWidth
+							>
+								<MenuItem value={0}>0</MenuItem>
+								<MenuItem value={1}>1</MenuItem>
+							</TextField>
+						</Grid>
 					</Grid>
 
 					<ProductFormReferences />
@@ -293,7 +311,7 @@ export default function ProductForm({ setOpen }: props) {
 
 					<Box sx={{ display: "flex", justifyContent: "flex-end", mt: "1rem" }}>
 						{formik.values._id && (
-							<Button color="error" onClick={onDelete} sx={{ mr: "1rem" }}>
+							<Button color="error" onClick={onDelete} sx={{ mr: "auto" }}>
 								Eliminar
 							</Button>
 						)}

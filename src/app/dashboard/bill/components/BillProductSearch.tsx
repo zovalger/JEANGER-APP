@@ -36,6 +36,7 @@ export default function BillProductSearch({
 				placeholder="Buscar"
 				sx={{ flexGrow: 1 }}
 				value={value}
+				autoComplete="none"
 				onChange={({ target: { value } }) => {
 					onChange(value);
 				}}

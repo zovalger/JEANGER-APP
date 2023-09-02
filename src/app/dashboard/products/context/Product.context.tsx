@@ -73,6 +73,7 @@ const ProductContext = createContext<ContextProps>({
 		cost: 0,
 		currencyType: CurrencyType.USD,
 		keywords: ["string"],
+		priority: 0,
 	}),
 
 	productReferenceManipulate: initialValuesProductReferenceManipulate,
@@ -136,7 +137,7 @@ export const ProductContextProvider = ({ children }: propsWithChildren) => {
 
 				inQuery,
 				setInQuery,
-				
+
 				productsInQuery,
 				setProductsInQuery,
 

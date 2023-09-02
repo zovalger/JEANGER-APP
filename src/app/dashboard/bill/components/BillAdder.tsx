@@ -3,7 +3,11 @@ import BillProductSearch from "./BillProductSearch";
 import BillProductSelector from "./BillProductSelector";
 import { useState, useEffect } from "react";
 import { BillItem, CurrencyType, Product } from "@/types";
-import { searchProductIdsByWord } from "../../products/helpers/Product.helpers";
+import {
+	searchProductIdsByWord,
+	searchProductsByWord,
+	sortProductByPriority,
+} from "../../products/helpers/Product.helpers";
 import { useProductContext } from "../../products/context/Product.context";
 import { useBillContext } from "../context/Bill.context";
 import BillProductVisor from "./BillProductVisor";
@@ -29,15 +33,18 @@ export default function BillAdder() {
 	// *******************************************************************
 
 	const refreshShowList = (search: string) => {
-
-
-		if (search.length < 5) {
+		if (search.length < 2) {
 			setProductList([]);
 			setSelected(-1);
 			return;
 		}
 
-		const productsIds = searchProductIdsByWord(search, products);
+		const resultSearch = searchProductsByWord(search, products);
+
+		const productsIds = sortProductByPriority(resultSearch).map(
+			(product) => product._id
+		);
+
 		setProductList(productsIds);
 	};
 
@@ -56,7 +63,7 @@ export default function BillAdder() {
 
 		const newPos =
 			brutePos < 0
-				? productList.length-1
+				? productList.length - 1
 				: brutePos >= productList.length
 				? 0
 				: brutePos;

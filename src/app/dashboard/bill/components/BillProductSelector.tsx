@@ -37,7 +37,7 @@ export default function BillProductSelector({
 					}}
 					boxShadow={8}
 				>
-					{productIdList.map((_id, index) => (
+					{ productIdList.map((_id, index) => (
 						<BillProductItem
 							key={_id}
 							_id={_id}
