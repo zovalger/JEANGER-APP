@@ -15,6 +15,7 @@ interface props {}
 export default function BillProductVisor({}: props) {
 	const { products } = useProductContext();
 	const { currentBill, setCurrentBill } = useBillContext();
+	const [deletedFavorites, setDeletedFavorites] = useState<string[]>([]);
 
 	const { totals, items } = currentBill || initialValuesBill;
 
@@ -22,13 +23,15 @@ export default function BillProductVisor({}: props) {
 
 	const productsFavorites = getOnlyFavoriteProduct(sortByPriority);
 
-	const productsBillItemsFavoritesByPriority = productsFavorites.map((prod) => {
-		const { _id, currencyType, cost } = prod;
+	const productsBillItemsFavoritesByPriority = productsFavorites
+		.map((prod) => {
+			const { _id, currencyType, cost } = prod;
 
-		const billItem = items.find((item) => item.productId === _id);
+			const billItem = items.find((item) => item.productId === _id);
 
-		return billItem || { productId: _id, quantity: 0, currencyType, cost };
-	});
+			return billItem || { productId: _id, quantity: 0, currencyType, cost };
+		})
+		.filter((item) => !deletedFavorites.includes(item.productId));
 
 	const remainingBillItem = items.filter(
 		(prod) =>
@@ -39,8 +42,26 @@ export default function BillProductVisor({}: props) {
 	// getOnlyFavoriteProduct
 
 	useEffect(() => {
+		// todo: quitar del array de favoritos eliminados
+
+		if (!currentBill) return;
+
+		const toRemoveFromDeleted = deletedFavorites.filter((id) =>
+			currentBill.items.some((item) => item.productId == id)
+		);
+
+		setDeletedFavorites((prev) =>
+			prev.filter((_id) => !toRemoveFromDeleted.includes(_id))
+		);
+
 		return () => {};
-	}, []);
+	}, [currentBill]);
+
+	const onDeleteItem = (productId: string) => {
+		// todo: añadir al array de favoritos eliminados
+		if (deletedFavorites.includes(productId)) return;
+		setDeletedFavorites((prev) => [...prev, productId]);
+	};
 
 	// *******************************************************************
 	// 													Render
@@ -50,7 +71,11 @@ export default function BillProductVisor({}: props) {
 		<Box>
 			{/* // todo: que no se desordenen al agregarlos a la factura  */}
 			{productsBillItemsFavoritesByPriority.map((data) => (
-				<BillProductVisorItem key={uuid()} data={data} />
+				<BillProductVisorItem
+					key={uuid()}
+					data={data}
+					onDeleteItem={onDeleteItem}
+				/>
 			))}
 
 			{currentBill &&
@@ -71,7 +96,7 @@ export default function BillProductVisor({}: props) {
 							<Typography
 								component={"span"}
 								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1.2rem" }}
+								sx={{ mr: "1rem", fontSize: "1rem" }}
 							>
 								SubTotal
 							</Typography>
@@ -80,7 +105,7 @@ export default function BillProductVisor({}: props) {
 						<Box sx={{ ml: "auto" }}>
 							<Typography
 								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1.2rem" }}
+								sx={{ mr: "1rem", fontSize: "1rem" }}
 							>
 								{(totals.BSF * (1 / 1.16)).toFixed(2)} {CurrencyType.BSF}
 							</Typography>
@@ -92,7 +117,7 @@ export default function BillProductVisor({}: props) {
 							<Typography
 								component={"span"}
 								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1.2rem" }}
+								sx={{ mr: "1rem", fontSize: "1rem" }}
 							>
 								iva 16%
 							</Typography>
@@ -101,7 +126,7 @@ export default function BillProductVisor({}: props) {
 						<Box sx={{ ml: "auto" }}>
 							<Typography
 								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1.2rem" }}
+								sx={{ mr: "1rem", fontSize: "1rem" }}
 							>
 								{(totals.BSF - totals.BSF * (1 / 1.16)).toFixed(2)}{" "}
 								{CurrencyType.BSF}
@@ -122,10 +147,10 @@ export default function BillProductVisor({}: props) {
 
 						<Box sx={{ ml: "auto", fontSize: "1.3rem" }}>
 							<Typography textAlign={"center"} sx={{ mr: "1rem" }} variant="h6">
-								{totals.BSF.toFixed(2)} {CurrencyType.BSF}
+								{totals.USD.toFixed(2)} {CurrencyType.USD}
 							</Typography>
 							<Typography textAlign={"center"} sx={{ mr: "1rem" }} variant="h6">
-								{totals.USD.toFixed(2)} {CurrencyType.USD}
+								{totals.BSF.toFixed(2)} {CurrencyType.BSF}
 							</Typography>
 						</Box>
 					</Box>
