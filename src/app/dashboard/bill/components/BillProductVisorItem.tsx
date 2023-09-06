@@ -13,9 +13,10 @@ import BillProductVisorItemModalForm from "./BillProductVisorItemModalForm";
 
 interface props {
 	data: BillItem;
+	onDeleteItem?(productId: string): void;
 }
 
-export default function BillProductVisorItem({ data }: props) {
+export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 	const { currentBill, setCurrentBill } = useBillContext();
 	const { dolar } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
@@ -30,6 +31,11 @@ export default function BillProductVisorItem({ data }: props) {
 	};
 	const handdleCloseModal = () => {
 		setOpenModal(false);
+	};
+
+	const handdleDelete = async () => {
+		if(onDeleteItem)onDeleteItem(productId);
+		setCurrentBill(deleteItemInBill(currentBill, productId));
 	};
 
 	useEffect(() => {
@@ -93,8 +99,8 @@ export default function BillProductVisorItem({ data }: props) {
 						color="inherit"
 						aria-label="open drawer"
 						// edge="start"
-						onClick={async () => {
-							setCurrentBill(deleteItemInBill(currentBill, productId));
+						onClick={() => {
+							handdleDelete();
 						}}
 						// sx={{ mr: 2}}
 					>
