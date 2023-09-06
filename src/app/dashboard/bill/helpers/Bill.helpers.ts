@@ -19,8 +19,6 @@ const calculateTotals = (
 
 		if (currencyType == CurrencyType.BSF) toSum = toSum / dolar.value;
 
-		console.log(toSum);
-
 		return total + toSum;
 	}, 0);
 
@@ -88,6 +86,7 @@ export const updateBillItem = (
 
 export const deleteItemInBill = (
 	bill: Bill | null,
+	dolar: DolarValue | null,
 	productId: string
 ): Bill => {
 	const currentBill = bill || initialValuesBill;
@@ -96,7 +95,7 @@ export const deleteItemInBill = (
 
 	currentBill.items = items.filter((item) => item.productId != productId);
 
-	return calculateTotals(currentBill);
+	return calculateTotals(currentBill, dolar || undefined);
 };
 
 export const clearBill = (): Bill => {
