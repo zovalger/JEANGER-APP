@@ -35,7 +35,7 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 
 	const handdleDelete = async () => {
 		if(onDeleteItem)onDeleteItem(productId);
-		setCurrentBill(deleteItemInBill(currentBill, productId));
+		setCurrentBill(deleteItemInBill(currentBill,dolar, productId));
 	};
 
 	useEffect(() => {
