@@ -62,6 +62,15 @@ export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
 }
 
 // ****************************************************************************
+// 										          productos: Settings
+// ****************************************************************************
+
+export interface ProductSettings {
+	_id: string;
+	stopwatchProductId: string | null;
+}
+
+// ****************************************************************************
 // 										          Cronometros
 // ****************************************************************************
 

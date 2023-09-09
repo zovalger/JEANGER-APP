@@ -15,9 +15,7 @@ import { Product } from "@/types";
 import ProductBasicSearch from "./components/ProductBasicSearch";
 import PageTemplate from "@/app/components/PageTemplate";
 
-export default function Dashboard() {
-	const { loadViewOpen, loadViewClose } = useGlobalContext();
-
+export default function ProductPage() {
 	const {
 		products,
 		inQuery,
@@ -55,12 +53,10 @@ export default function Dashboard() {
 						edge="start"
 						onClick={async () => {
 							try {
-								loadViewOpen();
 								await refreshProducts();
 							} catch (error) {
 								console.log(error);
 							}
-							loadViewClose();
 						}}
 						// sx={{ mr: 2}}
 					>

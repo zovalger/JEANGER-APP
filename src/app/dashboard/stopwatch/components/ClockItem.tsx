@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-	Box,
-	Button,
-	useTheme,
-	Typography,
-	IconButton,
-	TextField,
-} from "@mui/material";
+import { Box, Button, useTheme, Typography, IconButton } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import AccessAlarmOutlinedIcon from "@mui/icons-material/AccessAlarmOutlined";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,7 +8,7 @@ import PauseOutlinedIcon from "@mui/icons-material/PauseOutlined";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
 
-import { Stopwatch } from "@/types";
+import { BillItem, Stopwatch } from "@/types";
 import { useStopwatchContext } from "@/app/dashboard/stopwatch/context/Stopwatch.context";
 import { milisecondsToTime } from "@/utils/milisecondsToTime";
 import {
@@ -24,6 +18,11 @@ import {
 } from "../helpers/Stopwatch.helper";
 import { getTimeTimer, pauseTimer, startTimer } from "../helpers/Timer.helper";
 import ClockTimeContainer from "./ClockTimeContainer";
+import { useGlobalContext } from "@/contexts/Global.context";
+import { useProductContext } from "../../products/context/Product.context";
+import { useBillContext } from "../../bill/context/Bill.context";
+import { setOneBillItem } from "../../bill/helpers/Bill.helpers";
+import { useRouter } from "next/navigation";
 
 interface props {
 	data: Stopwatch;
@@ -31,10 +30,14 @@ interface props {
 	editing: boolean;
 }
 export default function ClockItem({ data, onEdit, editing }: props) {
+	const router = useRouter();
+
+	const { productSettings, dolar } = useGlobalContext();
+	const { productsIndexed } = useProductContext();
+	const { currentBill, setCurrentBill } = useBillContext();
+
 	const { sendUpdateStopwatch, referenceTime } = useStopwatchContext();
 	const [clock, setClock] = useState<Stopwatch>(data);
-
-	const theme = useTheme();
 
 	useEffect(() => {
 		if (!data) return;
@@ -46,6 +49,30 @@ export default function ClockItem({ data, onEdit, editing }: props) {
 		const newTimeSeted = minutes ? parseInt(minutes) * 60000 : 0;
 		setClock({ ...clock, timeSeted: newTimeSeted });
 	};
+
+	// ****************************************************************************
+	// 										          funciones
+	// ****************************************************************************
+
+	const getTime = (): {
+		format: { time: string; ms: string };
+		time: number;
+	} => {
+		const { timeSeted } = clock;
+
+		const time =
+			timeSeted !== null
+				? getTimeTimer(clock, referenceTime)
+				: getTimeStopwatch(clock, referenceTime);
+
+		const format = milisecondsToTime(time);
+
+		return { format, time };
+	};
+
+	// ****************************************************************************
+	// 										          triggers
+	// ****************************************************************************
 
 	const onStart = () => {
 		const { timeSeted } = clock;
@@ -101,21 +128,39 @@ export default function ClockItem({ data, onEdit, editing }: props) {
 		sendUpdateStopwatch(newTimer);
 	};
 
-	const getTime = (): {
-		format: { time: string; ms: string };
-		time: number;
-	} => {
-		const { timeSeted } = clock;
+	const addToBill = () => {
+		if (!productSettings) return;
+		if (!productSettings.stopwatchProductId) return;
 
-		const time =
-			timeSeted !== null
-				? getTimeTimer(clock, referenceTime)
-				: getTimeStopwatch(clock, referenceTime);
+		onPause();
 
-		const format = milisecondsToTime(time);
+		const time = getTime().time;
 
-		return { format, time };
+		// todo: obtener product
+
+		const productId = productSettings.stopwatchProductId;
+
+		const { currencyType, cost } = productsIndexed[productId];
+
+		// todo: modificar bill
+		const billItem: BillItem = {
+			productId,
+			quantity: Math.round(time / 60000),
+			cost,
+			currencyType,
+		};
+
+		const newBill = setOneBillItem(currentBill, billItem, dolar);
+
+		// todo: actualizar en contexto
+		setCurrentBill(newBill);
+
+		router.replace("./bill");
 	};
+
+	// ****************************************************************************
+	// 										          render
+	// ****************************************************************************
 
 	return (
 		<Box
@@ -148,18 +193,29 @@ export default function ClockItem({ data, onEdit, editing }: props) {
 						<EditIcon />
 					</IconButton>
 				) : (
-					<IconButton
-						onClick={switchClock}
-						color="inherit"
-						aria-label="open drawer"
-						disabled={!!clock.timeDate}
-					>
-						{clock.timeSeted !== null ? (
-							<AccessAlarmOutlinedIcon />
-						) : (
-							<TimerOutlinedIcon />
-						)}
-					</IconButton>
+					<>
+						<IconButton
+							onClick={addToBill}
+							color="inherit"
+							aria-label="open drawer"
+							// disabled={!!clock.timeDate}
+						>
+							<AddShoppingCartIcon />
+						</IconButton>
+
+						<IconButton
+							onClick={switchClock}
+							color="inherit"
+							aria-label="open drawer"
+							disabled={!!clock.timeDate}
+						>
+							{clock.timeSeted !== null ? (
+								<AccessAlarmOutlinedIcon />
+							) : (
+								<TimerOutlinedIcon />
+							)}
+						</IconButton>
+					</>
 				)}
 			</Box>
 

@@ -2,7 +2,7 @@
 
 import { io, Socket } from "socket.io-client";
 import { getDolarRequest } from "@/api/Dolar.api";
-import { DolarValue, propsWithChildren } from "@/types";
+import { DolarValue, ProductSettings, propsWithChildren } from "@/types";
 import {
 	createContext,
 	useState,
@@ -14,6 +14,7 @@ import {
 import { PROXY } from "@/config";
 import { DolarEvent } from "@/config/SocketEventsSystem";
 import { useSnackbarContext } from "./Snackbar.context";
+import { getProductSettingRequest } from "@/api/ProductSettings.api";
 
 interface ContextProps {
 	selectedPage: number;
@@ -28,8 +29,8 @@ interface ContextProps {
 	dolar: DolarValue | null;
 	refreshDolar(): Promise<void>;
 
-	loadViewClose(): void;
-	loadViewOpen(): void;
+	productSettings: ProductSettings | null;
+	updateProductSettings(data: ProductSettings): void;
 }
 
 const GlobalContext = createContext<ContextProps>({
@@ -45,8 +46,8 @@ const GlobalContext = createContext<ContextProps>({
 	dolar: null,
 	refreshDolar: (): Promise<void> => new Promise(() => {}),
 
-	loadViewClose: (): void => {},
-	loadViewOpen: (): void => {},
+	productSettings: null,
+	updateProductSettings: (data: ProductSettings): void => {},
 });
 
 export const GlobalContextProvider = ({ children }: propsWithChildren) => {
@@ -104,16 +105,26 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	}, [socket]);
 
 	// ****************************************************************************
+	// 										          ProductSettings
+	// ****************************************************************************
+
+	const [productSettings, setProductSettings] =
+		useState<ProductSettings | null>(null);
+
+	const updateProductSettings = (data: ProductSettings) =>
+		setProductSettings(data);
+
+	useEffect(() => {
+		getProductSettingRequest().then((data) => updateProductSettings(data));
+	}, []);
+
+	// ****************************************************************************
 	// 										          Panel lateral
 	// ****************************************************************************
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
 	const handleAsidePanelToggle = () => setAsidePanelMobilOpen((prev) => !prev);
-
-	const [open, setOpen] = useState(false);
-	const loadViewClose = () => setOpen(false);
-	const loadViewOpen = () => setOpen(true);
 
 	const [asideMultiToolsOpen, setAsideMultiToolsOpen] = useState(false);
 	const handleAsideMultiToolsToggle = () =>
@@ -134,8 +145,8 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 				dolar,
 				refreshDolar,
 
-				loadViewClose,
-				loadViewOpen,
+				productSettings,
+				updateProductSettings,
 			}}
 		>
 			{children}
