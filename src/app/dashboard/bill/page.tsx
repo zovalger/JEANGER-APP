@@ -22,24 +22,7 @@ export default function BillPage() {
 
 	return (
 		<>
-			<AppBarModule
-				name="Facturas"
-				right={
-					<>
-						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							edge="start"
-							onClick={async () => {
-								setCurrentBill(clearBill());
-							}}
-							// sx={{ mr: 2}}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</>
-				}
-			/>
+			<AppBarModule name="Facturas" right={<></>} />
 
 			<Box
 				component="main"

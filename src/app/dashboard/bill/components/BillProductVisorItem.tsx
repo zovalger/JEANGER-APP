@@ -34,8 +34,8 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 	};
 
 	const handdleDelete = async () => {
-		if(onDeleteItem)onDeleteItem(productId);
-		setCurrentBill(deleteItemInBill(currentBill,dolar, productId));
+		if (onDeleteItem) onDeleteItem(productId);
+		setCurrentBill(deleteItemInBill(currentBill, dolar, productId));
 	};
 
 	useEffect(() => {
@@ -63,8 +63,8 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 				":hover": { bgcolor: "#0001" },
 			}}
 		>
-			<Grid container spacing={2} alignItems={"center"}>
-				<Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
+			<Grid container columnSpacing={2} alignItems={"center"}>
+				<Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
 					<Typography
 						component={"span"}
 						textAlign={"center"}
@@ -75,34 +75,31 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 					<Typography component={"span"}>{name}</Typography>
 				</Grid>
 
-				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Grid item xs={6} sm={6} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
-						<Typography component={"span"}>{Math.round(BSF)}</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }}>
-							{CurrencyType.BSF}
+						<Typography component={"span"}>
+							{BSF.toFixed(1)}0 {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>
 
-				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
 						<Typography component={"span"}>
-							{(BSF * quantity).toFixed(2)}
-						</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }}>
-							{CurrencyType.BSF}
+							{(BSF * quantity).toFixed(1)}0 {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>
+
 				<Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
 					<IconButton
 						color="inherit"
-						aria-label="open drawer"
-						// edge="start"
+						// aria-label="open drawer"
+						edge="end"
 						onClick={() => {
 							handdleDelete();
 						}}
-						// sx={{ mr: 2}}
+						sx={{ zIndex: 0 }}
 					>
 						<DeleteIcon />
 					</IconButton>

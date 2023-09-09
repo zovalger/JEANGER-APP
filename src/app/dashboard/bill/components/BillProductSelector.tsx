@@ -41,7 +41,7 @@ export default function BillProductSelector({
 	// *******************************************************************
 
 	return (
-		<Box sx={{ position: "relative" }}>
+		<Box sx={{ position: "relative", zIndex: 1 }}>
 			{productIdList.length > 0 && (
 				<Box
 					sx={{
