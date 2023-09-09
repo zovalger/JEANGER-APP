@@ -2,9 +2,8 @@ import { Box } from "@mui/material";
 import BillProductSearch from "./BillProductSearch";
 import BillProductSelector from "./BillProductSelector";
 import { useState, useEffect } from "react";
-import { BillItem, CurrencyType, Product } from "@/types";
+import { BillItem } from "@/types";
 import {
-	searchProductIdsByWord,
 	searchProductsByWord,
 	sortProductByPriority,
 } from "../../products/helpers/Product.helpers";
@@ -13,7 +12,6 @@ import { useBillContext } from "../context/Bill.context";
 import BillProductVisor from "./BillProductVisor";
 import { updateBillItem } from "../helpers/Bill.helpers";
 import { useGlobalContext } from "@/contexts/Global.context";
-import CalculatorSwitch from "../../components/CalculatorSwitch";
 
 const regExpAdder = /^(\+|\-)\d{1,}/i;
 
@@ -100,8 +98,8 @@ export default function BillAdder() {
 		}
 
 		if (selected > -1 || position != undefined) {
-
-			const productId = productList[position!= undefined? position:selected]
+			const productId =
+				productList[position != undefined ? position : selected];
 			addProductToBill(productId, quantity);
 
 			quantity = 0;
@@ -143,7 +141,6 @@ export default function BillAdder() {
 			/>
 
 			<BillProductVisor />
-			<CalculatorSwitch />
 		</Box>
 	);
 }

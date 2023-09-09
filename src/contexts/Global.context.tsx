@@ -1,7 +1,6 @@
 "use client";
 
 import { io, Socket } from "socket.io-client";
-
 import { getDolarRequest } from "@/api/Dolar.api";
 import { DolarValue, propsWithChildren } from "@/types";
 import {
@@ -15,13 +14,17 @@ import {
 import { PROXY } from "@/config";
 import { DolarEvent } from "@/config/SocketEventsSystem";
 import { useSnackbarContext } from "./Snackbar.context";
-import { number } from "yup";
 
 interface ContextProps {
 	selectedPage: number;
 	setSelectedPage: Dispatch<SetStateAction<number>>;
+
 	asidePanelMobileOpen: boolean;
 	handleAsidePanelToggle(): void;
+
+	asideMultiToolsOpen: boolean;
+	handleAsideMultiToolsToggle(): void;
+
 	dolar: DolarValue | null;
 	refreshDolar(): Promise<void>;
 
@@ -32,8 +35,13 @@ interface ContextProps {
 const GlobalContext = createContext<ContextProps>({
 	selectedPage: 0,
 	setSelectedPage: () => {},
+
 	asidePanelMobileOpen: false,
 	handleAsidePanelToggle: (): void => {},
+
+	asideMultiToolsOpen: false,
+	handleAsideMultiToolsToggle: (): void => {},
+
 	dolar: null,
 	refreshDolar: (): Promise<void> => new Promise(() => {}),
 
@@ -101,12 +109,15 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
-	const handleAsidePanelToggle = () =>
-		setAsidePanelMobilOpen(!asidePanelMobileOpen);
+	const handleAsidePanelToggle = () => setAsidePanelMobilOpen((prev) => !prev);
 
 	const [open, setOpen] = useState(false);
 	const loadViewClose = () => setOpen(false);
 	const loadViewOpen = () => setOpen(true);
+
+	const [asideMultiToolsOpen, setAsideMultiToolsOpen] = useState(false);
+	const handleAsideMultiToolsToggle = () =>
+		setAsideMultiToolsOpen((prev) => !prev);
 
 	return (
 		<GlobalContext.Provider
@@ -116,7 +127,10 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 
 				asidePanelMobileOpen,
 				handleAsidePanelToggle,
-				
+
+				asideMultiToolsOpen,
+				handleAsideMultiToolsToggle,
+
 				dolar,
 				refreshDolar,
 
@@ -125,13 +139,6 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 			}}
 		>
 			{children}
-			{/* <Backdrop
-				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={open}
-				onClick={loadViewClose}
-			>
-				<CircularProgress color="inherit" />
-			</Backdrop> */}
 		</GlobalContext.Provider>
 	);
 };
