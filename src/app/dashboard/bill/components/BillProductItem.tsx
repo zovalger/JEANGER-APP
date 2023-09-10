@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { CurrencyType } from "@/types";
+import { CurrencyType, initialValuesForeignExchange } from "@/types";
 import { Card, Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
@@ -18,15 +18,15 @@ export default function BillProductItem({
 	selected,
 	onClick,
 }: props) {
-	const { dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
 
 	const { name, cost, currencyType } = productsIndexed[_id];
 
-	let d = dolar || { value: 0 };
+	let d = foreignExchange || initialValuesForeignExchange;
 
-	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.value;
-	const USD = currencyType == CurrencyType.USD ? cost : cost / d.value;
+	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.dolar;
+	const USD = currencyType == CurrencyType.USD ? cost : cost / d.dolar;
 
 	return (
 		<Box

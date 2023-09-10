@@ -2,13 +2,14 @@ import {
 	Bill,
 	BillItem,
 	CurrencyType,
-	DolarValue,
+	ForeignExchange,
 	initialValuesBill,
+	initialValuesForeignExchange,
 } from "@/types";
 
 const calculateTotals = (
 	bill: Bill,
-	dolar: DolarValue = { value: 0, date: new Date() }
+	foreignExchange: ForeignExchange = initialValuesForeignExchange
 ): Bill => {
 	const { items } = bill;
 
@@ -17,15 +18,15 @@ const calculateTotals = (
 
 		let toSum = cost * quantity;
 
-		if (currencyType == CurrencyType.BSF) toSum = toSum / dolar.value;
+		if (currencyType == CurrencyType.BSF) toSum = toSum / foreignExchange.dolar;
 
 		return total + toSum;
 	}, 0);
 
 	return {
 		...bill,
-		dolarValue: dolar,
-		totals: { USD, BSF: USD * dolar.value },
+		foreignExchange,
+		totals: { USD, BSF: USD * foreignExchange.dolar },
 	};
 };
 
@@ -33,10 +34,11 @@ const calculateTotals = (
 export const updateBillItem = (
 	bill: Bill | null,
 	billItem: BillItem,
-	dolar: DolarValue | null
+	foreignExchange: ForeignExchange | null
 ): Bill => {
 	const currentBill = bill || initialValuesBill;
-	const dolarValue = dolar || { value: 0, date: new Date() };
+	const foreignExchangeCurrent =
+		foreignExchange || initialValuesForeignExchange;
 
 	let newItems: BillItem[] = currentBill.items;
 
@@ -79,7 +81,7 @@ export const updateBillItem = (
 			...currentBill,
 			items: newItems,
 		},
-		dolarValue
+		foreignExchangeCurrent
 	);
 
 	return newBillWithTotals;
@@ -89,10 +91,11 @@ export const updateBillItem = (
 export const setOneBillItem = (
 	bill: Bill | null,
 	billItem: BillItem,
-	dolar: DolarValue | null
+	foreignExchange: ForeignExchange | null
 ): Bill => {
 	const currentBill = bill || initialValuesBill;
-	const dolarValue = dolar || { value: 0, date: new Date() };
+	const foreignExchangeCurrent =
+		foreignExchange || initialValuesForeignExchange;
 
 	let newItems: BillItem[] = currentBill.items;
 
@@ -126,7 +129,7 @@ export const setOneBillItem = (
 			...currentBill,
 			items: newItems,
 		},
-		dolarValue
+		foreignExchangeCurrent
 	);
 
 	return newBillWithTotals;
@@ -134,7 +137,7 @@ export const setOneBillItem = (
 
 export const deleteItemInBill = (
 	bill: Bill | null,
-	dolar: DolarValue | null,
+	foreignExchange: ForeignExchange | null,
 	productId: string
 ): Bill => {
 	const currentBill = bill || initialValuesBill;
@@ -143,7 +146,7 @@ export const deleteItemInBill = (
 
 	currentBill.items = items.filter((item) => item.productId != productId);
 
-	return calculateTotals(currentBill, dolar || undefined);
+	return calculateTotals(currentBill, foreignExchange || undefined);
 };
 
 export const clearBill = (): Bill => {

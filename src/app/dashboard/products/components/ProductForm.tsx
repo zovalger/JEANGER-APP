@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -24,11 +23,8 @@ import {
 	createUpdateProductsReference_Request,
 	deleteProductRequest,
 	deleteProductsReference_Request,
-	getPosibleProductParents_by_productId_Request,
-	getProductsReferences_by_productChild_Request,
 	updateProductRequest,
 } from "@/api/Product.api";
-import { useGlobalContext } from "@/contexts/Global.context";
 import ProductFromKeywordStack from "./ProductFromKeywordStack";
 import ProductFormReferences from "./ProductFormReferences";
 

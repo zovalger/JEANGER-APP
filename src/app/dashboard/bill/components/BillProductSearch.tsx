@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 

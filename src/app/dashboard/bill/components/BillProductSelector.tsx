@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { Box } from "@mui/material";
 import BillProductItem from "./BillProductItem";
-import { useBillContext } from "../context/Bill.context";
-import { BillItem } from "@/types";
 
 interface props {
 	productIdList: string[];

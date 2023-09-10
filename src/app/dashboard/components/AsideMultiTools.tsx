@@ -2,7 +2,7 @@ import { Box, Button, Drawer } from "@mui/material";
 import { asideMultiToolsWidth } from "@/config";
 import AsidePanelLinks from "./AsidePanelLinks";
 import { useGlobalContext } from "@/contexts/Global.context";
-import DolarView from "./DolarView";
+import ForeignExchangeView from "./ForeignExchangeView";
 import CalculatorSwitch from "./CalculatorSwitch";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import { useEffect } from "react";
@@ -13,7 +13,7 @@ const AsideMultiTools = () => {
 
 	const toolsDisplay = () => (
 		<>
-			<DolarView />
+			<ForeignExchangeView />
 			<CalculatorSwitch />
 		</>
 	);

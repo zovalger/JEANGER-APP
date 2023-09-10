@@ -1,8 +1,8 @@
 "use client";
 
 import { io, Socket } from "socket.io-client";
-import { getDolarRequest } from "@/api/Dolar.api";
-import { DolarValue, ProductSettings, propsWithChildren } from "@/types";
+import { getForeignExchangeRequest } from "@/api/ForeignExchange.api";
+import { ForeignExchange, ProductSettings, propsWithChildren } from "@/types";
 import {
 	createContext,
 	useState,
@@ -12,7 +12,7 @@ import {
 	SetStateAction,
 } from "react";
 import { PROXY } from "@/config";
-import { DolarEvent } from "@/config/SocketEventsSystem";
+import { ForeignExchangeEvent } from "@/config/SocketEventsSystem";
 import { useSnackbarContext } from "./Snackbar.context";
 import { getProductSettingRequest } from "@/api/ProductSettings.api";
 
@@ -26,8 +26,8 @@ interface ContextProps {
 	asideMultiToolsOpen: boolean;
 	handleAsideMultiToolsToggle(): void;
 
-	dolar: DolarValue | null;
-	refreshDolar(): Promise<void>;
+	foreignExchange: ForeignExchange | null;
+	refreshForeignExchange(): Promise<void>;
 
 	productSettings: ProductSettings | null;
 	updateProductSettings(data: ProductSettings): void;
@@ -43,8 +43,8 @@ const GlobalContext = createContext<ContextProps>({
 	asideMultiToolsOpen: false,
 	handleAsideMultiToolsToggle: (): void => {},
 
-	dolar: null,
-	refreshDolar: (): Promise<void> => new Promise(() => {}),
+	foreignExchange: null,
+	refreshForeignExchange: (): Promise<void> => new Promise(() => {}),
 
 	productSettings: null,
 	updateProductSettings: (data: ProductSettings): void => {},
@@ -52,21 +52,23 @@ const GlobalContext = createContext<ContextProps>({
 
 export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	const { createNotification } = useSnackbarContext();
+
 	// ****************************************************************************
-	// 										          Dolar
+	// 										          divisas
 	// ****************************************************************************
 
-	const [dolar, setDolarValue] = useState<DolarValue | null>(null);
+	const [foreignExchange, setForeignExchange] =
+		useState<ForeignExchange | null>(null);
 
 	useEffect(() => {
-		refreshDolar();
+		refreshForeignExchange();
 	}, []);
 
-	const refreshDolar = async () => {
+	const refreshForeignExchange = async () => {
 		try {
-			const d = await getDolarRequest();
+			const d = await getForeignExchangeRequest();
 
-			setDolarValue(d);
+			setForeignExchange(d);
 		} catch (error) {
 			console.log(error);
 			// setDolarValue();
@@ -77,18 +79,18 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	// ****************************************************************************
 	const [socket, setSocket] = useState<Socket | null>(null);
 
-	const updateDolar = (dolar: DolarValue) => {
-		setDolarValue(dolar);
+	const updateForeignExchange = (foreignExchange: ForeignExchange) => {
+		setForeignExchange(foreignExchange);
 
 		createNotification({
-			message: `Dolar actualizado: ${dolar.value}`,
+			message: `Dolar actualizado: ${foreignExchange.dolar}`,
 			autoHideDuration: 5000,
 			action: <></>,
 		});
 	};
 
 	const setListeners = async (socket: Socket) => {
-		socket.on(DolarEvent.update, updateDolar);
+		socket.on(ForeignExchangeEvent.update, updateForeignExchange);
 	};
 
 	useEffect(() => {
@@ -142,8 +144,8 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 				asideMultiToolsOpen,
 				handleAsideMultiToolsToggle,
 
-				dolar,
-				refreshDolar,
+				foreignExchange,
+				refreshForeignExchange,
 
 				productSettings,
 				updateProductSettings,

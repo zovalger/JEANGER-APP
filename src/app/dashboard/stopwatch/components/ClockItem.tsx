@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, useTheme, Typography, IconButton } from "@mui/material";
+import { Box, Button, Typography, IconButton } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import AccessAlarmOutlinedIcon from "@mui/icons-material/AccessAlarmOutlined";
@@ -32,7 +32,7 @@ interface props {
 export default function ClockItem({ data, onEdit, editing }: props) {
 	const router = useRouter();
 
-	const { productSettings, dolar } = useGlobalContext();
+	const { productSettings, foreignExchange: dolar } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
 	const { currentBill, setCurrentBill } = useBillContext();
 

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, IconButton, Card, Grid, Typography } from "@mui/material";
 
-import { Box, IconButton } from "@mui/material";
+import { BillItem, CurrencyType, initialValuesForeignExchange } from "@/types";
 import { useProductContext } from "../../products/context/Product.context";
-import { BillItem, CurrencyType } from "@/types";
-import { Card, Grid, Typography } from "@mui/material";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useBillContext } from "../context/Bill.context";
 import { deleteItemInBill } from "../helpers/Bill.helpers";
@@ -18,7 +16,7 @@ interface props {
 
 export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 	const { currentBill, setCurrentBill } = useBillContext();
-	const { dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
 
 	const { quantity, productId } = data;
@@ -35,17 +33,17 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 
 	const handdleDelete = async () => {
 		if (onDeleteItem) onDeleteItem(productId);
-		setCurrentBill(deleteItemInBill(currentBill, dolar, productId));
+		setCurrentBill(deleteItemInBill(currentBill, foreignExchange, productId));
 	};
 
 	useEffect(() => {
 		return () => {};
 	}, []);
 
-	let d = dolar || { value: 0 };
+	let d = foreignExchange || initialValuesForeignExchange;
 
-	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.value;
-	const USD = currencyType == CurrencyType.USD ? cost : cost / d.value;
+	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.dolar;
+	const USD = currencyType == CurrencyType.USD ? cost : cost / d.dolar;
 
 	// *******************************************************************
 	// 													Render

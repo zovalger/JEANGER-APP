@@ -17,12 +17,9 @@ export default function AsidePanelLinks() {
 	const { handleAsidePanelToggle, selectedPage, setSelectedPage } =
 		useGlobalContext();
 
-		useEffect(() => {
-			// todo: tomar url de pagina y colocar id
-		
-	
-		}, [])
-		
+	useEffect(() => {
+		// todo: tomar url de pagina y colocar id
+	}, []);
 
 	return (
 		<div>
@@ -51,10 +48,6 @@ export default function AsidePanelLinks() {
 						</ListItem>
 					</Link>
 				))}
-
-				{/* {["Productos", "Starred", "Send email", "Drafts"].map((text, index) => (
-
-  ))} */}
 			</List>
 			<Divider />
 		</div>

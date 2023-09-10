@@ -1,11 +1,12 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import { CurrencyType, initialValuesBill } from "@/types";
 import { useBillContext } from "../context/Bill.context";
 import { useProductContext } from "../../products/context/Product.context";
 import BillProductVisorItem from "./BillProductVisorItem";
-import { CurrencyType, initialValuesBill } from "@/types";
 import {
 	getOnlyFavoriteProduct,
 	sortProductByPriority,

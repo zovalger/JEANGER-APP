@@ -10,7 +10,6 @@ import ProductItem from "./components/ProductItem";
 import ProductForm, {
 	initialValuesProductDataForm,
 } from "./components/ProductForm";
-import { useGlobalContext } from "@/contexts/Global.context";
 import { Product } from "@/types";
 import ProductBasicSearch from "./components/ProductBasicSearch";
 import PageTemplate from "@/app/components/PageTemplate";
