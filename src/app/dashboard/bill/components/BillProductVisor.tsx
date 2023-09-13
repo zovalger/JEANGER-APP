@@ -68,7 +68,7 @@ export default function BillProductVisor({}: props) {
 	// *******************************************************************
 
 	return (
-		<Box>
+		<Box sx={{mb:"3rem"}}>
 			{/* // todo: que no se desordenen al agregarlos a la factura  */}
 			{productsBillItemsFavoritesByPriority.map((data) => (
 				<BillProductVisorItem
@@ -103,7 +103,7 @@ export default function BillProductVisor({}: props) {
 						<DeleteIcon />
 					</Button>
 				</Grid>
-				<Grid item xs={11} sm={7} md={5} lg={3}>
+				<Grid item xs={11} sm={7} md={5} lg={4}>
 					<Box sx={{ display: "flex" }}>
 						<Box>
 							<Typography
