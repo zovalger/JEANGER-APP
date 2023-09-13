@@ -12,8 +12,9 @@ export enum CurrencyType {
 	USD = "USD",
 	BSF = "BSF",
 }
-export interface DolarValue {
-	value: number;
+export interface ForeignExchange {
+	euro: number;
+	dolar: number;
 	date: Date;
 }
 
@@ -59,6 +60,15 @@ export const initialValuesProductReferenceManipulate = {
 
 export interface ProductReferenceForm extends Omit<ProductReference, "_id"> {
 	_id?: string;
+}
+
+// ****************************************************************************
+// 										          productos: Settings
+// ****************************************************************************
+
+export interface ProductSettings {
+	_id: string;
+	stopwatchProductId: string | null;
 }
 
 // ****************************************************************************
@@ -111,6 +121,12 @@ export interface CalculatorState {
 // 										          Facturas
 // ****************************************************************************
 
+export const initialValuesForeignExchange: ForeignExchange = {
+	dolar: 0,
+	euro: 0,
+	date: new Date(),
+};
+
 export interface BillItem {
 	productId: string;
 	quantity: number;
@@ -126,11 +142,11 @@ export interface BillTotals {
 export const initialValuesBill = {
 	items: [],
 	totals: { BSF: 0, USD: 0 },
-	dolarValue: { value: 0, date: new Date() },
+	foreignExchange: initialValuesForeignExchange,
 };
 
 export interface Bill {
 	items: BillItem[];
-	dolarValue: DolarValue;
+	foreignExchange: ForeignExchange;
 	totals: BillTotals;
 }

@@ -5,8 +5,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import { asidePanelDashboardWidth } from "@/config";
+import { asideMultiToolsWidth, asidePanelDashboardWidth } from "@/config";
 import { useGlobalContext } from "@/contexts/Global.context";
+import { Button } from "@mui/material";
 
 interface AppBarModule {
 	name: string;
@@ -14,14 +15,20 @@ interface AppBarModule {
 }
 
 export default function AppBarModule({ name, right }: AppBarModule) {
-	const { handleAsidePanelToggle } = useGlobalContext();
+	const { handleAsidePanelToggle, asideMultiToolsOpen } = useGlobalContext();
 
 	return (
 		<AppBar
 			position="fixed"
 			sx={{
-				width: { sm: `calc(100% - ${asidePanelDashboardWidth}px)` },
+				width: {
+					sm: `calc(100% - ${
+						asidePanelDashboardWidth +
+						(asideMultiToolsOpen ? asideMultiToolsWidth : 0)
+					}px)`,
+				},
 				ml: { sm: `${asidePanelDashboardWidth}px` },
+				mr: asideMultiToolsOpen ? { sm: `${asideMultiToolsWidth}px` } : null,
 			}}
 		>
 			<Toolbar>

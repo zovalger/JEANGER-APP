@@ -1,19 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import SaveIcon from "@mui/icons-material/Save";
-import { v4 as uuid } from "uuid";
+import { Grid } from "@mui/material";
 
 import { BillItem } from "@/types";
-
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Grid } from "@mui/material";
 import { useBillContext } from "../context/Bill.context";
 import { updateBillItem } from "../helpers/Bill.helpers";
 import { useGlobalContext } from "@/contexts/Global.context";
@@ -34,7 +28,7 @@ export default function BillProductVisorItemModalForm({
 	data,
 	onClose,
 }: Props) {
-	const { dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const { currentBill, setCurrentBill } = useBillContext();
 
 	const formik = useFormik<BillItem>({
@@ -46,7 +40,7 @@ export default function BillProductVisorItemModalForm({
 			event?.preventDefault();
 			console.log(formData.quantity);
 
-			const newBill = updateBillItem(currentBill, formData, dolar);
+			const newBill = updateBillItem(currentBill, formData, foreignExchange);
 			setCurrentBill(newBill);
 			onClose();
 		},

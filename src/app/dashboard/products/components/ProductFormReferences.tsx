@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Typography, Grid } from "@mui/material";
-import { v4 as uuid } from "uuid";
 
 import { useProductContext } from "../context/Product.context";
 import ProductReferenceItem from "./ProductReferenceItem";

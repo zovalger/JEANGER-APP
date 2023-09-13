@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import { CurrencyType, initialValuesBill } from "@/types";
 import { useBillContext } from "../context/Bill.context";
 import { useProductContext } from "../../products/context/Product.context";
 import BillProductVisorItem from "./BillProductVisorItem";
-import { CurrencyType, initialValuesBill } from "@/types";
 import {
 	getOnlyFavoriteProduct,
 	sortProductByPriority,
 } from "../../products/helpers/Product.helpers";
+import { clearBill } from "../helpers/Bill.helpers";
 
 interface props {}
 
@@ -39,11 +42,8 @@ export default function BillProductVisor({}: props) {
 				(item) => item.productId === prod.productId
 			)
 	);
-	// getOnlyFavoriteProduct
 
 	useEffect(() => {
-		// todo: quitar del array de favoritos eliminados
-
 		if (!currentBill) return;
 
 		const toRemoveFromDeleted = deletedFavorites.filter((id) =>
@@ -68,7 +68,7 @@ export default function BillProductVisor({}: props) {
 	// *******************************************************************
 
 	return (
-		<Box>
+		<Box sx={{mb:"3rem"}}>
 			{/* // todo: que no se desordenen al agregarlos a la factura  */}
 			{productsBillItemsFavoritesByPriority.map((data) => (
 				<BillProductVisorItem
@@ -90,7 +90,20 @@ export default function BillProductVisor({}: props) {
 				alignItems={"center"}
 				justifyContent={"right"}
 			>
-				<Grid item xs={6} sm={3}>
+				<Grid item xs={1} sm={5}>
+					<Button
+						color="error"
+						variant="outlined"
+						aria-label="open drawer"
+						onClick={async () => {
+							setDeletedFavorites([]);
+							setCurrentBill(clearBill());
+						}}
+					>
+						<DeleteIcon />
+					</Button>
+				</Grid>
+				<Grid item xs={11} sm={7} md={5} lg={4}>
 					<Box sx={{ display: "flex" }}>
 						<Box>
 							<Typography

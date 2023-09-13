@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import MenuItem from "@mui/material/MenuItem";
-import SaveIcon from "@mui/icons-material/Save";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import { v4 as uuid } from "uuid";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Divider, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useProductContext } from "../context/Product.context";
 
 export default function ProductFromKeywordStack() {

@@ -23,7 +23,7 @@ const initialState = {
 };
 
 export default function CalculatorSwitch() {
-	const { dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const [history, setHistory] = useState<CalculatorState[]>([]);
 	const [dataCalculator, setDataCalculator] =
 		useState<CalculatorState>(initialState);
@@ -96,10 +96,10 @@ export default function CalculatorSwitch() {
 	const switchCurrencyType = () => {
 		const { a, b, result, currencyType } = dataCalculator;
 
-		if (!dolar) return;
+		if (!foreignExchange) return;
 
 		const converter = (n: number) =>
-			currencyType === CurrencyType.USD ? n * dolar.value : n / dolar.value;
+			currencyType === CurrencyType.USD ? n * foreignExchange.dolar : n / foreignExchange.dolar;
 
 		const newState = {
 			...dataCalculator,

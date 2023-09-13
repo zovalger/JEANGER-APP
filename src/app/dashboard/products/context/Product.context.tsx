@@ -4,7 +4,6 @@ import { getAllProductsRequest } from "@/api/Product.api";
 import {
 	CurrencyType,
 	Product,
-	ProductReference,
 	ProductReferenceManipulate,
 	initialValuesProductReferenceManipulate,
 	propsWithChildren,
@@ -18,7 +17,6 @@ import {
 	useEffect,
 } from "react";
 import { getAllKeywordsProducts } from "../helpers/Product.helpers";
-import { BlobOptions } from "buffer";
 
 interface ContextProps {
 	products: Product[];

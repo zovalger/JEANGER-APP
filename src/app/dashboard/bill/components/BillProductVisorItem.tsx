@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, IconButton, Card, Grid, Typography } from "@mui/material";
 
-import { Box, IconButton } from "@mui/material";
+import { BillItem, CurrencyType, initialValuesForeignExchange } from "@/types";
 import { useProductContext } from "../../products/context/Product.context";
-import { BillItem, CurrencyType } from "@/types";
-import { Card, Grid, Typography } from "@mui/material";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useBillContext } from "../context/Bill.context";
 import { deleteItemInBill } from "../helpers/Bill.helpers";
@@ -18,7 +16,7 @@ interface props {
 
 export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 	const { currentBill, setCurrentBill } = useBillContext();
-	const { dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const { productsIndexed } = useProductContext();
 
 	const { quantity, productId } = data;
@@ -34,18 +32,18 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 	};
 
 	const handdleDelete = async () => {
-		if(onDeleteItem)onDeleteItem(productId);
-		setCurrentBill(deleteItemInBill(currentBill,dolar, productId));
+		if (onDeleteItem) onDeleteItem(productId);
+		setCurrentBill(deleteItemInBill(currentBill, foreignExchange, productId));
 	};
 
 	useEffect(() => {
 		return () => {};
 	}, []);
 
-	let d = dolar || { value: 0 };
+	let d = foreignExchange || initialValuesForeignExchange;
 
-	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.value;
-	const USD = currencyType == CurrencyType.USD ? cost : cost / d.value;
+	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.dolar;
+	const USD = currencyType == CurrencyType.USD ? cost : cost / d.dolar;
 
 	// *******************************************************************
 	// 													Render
@@ -63,8 +61,8 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 				":hover": { bgcolor: "#0001" },
 			}}
 		>
-			<Grid container spacing={2} alignItems={"center"}>
-				<Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
+			<Grid container columnSpacing={2} alignItems={"center"}>
+				<Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
 					<Typography
 						component={"span"}
 						textAlign={"center"}
@@ -75,34 +73,31 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 					<Typography component={"span"}>{name}</Typography>
 				</Grid>
 
-				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Grid item xs={6} sm={6} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
-						<Typography component={"span"}>{Math.round(BSF)}</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }}>
-							{CurrencyType.BSF}
+						<Typography component={"span"}>
+							{BSF.toFixed(1)}0 {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>
 
-				<Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+				<Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
 						<Typography component={"span"}>
-							{(BSF * quantity).toFixed(2)}
-						</Typography>
-						<Typography component={"span"} sx={{ ml: 1 }}>
-							{CurrencyType.BSF}
+							{(BSF * quantity).toFixed(1)}0 {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>
+
 				<Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
 					<IconButton
 						color="inherit"
-						aria-label="open drawer"
-						// edge="start"
+						// aria-label="open drawer"
+						edge="end"
 						onClick={() => {
 							handdleDelete();
 						}}
-						// sx={{ mr: 2}}
+						sx={{ zIndex: 0 }}
 					>
 						<DeleteIcon />
 					</IconButton>

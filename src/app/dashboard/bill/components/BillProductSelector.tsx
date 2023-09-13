@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { Box } from "@mui/material";
 import BillProductItem from "./BillProductItem";
-import { useBillContext } from "../context/Bill.context";
-import { BillItem } from "@/types";
 
 interface props {
 	productIdList: string[];
@@ -41,7 +39,7 @@ export default function BillProductSelector({
 	// *******************************************************************
 
 	return (
-		<Box sx={{ position: "relative" }}>
+		<Box sx={{ position: "relative", zIndex: 1 }}>
 			{productIdList.length > 0 && (
 				<Box
 					sx={{

@@ -1,12 +1,12 @@
 import { PROXY } from "@/config";
-import { DolarValue } from "@/types";
+import { ForeignExchange } from "@/types";
 import axios from "axios";
 
-const url = `${PROXY}/api/dolar`;
+const url = `${PROXY}/api/foreign_exchange`;
 
 // ***************** consultas	*****************
 
-export const getDolarRequest = async (): Promise<DolarValue> =>
+export const getForeignExchangeRequest = async (): Promise<ForeignExchange> =>
 	(await axios.get(`${url}`)).data;
 
 // export const getDolarRequest = async (): Promise<DolarValue> => ({

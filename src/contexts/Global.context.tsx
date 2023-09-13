@@ -1,9 +1,8 @@
 "use client";
 
 import { io, Socket } from "socket.io-client";
-
-import { getDolarRequest } from "@/api/Dolar.api";
-import { DolarValue, propsWithChildren } from "@/types";
+import { getForeignExchangeRequest } from "@/api/ForeignExchange.api";
+import { ForeignExchange, ProductSettings, propsWithChildren } from "@/types";
 import {
 	createContext,
 	useState,
@@ -13,51 +12,63 @@ import {
 	SetStateAction,
 } from "react";
 import { PROXY } from "@/config";
-import { DolarEvent } from "@/config/SocketEventsSystem";
+import { ForeignExchangeEvent } from "@/config/SocketEventsSystem";
 import { useSnackbarContext } from "./Snackbar.context";
-import { number } from "yup";
+import { getProductSettingRequest } from "@/api/ProductSettings.api";
 
 interface ContextProps {
 	selectedPage: number;
 	setSelectedPage: Dispatch<SetStateAction<number>>;
+
 	asidePanelMobileOpen: boolean;
 	handleAsidePanelToggle(): void;
-	dolar: DolarValue | null;
-	refreshDolar(): Promise<void>;
 
-	loadViewClose(): void;
-	loadViewOpen(): void;
+	asideMultiToolsOpen: boolean;
+	handleAsideMultiToolsToggle(): void;
+
+	foreignExchange: ForeignExchange | null;
+	refreshForeignExchange(): Promise<void>;
+
+	productSettings: ProductSettings | null;
+	updateProductSettings(data: ProductSettings): void;
 }
 
 const GlobalContext = createContext<ContextProps>({
 	selectedPage: 0,
 	setSelectedPage: () => {},
+
 	asidePanelMobileOpen: false,
 	handleAsidePanelToggle: (): void => {},
-	dolar: null,
-	refreshDolar: (): Promise<void> => new Promise(() => {}),
 
-	loadViewClose: (): void => {},
-	loadViewOpen: (): void => {},
+	asideMultiToolsOpen: false,
+	handleAsideMultiToolsToggle: (): void => {},
+
+	foreignExchange: null,
+	refreshForeignExchange: (): Promise<void> => new Promise(() => {}),
+
+	productSettings: null,
+	updateProductSettings: (data: ProductSettings): void => {},
 });
 
 export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	const { createNotification } = useSnackbarContext();
+
 	// ****************************************************************************
-	// 										          Dolar
+	// 										          divisas
 	// ****************************************************************************
 
-	const [dolar, setDolarValue] = useState<DolarValue | null>(null);
+	const [foreignExchange, setForeignExchange] =
+		useState<ForeignExchange | null>(null);
 
 	useEffect(() => {
-		refreshDolar();
+		refreshForeignExchange();
 	}, []);
 
-	const refreshDolar = async () => {
+	const refreshForeignExchange = async () => {
 		try {
-			const d = await getDolarRequest();
+			const d = await getForeignExchangeRequest();
 
-			setDolarValue(d);
+			setForeignExchange(d);
 		} catch (error) {
 			console.log(error);
 			// setDolarValue();
@@ -68,18 +79,18 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	// ****************************************************************************
 	const [socket, setSocket] = useState<Socket | null>(null);
 
-	const updateDolar = (dolar: DolarValue) => {
-		setDolarValue(dolar);
+	const updateForeignExchange = (foreignExchange: ForeignExchange) => {
+		setForeignExchange(foreignExchange);
 
 		createNotification({
-			message: `Dolar actualizado: ${dolar.value}`,
+			message: `Dolar actualizado: ${foreignExchange.dolar}`,
 			autoHideDuration: 5000,
 			action: <></>,
 		});
 	};
 
 	const setListeners = async (socket: Socket) => {
-		socket.on(DolarEvent.update, updateDolar);
+		socket.on(ForeignExchangeEvent.update, updateForeignExchange);
 	};
 
 	useEffect(() => {
@@ -96,17 +107,30 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	}, [socket]);
 
 	// ****************************************************************************
+	// 										          ProductSettings
+	// ****************************************************************************
+
+	const [productSettings, setProductSettings] =
+		useState<ProductSettings | null>(null);
+
+	const updateProductSettings = (data: ProductSettings) =>
+		setProductSettings(data);
+
+	useEffect(() => {
+		getProductSettingRequest().then((data) => updateProductSettings(data));
+	}, []);
+
+	// ****************************************************************************
 	// 										          Panel lateral
 	// ****************************************************************************
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
-	const handleAsidePanelToggle = () =>
-		setAsidePanelMobilOpen(!asidePanelMobileOpen);
+	const handleAsidePanelToggle = () => setAsidePanelMobilOpen((prev) => !prev);
 
-	const [open, setOpen] = useState(false);
-	const loadViewClose = () => setOpen(false);
-	const loadViewOpen = () => setOpen(true);
+	const [asideMultiToolsOpen, setAsideMultiToolsOpen] = useState(false);
+	const handleAsideMultiToolsToggle = () =>
+		setAsideMultiToolsOpen((prev) => !prev);
 
 	return (
 		<GlobalContext.Provider
@@ -116,22 +140,18 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 
 				asidePanelMobileOpen,
 				handleAsidePanelToggle,
-				
-				dolar,
-				refreshDolar,
 
-				loadViewClose,
-				loadViewOpen,
+				asideMultiToolsOpen,
+				handleAsideMultiToolsToggle,
+
+				foreignExchange,
+				refreshForeignExchange,
+
+				productSettings,
+				updateProductSettings,
 			}}
 		>
 			{children}
-			{/* <Backdrop
-				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={open}
-				onClick={loadViewClose}
-			>
-				<CircularProgress color="inherit" />
-			</Backdrop> */}
 		</GlobalContext.Provider>
 	);
 };
