@@ -1,13 +1,19 @@
+import { v4 as uuid } from "uuid";
 import { initialValuesBill } from "@/config/initialValues";
 import { Bill } from "@/types";
 
 export const addBillToList = (billList: Bill[], bill: Bill | null): Bill[] => {
+	if (!bill) return billList;
 
-	if (!bill)  return billList;
-	
 	if (!bill.items.length) return billList;
 
-	return [...billList, bill];
+	const oldBillIndex = billList.findIndex((item) => item._id === bill._id);
+
+	if (oldBillIndex < 0) return [...billList, bill];
+
+	billList[oldBillIndex] = bill;
+
+	return billList;
 };
 
 export const getOneBillAndRemove = (

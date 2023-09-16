@@ -16,6 +16,7 @@ import { clearBill } from "../helpers/Bill.helpers";
 import { addBillToList } from "../helpers/BillList.helpers";
 import { initialValuesBill } from "@/config/initialValues";
 import { CurrencyType } from "@/enums";
+import BillListVisorModalForm from "./BillListVisorModalForm";
 
 interface props {}
 
@@ -66,32 +67,15 @@ export default function BillProductVisor({}: props) {
 	// 													Functions
 	// *******************************************************************
 
-	const onSaveTemporal = async () => {
-		if (!currentBill) return;
+	const [submiting, setSubmiting] = useState(false);
 
-		const newBillList = addBillToList(bills, {
-			...currentBill,
-			date: new Date(),
-		});
-
-		setBills(newBillList);
-
-		setCurrentBill(clearBill());
+	const openModal = () => {
+		if (!currentBill || !currentBill.items.length) return;
+		setSubmiting(true);
 	};
 
-	const onShare = async () => {
-		if (!currentBill) return;
-
-		sendBillBroadcast(currentBill);
-
-		const newBillList = addBillToList(bills, {
-			...currentBill,
-			date: new Date(),
-		});
-
-		setBills(newBillList);
-
-		setCurrentBill(clearBill());
+	const closeModal = () => {
+		setSubmiting(false);
 	};
 
 	const onDelete = async () => {
@@ -114,124 +98,133 @@ export default function BillProductVisor({}: props) {
 	// *******************************************************************
 
 	return (
-		<Box sx={{ mb: "3rem" }}>
-			{/* // todo: que no se desordenen al agregarlos a la factura  */}
-			{productsBillItemsFavoritesByPriority.map((data) => (
-				<BillProductVisorItem
-					key={uuid()}
-					data={data}
-					onDeleteItem={onDeleteItem}
-				/>
-			))}
+		<>
+			{submiting && <BillListVisorModalForm onClose={closeModal} />}
 
-			{currentBill &&
-				remainingBillItem.map((item) => (
-					<BillProductVisorItem key={uuid()} data={item} />
+			<Box sx={{ mb: "3rem" }}>
+				{/* // todo: que no se desordenen al agregarlos a la factura  */}
+				{productsBillItemsFavoritesByPriority.map((data) => (
+					<BillProductVisorItem
+						key={uuid()}
+						data={data}
+						onDeleteItem={onDeleteItem}
+					/>
 				))}
 
-			<Grid
-				sx={{ my: ".5rem" }}
-				container
-				spacing={2}
-				alignItems={"center"}
-				justifyContent={"right"}
-			>
-				<Grid item order={{ xs: 3, sm: 0 }} xs={12} sm={5}>
-					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-						<Button
-							color="error"
-							variant="outlined"
-							aria-label="open drawer"
-							onClick={onDelete}
-						>
-							<DeleteIcon />
-						</Button>
+				{currentBill &&
+					remainingBillItem.map((item) => (
+						<BillProductVisorItem key={uuid()} data={item} />
+					))}
 
-						<Button
-							color="info"
-							variant="outlined"
-							aria-label="open drawer"
-							onClick={onShare}
-						>
-							<ShareIcon />
-						</Button>
+				<Grid
+					sx={{ my: ".5rem" }}
+					container
+					spacing={2}
+					alignItems={"center"}
+					justifyContent={"right"}
+				>
+					<Grid item order={{ xs: 3, sm: 0 }} xs={12} sm={5}>
+						<Box sx={{ display: "flex", justifyContent: "space-between" }}>
+							<Button
+								color="error"
+								variant="outlined"
+								aria-label="open drawer"
+								onClick={onDelete}
+							>
+								<DeleteIcon />
+							</Button>
 
-						<Button
-							color="primary"
-							variant="outlined"
-							aria-label="open drawer"
-							onClick={onSaveTemporal}
-						>
-							<AddIcon />
-						</Button>
-					</Box>
+							<Button
+								color="primary"
+								variant="outlined"
+								aria-label="open drawer"
+								tabIndex={-1}
+								onClick={(e) => {
+									// e.target
+									console.log("click");
+
+									openModal();
+								}}
+							>
+								<AddIcon />
+							</Button>
+						</Box>
+					</Grid>
+					<Grid item xs={11} sm={7} md={5} lg={4}>
+						<Box sx={{ display: "flex" }}>
+							<Box>
+								<Typography
+									component={"span"}
+									textAlign={"center"}
+									sx={{ mr: "1rem", fontSize: "1rem" }}
+								>
+									SubTotal
+								</Typography>
+							</Box>
+
+							<Box sx={{ ml: "auto" }}>
+								<Typography
+									textAlign={"center"}
+									sx={{ mr: "1rem", fontSize: "1rem" }}
+								>
+									{(totals.BSF * (1 / 1.16)).toFixed(2)} {CurrencyType.BSF}
+								</Typography>
+							</Box>
+						</Box>
+
+						<Box sx={{ display: "flex" }}>
+							<Box>
+								<Typography
+									component={"span"}
+									textAlign={"center"}
+									sx={{ mr: "1rem", fontSize: "1rem" }}
+								>
+									iva 16%
+								</Typography>
+							</Box>
+
+							<Box sx={{ ml: "auto" }}>
+								<Typography
+									textAlign={"center"}
+									sx={{ mr: "1rem", fontSize: "1rem" }}
+								>
+									{(totals.BSF - totals.BSF * (1 / 1.16)).toFixed(2)}{" "}
+									{CurrencyType.BSF}
+								</Typography>
+							</Box>
+						</Box>
+
+						<Box sx={{ display: "flex", alignItems: "center", mt: "1rem" }}>
+							<Box>
+								<Typography
+									component={"span"}
+									textAlign={"center"}
+									sx={{ mr: "1rem", fontSize: "1.3rem" }}
+								>
+									Total
+								</Typography>
+							</Box>
+
+							<Box sx={{ ml: "auto", fontSize: "1.3rem" }}>
+								<Typography
+									textAlign={"center"}
+									sx={{ mr: "1rem" }}
+									variant="h6"
+								>
+									{totals.USD.toFixed(2)} {CurrencyType.USD}
+								</Typography>
+								<Typography
+									textAlign={"center"}
+									sx={{ mr: "1rem" }}
+									variant="h6"
+								>
+									{totals.BSF.toFixed(2)} {CurrencyType.BSF}
+								</Typography>
+							</Box>
+						</Box>
+					</Grid>
 				</Grid>
-				<Grid item xs={11} sm={7} md={5} lg={4}>
-					<Box sx={{ display: "flex" }}>
-						<Box>
-							<Typography
-								component={"span"}
-								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1rem" }}
-							>
-								SubTotal
-							</Typography>
-						</Box>
-
-						<Box sx={{ ml: "auto" }}>
-							<Typography
-								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1rem" }}
-							>
-								{(totals.BSF * (1 / 1.16)).toFixed(2)} {CurrencyType.BSF}
-							</Typography>
-						</Box>
-					</Box>
-
-					<Box sx={{ display: "flex" }}>
-						<Box>
-							<Typography
-								component={"span"}
-								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1rem" }}
-							>
-								iva 16%
-							</Typography>
-						</Box>
-
-						<Box sx={{ ml: "auto" }}>
-							<Typography
-								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1rem" }}
-							>
-								{(totals.BSF - totals.BSF * (1 / 1.16)).toFixed(2)}{" "}
-								{CurrencyType.BSF}
-							</Typography>
-						</Box>
-					</Box>
-
-					<Box sx={{ display: "flex", alignItems: "center", mt: "1rem" }}>
-						<Box>
-							<Typography
-								component={"span"}
-								textAlign={"center"}
-								sx={{ mr: "1rem", fontSize: "1.3rem" }}
-							>
-								Total
-							</Typography>
-						</Box>
-
-						<Box sx={{ ml: "auto", fontSize: "1.3rem" }}>
-							<Typography textAlign={"center"} sx={{ mr: "1rem" }} variant="h6">
-								{totals.USD.toFixed(2)} {CurrencyType.USD}
-							</Typography>
-							<Typography textAlign={"center"} sx={{ mr: "1rem" }} variant="h6">
-								{totals.BSF.toFixed(2)} {CurrencyType.BSF}
-							</Typography>
-						</Box>
-					</Box>
-				</Grid>
-			</Grid>
-		</Box>
+			</Box>
+		</>
 	);
 }

@@ -17,7 +17,8 @@ export const StopwatchEvents = {
 
 export const BillEvents = {
 	send: "/bill/send",
+	update: "/bill/update",
+	delete: "/bill/delete",
 };
-
 
 export default SocketEventsSystem;

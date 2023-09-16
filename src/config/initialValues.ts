@@ -16,6 +16,7 @@ export const initialValuesForeignExchange: ForeignExchange = {
 
 export const initialValuesBill: Bill = {
 	_id: "",
+	name: "",
 	date: new Date(),
 	items: [],
 	totals: { BSF: 0, USD: 0 },

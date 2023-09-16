@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+
 import {
 	initialValuesBill,
 	initialValuesForeignExchange,
@@ -35,7 +35,7 @@ export const updateBillItem = (
 	billItem: BillItem,
 	foreignExchange: ForeignExchange | null
 ): Bill => {
-	const currentBill = bill || { ...initialValuesBill, _id: uuid() };
+	const currentBill = bill || initialValuesBill;
 	const foreignExchangeCurrent =
 		foreignExchange || initialValuesForeignExchange;
 
@@ -86,7 +86,7 @@ export const setOneBillItem = (
 	billItem: BillItem,
 	foreignExchange: ForeignExchange | null
 ): Bill => {
-	const currentBill = bill || { ...initialValuesBill, _id: uuid() };
+	const currentBill = bill || initialValuesBill;
 	const foreignExchangeCurrent =
 		foreignExchange || initialValuesForeignExchange;
 
@@ -129,7 +129,7 @@ export const deleteItemInBill = (
 	foreignExchange: ForeignExchange | null,
 	productId: string
 ): Bill => {
-	const currentBill = bill || { ...initialValuesBill, _id: uuid() };
+	const currentBill = bill || initialValuesBill;
 
 	const { items } = currentBill;
 
@@ -139,5 +139,5 @@ export const deleteItemInBill = (
 };
 
 export const clearBill = (): Bill => {
-	return { ...initialValuesBill, _id: uuid() };
+	return initialValuesBill;
 };

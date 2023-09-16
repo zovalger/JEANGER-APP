@@ -13,7 +13,11 @@ import {
 	useEffect,
 } from "react";
 import { Socket, io } from "socket.io-client";
-import { addBillToList } from "../helpers/BillList.helpers";
+import {
+	addBillToList,
+	deleteOneBillFromList,
+} from "../helpers/BillList.helpers";
+import { getAllBillsRequest } from "@/api/Bill.api";
 
 interface ContextProps {
 	bills: Bill[];
@@ -24,6 +28,7 @@ interface ContextProps {
 	setCurrentBill: Dispatch<SetStateAction<Bill | null>>;
 
 	sendBillBroadcast(data: Bill): void;
+	sendDeleteBillBroadcast(_id: string): void;
 }
 
 const BillContext = createContext<ContextProps>({
@@ -34,6 +39,7 @@ const BillContext = createContext<ContextProps>({
 	setCurrentBill: (): Bill | null => null,
 
 	sendBillBroadcast: (data: Bill) => {},
+	sendDeleteBillBroadcast: (_id: string) => {},
 });
 
 export const BillContextProvider = ({ children }: propsWithChildren) => {
@@ -42,6 +48,12 @@ export const BillContextProvider = ({ children }: propsWithChildren) => {
 
 	const [bills, setBills] = useState<Bill[]>([]);
 	const [currentBill, setCurrentBill] = useState<Bill | null>(null);
+
+	useEffect(() => {
+		getAllBillsRequest()
+			.then(setBills)
+			.catch((err) => console.log(err));
+	}, []);
 
 	useEffect(() => {
 		if (socket) return;
@@ -63,12 +75,22 @@ export const BillContextProvider = ({ children }: propsWithChildren) => {
 		socket.emit(BillEvents.send, data);
 	};
 
-	const reciveBill = (data: Bill) => {
-		setBills((prev) => addBillToList(prev, data));
+	const sendDeleteBillBroadcast = (_id: string) => {
+		if (!socket) return;
+		socket.emit(BillEvents.delete, _id);
+	};
+
+	const reciveBill = ({ data, oldId }: { data: Bill; oldId: string }) => {
+		setBills((prev) => addBillToList(deleteOneBillFromList(prev, oldId), data));
+	};
+
+	const reciveDeleteBill = (_id: string) => {
+		setBills((prev) => deleteOneBillFromList(prev, _id));
 	};
 
 	const setListeners = async (socket: Socket) => {
 		socket.on(BillEvents.send, reciveBill);
+		socket.on(BillEvents.delete, reciveDeleteBill);
 	};
 
 	return (
@@ -81,6 +103,7 @@ export const BillContextProvider = ({ children }: propsWithChildren) => {
 				setCurrentBill,
 
 				sendBillBroadcast,
+				sendDeleteBillBroadcast,
 			}}
 		>
 			{children}

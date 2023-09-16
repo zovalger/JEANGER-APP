@@ -116,6 +116,7 @@ export interface BillTotals {
 
 export interface Bill {
 	_id: string;
+	name:string
 	date: Date;
 	items: BillItem[];
 	foreignExchange: ForeignExchange;

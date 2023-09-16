@@ -26,10 +26,16 @@ interface props {
 }
 
 export default function BillListVisorItem({ data }: props) {
-	const { currentBill, setCurrentBill, bills, setBills, sendBillBroadcast } =
-		useBillContext();
+	const {
+		currentBill,
+		setCurrentBill,
+		bills,
+		setBills,
+		sendBillBroadcast,
+		sendDeleteBillBroadcast,
+	} = useBillContext();
 	const { productsIndexed } = useProductContext();
-	const { totals, items, date, _id } = data;
+	const { name, totals, items, date, _id } = data;
 
 	// ****************************************************************************
 	// 										          funciones
@@ -47,12 +53,9 @@ export default function BillListVisorItem({ data }: props) {
 		setCurrentBill(newBill);
 	};
 
-	const handdleShare = () => {
-		sendBillBroadcast(data);
-	};
-
 	const handdleDelete = () => {
 		const newBillList = deleteOneBillFromList(bills, _id);
+		sendDeleteBillBroadcast(_id);
 		setBills(newBillList);
 	};
 
@@ -77,39 +80,58 @@ export default function BillListVisorItem({ data }: props) {
 	// ****************************************************************************
 
 	return (
-		<Card sx={{ width: 200, flexShrink: 0, mr: 2 }}>
-			<CardHeader
-				action={
-					<IconButton aria-label="settings" onClick={handdleDelete}>
-						<ClearIcon />
-					</IconButton>
-				}
-				title={totals.BSF.toFixed(2) + " BSF"}
-				subheader={textTime}
-			/>
+		<Box
+			onClick={handdleSelect}
+			sx={{ width: 200, flexShrink: 0, mr: 2, cursor: "pointer" }}
+		>
+			<Card sx={{ height: "100%" }}>
+				<CardHeader
+					action={
+						<IconButton
+							color="error"
+							aria-label="settings"
+							onClick={(e) => {
+								e.stopPropagation();
+								handdleDelete();
+							}}
+						>
+							<ClearIcon />
+						</IconButton>
+					}
+					title={name}
+					subheader={
+						<Box>
+							<Typography fontSize={"1rem"}>
+								<strong> {totals.BSF.toFixed(2) + " BSF"}</strong>
+							</Typography>
+							<Typography variant="overline">{textTime || ". . ."}</Typography>
+						</Box>
+					}
+				/>
 
-			<CardContent sx={{ pt: 0 }}>
-				{items.map((item) => (
-					<Typography
-						key={item.productId}
-						variant="body2"
-						color="text.secondary"
-					>
-						{item.quantity} {productsIndexed[item.productId].name}
-					</Typography>
-				))}
-			</CardContent>
+				<CardContent sx={{ pt: 0 }}>
+					{items.map((item) => (
+						<Typography
+							key={item.productId}
+							variant="body2"
+							color="text.secondary"
+						>
+							{item.quantity}{" "}
+							{productsIndexed[item.productId]
+								? productsIndexed[item.productId].name
+								: ". . ."}
+						</Typography>
+					))}
+				</CardContent>
 
-			<CardActions sx={{ display: "flex" }}>
+				{/* <CardActions sx={{ display: "flex" }}>
 				<Box sx={{ mr: "auto" }}>
-					<IconButton color="secondary" onClick={handdleSelect}>
+					<IconButton onClick={handdleSelect}>
 						<SwipeUpAltIcon />
 					</IconButton>
 				</Box>
-				<IconButton aria-label="add to favorites" onClick={handdleShare}>
-					<ShareIcon />
-				</IconButton>
-			</CardActions>
-		</Card>
+			</CardActions> */}
+			</Card>
+		</Box>
 	);
 }

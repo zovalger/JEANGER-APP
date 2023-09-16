@@ -11,12 +11,7 @@ import * as Yup from "yup";
 import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import {
-	CurrencyType,
-	Product,
-	ProductReference,
-	initialValuesProductReferenceManipulate,
-} from "@/types";
+
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import {
 	createProductRequest,
@@ -27,6 +22,9 @@ import {
 } from "@/api/Product.api";
 import ProductFromKeywordStack from "./ProductFromKeywordStack";
 import ProductFormReferences from "./ProductFormReferences";
+import { CurrencyType } from "@/enums";
+import { Product, ProductReference } from "@/types";
+import { initialValuesProductReferenceManipulate } from "@/config/initialValues";
 
 interface props {
 	setOpen(value: boolean): void;
