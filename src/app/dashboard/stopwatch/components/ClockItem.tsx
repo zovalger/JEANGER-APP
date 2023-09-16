@@ -132,9 +132,11 @@ export default function ClockItem({ data, onEdit, editing }: props) {
 		if (!productSettings) return;
 		if (!productSettings.stopwatchProductId) return;
 
+		const { timeSeted } = clock;
+
 		onPause();
 
-		const time = getTime().time;
+		const time = timeSeted ? timeSeted : getTime().time;
 
 		// todo: obtener product
 
