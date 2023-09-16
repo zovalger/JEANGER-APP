@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { v4 as uuid } from "uuid";
 import {
 	Divider,
@@ -9,40 +10,32 @@ import {
 	ListItemText,
 	Toolbar,
 } from "@mui/material";
-import moduleOptionsList from "@/config/moduleOptionsList";
+
 import { useGlobalContext } from "@/contexts/Global.context";
-import { useEffect } from "react";
+import moduleOptionsList from "@/config/moduleOptionsList";
 
 export default function AsidePanelLinks() {
-	const { handleAsidePanelToggle, selectedPage, setSelectedPage } =
-		useGlobalContext();
+	const pathname = usePathname();
 
-	useEffect(() => {
-		// todo: tomar url de pagina y colocar id
-	}, []);
+	const { handleAsidePanelToggle } = useGlobalContext();
 
 	return (
 		<div>
 			<Toolbar />
 			<Divider />
 			<List>
-				{moduleOptionsList.map((m, index) => (
+				{moduleOptionsList.map((m) => (
 					<Link
 						href={m.link}
 						key={uuid()}
 						style={{ textDecoration: "none", color: "black" }}
 						onClick={() => {
 							handleAsidePanelToggle();
-							setSelectedPage(index);
 						}}
 					>
 						<ListItem disablePadding>
-							<ListItemButton selected={selectedPage === index}>
-								<ListItemIcon>
-									{/* <Badge color="secondary" badgeContent={2}> */}
-									{<m.icon />}
-									{/* </Badge> */}
-								</ListItemIcon>
+							<ListItemButton selected={pathname === m.link}>
+								<ListItemIcon>{<m.icon />}</ListItemIcon>
 								<ListItemText primary={m.name} />
 							</ListItemButton>
 						</ListItem>
