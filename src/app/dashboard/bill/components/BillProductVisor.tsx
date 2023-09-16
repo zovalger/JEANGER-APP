@@ -101,7 +101,7 @@ export default function BillProductVisor({}: props) {
 		<>
 			{submiting && <BillListVisorModalForm onClose={closeModal} />}
 
-			<Box sx={{ mb: "3rem" }}>
+			<Box>
 				{/* // todo: que no se desordenen al agregarlos a la factura  */}
 				{productsBillItemsFavoritesByPriority.map((data) => (
 					<BillProductVisorItem

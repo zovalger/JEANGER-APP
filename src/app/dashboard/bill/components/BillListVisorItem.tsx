@@ -68,7 +68,7 @@ export default function BillListVisorItem({ data }: props) {
 	useEffect(() => {
 		const updaterTime = setInterval(() => {
 			setTextTime(moment(date).fromNow());
-		}, 1000);
+		}, 20000);
 
 		return () => {
 			clearInterval(updaterTime);
@@ -82,9 +82,14 @@ export default function BillListVisorItem({ data }: props) {
 	return (
 		<Box
 			onClick={handdleSelect}
-			sx={{ width: 200, flexShrink: 0, mr: 2, cursor: "pointer" }}
+			sx={{
+				width: 200,
+				flexShrink: 0,
+				mr: 2,
+				cursor: "pointer",
+			}}
 		>
-			<Card sx={{ height: "100%" }}>
+			<Card sx={{ height: "100%", ":hover": { background: "#f5f5f5" } }}>
 				<CardHeader
 					action={
 						<IconButton

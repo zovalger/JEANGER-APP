@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 
-import { Card, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useProductContext } from "../../products/context/Product.context";
