@@ -1,3 +1,3 @@
 export const asidePanelDashboardWidth = 200;
 export const asideMultiToolsWidth = 300;
-export const PROXY = process.env.PROXY || "http://192.168.1.110:5000";
+export const PROXY = process.env.PROXY || "http://localhost:5000";

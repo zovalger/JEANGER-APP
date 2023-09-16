@@ -38,7 +38,6 @@ export default function BillProductVisorItemModalForm({
 		}),
 		onSubmit: (formData) => {
 			event?.preventDefault();
-			console.log(formData.quantity);
 
 			const newBill = updateBillItem(currentBill, formData, foreignExchange);
 			setCurrentBill(newBill);

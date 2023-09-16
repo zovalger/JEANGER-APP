@@ -2,10 +2,8 @@
 
 import { getAllProductsRequest } from "@/api/Product.api";
 import {
-	CurrencyType,
 	Product,
 	ProductReferenceManipulate,
-	initialValuesProductReferenceManipulate,
 	propsWithChildren,
 } from "@/types";
 import {
@@ -17,6 +15,8 @@ import {
 	useEffect,
 } from "react";
 import { getAllKeywordsProducts } from "../helpers/Product.helpers";
+import { CurrencyType } from "@/enums";
+import { initialValuesProductReferenceManipulate } from "@/config/initialValues";
 
 interface ContextProps {
 	products: Product[];

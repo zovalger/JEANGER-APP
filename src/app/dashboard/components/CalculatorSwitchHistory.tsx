@@ -1,4 +1,6 @@
-import { CalculatorState, CurrencyType } from "@/types";
+
+import { CurrencyType } from "@/enums";
+import { CalculatorState } from "@/types";
 import Box from "@mui/material/Box";
 
 export default function CalculatorSwitchHistory({

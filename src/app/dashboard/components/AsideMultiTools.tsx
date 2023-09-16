@@ -19,11 +19,7 @@ const AsideMultiTools = () => {
 	);
 
 	const shorcut = (event: KeyboardEvent) => {
-		console.log("comando");
-
-		if (event.key === "b" && event.ctrlKey) {
-			handleAsideMultiToolsToggle();
-		}
+		if (event.key === "b" && event.ctrlKey) handleAsideMultiToolsToggle();
 	};
 
 	useEffect(() => {

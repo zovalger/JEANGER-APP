@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
-import { CurrencyType, initialValuesForeignExchange } from "@/types";
+
 import { Card, Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useProductContext } from "../../products/context/Product.context";
+import { initialValuesForeignExchange } from "@/config/initialValues";
+import { CurrencyType } from "@/enums";
 
 interface props {
 	_id: string;

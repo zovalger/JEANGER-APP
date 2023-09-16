@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import { v4 as uuid } from "uuid";
 import { useState } from "react";
 
-import { CalculatorState, CurrencyType, MathOperation } from "@/types";
 import {
 	calculateResult,
 	getNumberByVisorData,
@@ -12,6 +11,8 @@ import CalculatorSwitchHistory from "./CalculatorSwitchHistory";
 import CalculatorSwitchVisor from "./CalculatorSwitchVisor";
 import CalculatorSwitchBoard from "./CalculatorSwitchBoard";
 import { useGlobalContext } from "@/contexts/Global.context";
+import { CurrencyType, MathOperation } from "@/enums";
+import { CalculatorState } from "@/types";
 
 const initialState = {
 	_id: uuid(),
@@ -99,7 +100,9 @@ export default function CalculatorSwitch() {
 		if (!foreignExchange) return;
 
 		const converter = (n: number) =>
-			currencyType === CurrencyType.USD ? n * foreignExchange.dolar : n / foreignExchange.dolar;
+			currencyType === CurrencyType.USD
+				? n * foreignExchange.dolar
+				: n / foreignExchange.dolar;
 
 		const newState = {
 			...dataCalculator,

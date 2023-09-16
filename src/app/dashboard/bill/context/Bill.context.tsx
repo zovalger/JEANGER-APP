@@ -1,5 +1,7 @@
 "use client";
 
+import { PROXY } from "@/config";
+import { BillEvents } from "@/config/SocketEventsSystem";
 import { Bill, propsWithChildren } from "@/types";
 
 import {
@@ -10,6 +12,8 @@ import {
 	SetStateAction,
 	useEffect,
 } from "react";
+import { Socket, io } from "socket.io-client";
+import { addBillToList } from "../helpers/BillList.helpers";
 
 interface ContextProps {
 	bills: Bill[];
@@ -18,6 +22,8 @@ interface ContextProps {
 
 	currentBill: Bill | null;
 	setCurrentBill: Dispatch<SetStateAction<Bill | null>>;
+
+	sendBillBroadcast(data: Bill): void;
 }
 
 const BillContext = createContext<ContextProps>({
@@ -26,28 +32,44 @@ const BillContext = createContext<ContextProps>({
 
 	currentBill: null,
 	setCurrentBill: (): Bill | null => null,
+
+	sendBillBroadcast: (data: Bill) => {},
 });
 
 export const BillContextProvider = ({ children }: propsWithChildren) => {
 	// lista de todos los billos
+	const [socket, setSocket] = useState<Socket | null>(null);
+
 	const [bills, setBills] = useState<Bill[]>([]);
 	const [currentBill, setCurrentBill] = useState<Bill | null>(null);
 
 	useEffect(() => {
-		// refreshBills();
-	}, []);
+		if (socket) return;
 
-	// const refreshBills = async () => {
-	// 	try {
-	// 		const p = await getAllBillsRequest();
-	// 		const keywords = getAllKeywordsBills(p);
+		try {
+			const soc = io(`${PROXY}`);
+			setSocket(soc);
+			setListeners(soc);
+		} catch (error) {
+			console.log(error);
+		}
+		// return () => {
+		// 	second;
+		// };
+	}, [socket]);
 
-	// 		console.log(keywords);
-	// 		setAllKeywords(keywords);
+	const sendBillBroadcast = (data: Bill) => {
+		if (!socket) return;
+		socket.emit(BillEvents.send, data);
+	};
 
-	// 		setDataAndIndexate(p);
-	// 	} catch (error) {}
-	// };
+	const reciveBill = (data: Bill) => {
+		setBills((prev) => addBillToList(prev, data));
+	};
+
+	const setListeners = async (socket: Socket) => {
+		socket.on(BillEvents.send, reciveBill);
+	};
 
 	return (
 		<BillContext.Provider
@@ -57,6 +79,8 @@ export const BillContextProvider = ({ children }: propsWithChildren) => {
 
 				currentBill,
 				setCurrentBill,
+
+				sendBillBroadcast,
 			}}
 		>
 			{children}
