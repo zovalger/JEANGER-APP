@@ -122,3 +122,14 @@ export interface Bill {
 	foreignExchange: ForeignExchange;
 	totals: BillTotals;
 }
+
+
+
+// ****************************************************************************
+// 										          res Movilnet
+// ****************************************************************************
+export interface saldoMovilnet {
+	saldo: string;
+	status: string;
+	date: string;
+}

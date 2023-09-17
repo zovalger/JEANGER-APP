@@ -3,6 +3,7 @@
 import PageTemplate from "../components/PageTemplate";
 import { Typography, Divider } from "@mui/material";
 import CNEConsultCI from "./components/CNEConsultCI";
+import ConsultMovilnet from "./components/ConsultMovilnet";
 
 export default function Dashboard() {
 	return (
@@ -13,8 +14,13 @@ export default function Dashboard() {
 
 			<Typography>Abrir o cerrar panel: Ctrl + b</Typography> */}
 
-			<Divider sx={{my:2}} />
+			<Divider sx={{ my: 2 }} />
+
 			<CNEConsultCI />
+
+			<Divider sx={{ my: 2 }} />
+
+			<ConsultMovilnet />
 		</PageTemplate>
 	);
 }

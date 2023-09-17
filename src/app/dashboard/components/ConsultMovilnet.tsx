@@ -4,33 +4,42 @@ import { useState } from "react";
 
 import TextField from "@mui/material/TextField";
 import { IconButton, Typography, Box } from "@mui/material";
-import { getCNE_CI_Request } from "@/api/Utility.api";
+import { getCNE_CI_Request, getSaldoMovilnet_Request } from "@/api/Utility.api";
 import CopyToClipboard from "react-copy-to-clipboard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+import { saldoMovilnet } from "@/types";
 
-export default function CNEConsultCI() {
-	const [name, setName] = useState("");
+export default function ConsultMovilnet() {
+	const [saldoMovilnet, setSaldoMovilnet] = useState<saldoMovilnet | null>();
+
 	const [value, setValue] = useState("");
+
 	const handdleChange = (v: string) => {
 		setValue(v);
 	};
+
 	const handdleSubmit = async () => {
-		const ci = await getCNE_CI_Request(value);
-		setName(ci);
+		try {
+			const result = await getSaldoMovilnet_Request(value);
+
+			setSaldoMovilnet(result);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const [copy, setCopy] = useState(false);
+	// const [copy, setCopy] = useState(false);
 
 	return (
 		<>
 			<Typography sx={{ my: 1.5 }} fontSize={"1.1rem"} variant="h6">
-				Consulta Cédula
+				Consulta Movilnet
 			</Typography>
 			<TextField
-				label="Cédula"
+				label="Numero"
 				type="number"
-				placeholder="Cédula"
+				placeholder="Numero"
 				variant="outlined"
 				autoComplete="none"
 				name="ci"
@@ -44,23 +53,11 @@ export default function CNEConsultCI() {
 				fullWidth
 			/>
 
-			{name && (
+			{saldoMovilnet && (
 				<Box sx={{ p: 1 }}>
-					<Typography>
-						{name}
-
-						<CopyToClipboard
-							text={name}
-							onCopy={() => {
-								setCopy(true);
-								setTimeout(() => setCopy(false), 1000);
-							}}
-						>
-							<IconButton>
-								{copy ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
-							</IconButton>
-						</CopyToClipboard>
-					</Typography>
+					<Typography>{saldoMovilnet.saldo}</Typography>
+					<Typography>{saldoMovilnet.status}</Typography>
+					<Typography>{saldoMovilnet.date}</Typography>
 				</Box>
 			)}
 		</>
