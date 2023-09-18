@@ -9,45 +9,52 @@ import { Grid } from "@mui/material";
 
 import { BillItem } from "@/types";
 import { useBillContext } from "../context/Bill.context";
-import { updateBillItem } from "../helpers/Bill.helpers";
+import { clearBill, updateBillItem } from "../helpers/Bill.helpers";
 import { useGlobalContext } from "@/contexts/Global.context";
+import { addBillToList } from "../helpers/BillList.helpers";
 
 // *****************************************************************************
 // 											form de referencias
 // *****************************************************************************
 
 interface Props {
-	data: BillItem;
 	onClose(): void;
-
-	// onSubmit(formData: ProductReference): void;
-	// onDelete(formData: ProductReference): void;
 }
 
-export default function BillProductVisorItemModalForm({
-	data,
-	onClose,
-}: Props) {
-	const { foreignExchange } = useGlobalContext();
-	const { currentBill, setCurrentBill } = useBillContext();
+export default function BillListVisorModalForm({ onClose }: Props) {
+	const { currentBill, setCurrentBill, sendBillBroadcast, bills, setBills } =
+		useBillContext();
 
-	const formik = useFormik<BillItem>({
-		initialValues: { ...data, quantity: 0 },
-		validationSchema: Yup.object({
-			quantity: Yup.string(),
-		}),
-		onSubmit: (formData) => {
-			event?.preventDefault();
+	const saveBillInServer = async () => {
+		if (!currentBill) return;
 
-			const newBill = updateBillItem(currentBill, formData, foreignExchange);
-			setCurrentBill(newBill);
-			onClose();
-		},
-	});
+		const newBillList = addBillToList(bills, {
+			...currentBill,
+			date: new Date(),
+		});
+
+		sendBillBroadcast(currentBill);
+
+		setBills(newBillList);
+
+		setCurrentBill(clearBill());
+	};
+
+	const handdleChange = (value: string) => {
+		if (!currentBill) return;
+
+		setCurrentBill({ ...currentBill, name: value });
+	};
+
+	const onSubmit = async () => {
+		await saveBillInServer();
+		onClose();
+	};
+
+	if (!currentBill || !currentBill.items.length) return;
 
 	return (
 		<>
-			{/* <Button onClick={handleOpen}>Nueva referencia</Button> */}
 			<Modal
 				open
 				onClose={onClose}
@@ -71,22 +78,25 @@ export default function BillProductVisorItemModalForm({
 						pb: 3,
 					}}
 					component={"form"}
-					onSubmit={formik.handleSubmit}
+					onSubmit={(e) => e.preventDefault()}
 				>
 					<Grid container component={"form"} spacing={1}>
 						<Grid item xs={12}>
 							<TextField
 								autoFocus
-								label="Cantidad"
-								type="number"
-								placeholder="Cantidad"
+								label="Nombre"
+								type="text"
+								placeholder="Nombre"
 								variant="outlined"
-								name="quantity"
+								autoComplete="none"
+								name="name"
 								onKeyDown={(event) => {
-									if (event.key === "Enter") formik.submitForm();
+									if (event.key === "Enter") onSubmit();
 								}}
-								value={formik.values.quantity || ""}
-								onChange={formik.handleChange}
+								value={currentBill.name || ""}
+								onChange={({ target: { value } }) => {
+									handdleChange(value);
+								}}
 								fullWidth
 							/>
 						</Grid>

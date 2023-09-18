@@ -1,6 +1,7 @@
+import { MathOperation } from "@/enums";
+import { CalculatorState } from "@/types";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { CalculatorState, MathOperation } from "@/types";
 
 interface CalculatorSwitchVisorProps {
 	data: CalculatorState;

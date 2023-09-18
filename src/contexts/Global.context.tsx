@@ -17,9 +17,6 @@ import { useSnackbarContext } from "./Snackbar.context";
 import { getProductSettingRequest } from "@/api/ProductSettings.api";
 
 interface ContextProps {
-	selectedPage: number;
-	setSelectedPage: Dispatch<SetStateAction<number>>;
-
 	asidePanelMobileOpen: boolean;
 	handleAsidePanelToggle(): void;
 
@@ -34,9 +31,6 @@ interface ContextProps {
 }
 
 const GlobalContext = createContext<ContextProps>({
-	selectedPage: 0,
-	setSelectedPage: () => {},
-
 	asidePanelMobileOpen: false,
 	handleAsidePanelToggle: (): void => {},
 
@@ -124,7 +118,6 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	// 										          Panel lateral
 	// ****************************************************************************
 
-	const [selectedPage, setSelectedPage] = useState(0);
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
 	const handleAsidePanelToggle = () => setAsidePanelMobilOpen((prev) => !prev);
 
@@ -135,9 +128,6 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	return (
 		<GlobalContext.Provider
 			value={{
-				selectedPage,
-				setSelectedPage,
-
 				asidePanelMobileOpen,
 				handleAsidePanelToggle,
 

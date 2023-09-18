@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, IconButton, Card, Grid, Typography } from "@mui/material";
 
-import { BillItem, CurrencyType, initialValuesForeignExchange } from "@/types";
 import { useProductContext } from "../../products/context/Product.context";
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useBillContext } from "../context/Bill.context";
 import { deleteItemInBill } from "../helpers/Bill.helpers";
 import BillProductVisorItemModalForm from "./BillProductVisorItemModalForm";
+import { BillItem } from "@/types";
+import { initialValuesForeignExchange } from "@/config/initialValues";
+import { CurrencyType } from "@/enums";
 
 interface props {
 	data: BillItem;

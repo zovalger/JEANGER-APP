@@ -16,7 +16,7 @@ import { useGlobalContext } from "@/contexts/Global.context";
 const regExpAdder = /^(\+|\-)\d{1,}/i;
 
 export default function BillAdder() {
-	const { foreignExchange: dolar } = useGlobalContext();
+	const { foreignExchange } = useGlobalContext();
 	const { products, productsIndexed } = useProductContext();
 	const { currentBill, setCurrentBill } = useBillContext();
 
@@ -58,7 +58,7 @@ export default function BillAdder() {
 			currencyType: productsIndexed[productId].currencyType,
 		};
 
-		const newBill = updateBillItem(currentBill, newItemBill, dolar);
+		const newBill = updateBillItem(currentBill, newItemBill, foreignExchange);
 
 		setCurrentBill(newBill);
 	};

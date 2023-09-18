@@ -9,12 +9,13 @@ import MenuItem from "@mui/material/MenuItem";
 import SaveIcon from "@mui/icons-material/Save";
 import { v4 as uuid } from "uuid";
 
-import { CurrencyType, Product, ProductReference } from "@/types";
 
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Grid } from "@mui/material";
+import { ProductReference } from "@/types";
+import { CurrencyType } from "@/enums";
 
 // *****************************************************************************
 // 											form de referencias

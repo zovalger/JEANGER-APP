@@ -1,11 +1,10 @@
+
 import {
-	Bill,
-	BillItem,
-	CurrencyType,
-	ForeignExchange,
 	initialValuesBill,
 	initialValuesForeignExchange,
-} from "@/types";
+} from "@/config/initialValues";
+import { CurrencyType } from "@/enums";
+import { Bill, BillItem, ForeignExchange } from "@/types";
 
 const calculateTotals = (
 	bill: Bill,
@@ -53,22 +52,16 @@ export const updateBillItem = (
 	// todo: anadirlo
 
 	if (!oldBillItem && newQuantity > 0) {
-		console.log("anadirlo");
-
 		newItems = [...newItems, billItem];
 	} else if (!oldBillItem) return currentBill;
 
 	// todo quitarlo
 	if (newQuantity <= 0) {
-		console.log("quitar");
-
 		newItems = newItems.filter((item) => item.productId != billItem.productId);
 	}
 
 	// todo actualizarlo
 	if (newQuantity > 0) {
-		console.log("actualizar");
-
 		newItems = newItems.map((item) =>
 			item.productId == billItem.productId
 				? { ...item, quantity: newQuantity }
@@ -108,15 +101,11 @@ export const setOneBillItem = (
 	// todo: anadirlo
 
 	if (!oldBillItem && newQuantity > 0) {
-		console.log("anadirlo");
-
 		newItems = [...newItems, billItem];
 	} else if (!oldBillItem) return currentBill;
 
 	// todo actualizarlo
 	if (newQuantity > 0) {
-		console.log("actualizar");
-
 		newItems = newItems.map((item) =>
 			item.productId == billItem.productId
 				? { ...item, quantity: newQuantity }

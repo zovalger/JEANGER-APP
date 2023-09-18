@@ -1,7 +1,5 @@
-import { useGlobalContext } from "@/contexts/Global.context";
-import { CalculatorState, CurrencyType } from "@/types";
+import { CalculatorState } from "@/types";
 import { Button, Grid } from "@mui/material";
-import { NextResponse } from "next/server";
 import { v4 as uuid } from "uuid";
 
 interface CalculatorSwitchBoardProps {
@@ -28,8 +26,7 @@ export default function CalculatorSwitchBoard({
 
 	const buttons = [
 		{
-			label:
-				currencyType ,
+			label: currencyType,
 			onClick: () => switchCurrencyType(),
 		},
 		{

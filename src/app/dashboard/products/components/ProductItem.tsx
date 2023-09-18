@@ -1,8 +1,9 @@
-import { CurrencyType, initialValuesForeignExchange } from "@/types";
 import { Card, Grid, Typography } from "@mui/material";
 
 import { useGlobalContext } from "@/contexts/Global.context";
 import { useProductContext } from "../context/Product.context";
+import { CurrencyType } from "@/enums";
+import { initialValuesForeignExchange } from "@/config/initialValues";
 
 interface props {
 	_id: string;
