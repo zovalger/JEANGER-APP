@@ -54,7 +54,7 @@ export default function ConsultMovilnet() {
 					}}
 				/>
 				<CopyToClipboard
-					text={value.slice(1, -1)}
+					text={value.trim().replace(/^0/,"")}
 					onCopy={() => {
 						setCopy(true);
 						setTimeout(() => setCopy(false), 1000);
