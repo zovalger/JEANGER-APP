@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import TextField from "@mui/material/TextField";
 import { IconButton, Typography, Box } from "@mui/material";
-import { getCNE_CI_Request, getSaldoMovilnet_Request } from "@/api/Utility.api";
+import { getSaldoMovilnet_Request } from "@/api/Utility.api";
 import CopyToClipboard from "react-copy-to-clipboard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
@@ -15,6 +15,7 @@ export default function ConsultMovilnet() {
 
 	const [value, setValue] = useState("");
 
+	const [copy, setCopy] = useState(false);
 	const handdleChange = (v: string) => {
 		setValue(v);
 	};
@@ -36,22 +37,34 @@ export default function ConsultMovilnet() {
 			<Typography sx={{ my: 1.5 }} fontSize={"1.1rem"} variant="h6">
 				Consulta Movilnet
 			</Typography>
-			<TextField
-				label="Numero"
-				type="number"
-				placeholder="Numero"
-				variant="outlined"
-				autoComplete="none"
-				name="ci"
-				onKeyDown={(event) => {
-					if (event.key === "Enter") handdleSubmit();
-				}}
-				value={value || ""}
-				onChange={({ target: { value } }) => {
-					handdleChange(value);
-				}}
-				fullWidth
-			/>
+			<Box sx={{ display: "flex" }}>
+				<TextField
+					label="Numero"
+					type="number"
+					placeholder="Numero"
+					variant="outlined"
+					autoComplete="none"
+					name="ci"
+					onKeyDown={(event) => {
+						if (event.key === "Enter") handdleSubmit();
+					}}
+					value={value || ""}
+					onChange={({ target: { value } }) => {
+						handdleChange(value);
+					}}
+				/>
+				<CopyToClipboard
+					text={value.slice(1, -1)}
+					onCopy={() => {
+						setCopy(true);
+						setTimeout(() => setCopy(false), 1000);
+					}}
+				>
+					<IconButton sx={{ ml: 2 }}>
+						{copy ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
+					</IconButton>
+				</CopyToClipboard>
+			</Box>
 
 			{saldoMovilnet && (
 				<Box sx={{ p: 1 }}>
