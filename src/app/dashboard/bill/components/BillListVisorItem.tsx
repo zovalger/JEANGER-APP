@@ -107,7 +107,7 @@ export default function BillListVisorItem({ data }: props) {
 					subheader={
 						<Box>
 							<Typography fontSize={"1rem"}>
-								<strong> {totals.BSF.toFixed(2) + " BSF"}</strong>
+								<strong> {totals.BSF?.toFixed(2) + " BSF"}</strong>
 							</Typography>
 							<Typography variant="overline">{textTime || ". . ."}</Typography>
 						</Box>
