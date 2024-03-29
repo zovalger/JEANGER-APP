@@ -19,24 +19,41 @@ export default function BillListVisor() {
 
 	return (
 		<>
-			<Divider sx={{ my: 3 }} />
+			{/* <Divider sx={{ my: 3 }} /> */}
 
-			<Box sx={{ display: "flex", alignItems: "center", px: 3 }}>
-				<Typography variant="h6">Guardadas</Typography>
-				<IconButton
-					sx={{ ml: 2 }}
-					size="large"
-					color="info"
-					onClick={refreshBills}
-				>
-					<RefreshIcon />
-				</IconButton>
-			</Box>
+			<Box
+				sx={{
+					boxShadow: 2,
+					p: 2,
+					borderRadius: "8px",
+					mb: 2,
+				}}
+			>
+				<Box sx={{ display: "flex", alignItems: "center" }}>
+					<Typography
+						sx={{
+							// mb: 1,
+							fontWeight: 600,
+						}}
+					>
+						Facturas guardadas
+					</Typography>
 
-			<Box sx={{ display: "flex", overflowX: "auto" }}>
-				{bills.map((bill) => (
-					<BillListVisorItem key={uuid()} data={bill} />
-				))}
+					<IconButton
+						sx={{ ml: 2 }}
+						size="small"
+						color="info"
+						onClick={refreshBills}
+					>
+						<RefreshIcon />
+					</IconButton>
+				</Box>
+
+				<Box sx={{ display: "flex", overflowX: "auto" }}>
+					{bills.map((bill) => (
+						<BillListVisorItem key={uuid()} data={bill} />
+					))}
+				</Box>
 			</Box>
 		</>
 	);

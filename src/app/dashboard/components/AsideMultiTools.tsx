@@ -8,6 +8,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import { useEffect } from "react";
 import CNEConsultCI from "./CNEConsultCI";
 import ConsultMovilnet from "./ConsultMovilnet";
+import BillListVisor from "../bill/components/BillListVisor";
 
 const AsideMultiTools = () => {
 	const { asideMultiToolsOpen, handleAsideMultiToolsToggle } =
@@ -18,6 +19,7 @@ const AsideMultiTools = () => {
 			<ForeignExchangeView />
 			<CalculatorSwitch />
 
+			<BillListVisor />
 			<CNEConsultCI />
 
 			<ConsultMovilnet />
