@@ -1,4 +1,4 @@
-import { Box, Button, Drawer } from "@mui/material";
+import { Box, Button, Divider, Drawer } from "@mui/material";
 import { asideMultiToolsWidth } from "@/config";
 import AsidePanelLinks from "./AsidePanelLinks";
 import { useGlobalContext } from "@/contexts/Global.context";
@@ -6,6 +6,8 @@ import ForeignExchangeView from "./ForeignExchangeView";
 import CalculatorSwitch from "./CalculatorSwitch";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import { useEffect } from "react";
+import CNEConsultCI from "./CNEConsultCI";
+import ConsultMovilnet from "./ConsultMovilnet";
 
 const AsideMultiTools = () => {
 	const { asideMultiToolsOpen, handleAsideMultiToolsToggle } =
@@ -15,6 +17,10 @@ const AsideMultiTools = () => {
 		<>
 			<ForeignExchangeView />
 			<CalculatorSwitch />
+
+			<CNEConsultCI />
+
+			<ConsultMovilnet />
 		</>
 	);
 
