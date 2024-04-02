@@ -24,12 +24,19 @@ export default function BillListVisor() {
 			<Box
 				sx={{
 					boxShadow: 2,
-					p: 2,
 					borderRadius: "8px",
 					mb: 2,
+					py: 1,
 				}}
 			>
-				<Box sx={{ display: "flex", alignItems: "center" }}>
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						px: 2,
+						justifyContent: "space-between",
+					}}
+				>
 					<Typography
 						sx={{
 							// mb: 1,
@@ -49,9 +56,19 @@ export default function BillListVisor() {
 					</IconButton>
 				</Box>
 
-				<Box sx={{ display: "flex", overflowX: "auto" }}>
+				<Box
+					sx={{
+						display: "flex",
+						overflowX: "auto",
+						flexDirection: "column",
+					}}
+				>
 					{bills.map((bill) => (
-						<BillListVisorItem key={uuid()} data={bill} />
+						<>
+							<BillListVisorItem key={uuid()} data={bill} />
+
+							<Divider />
+						</>
 					))}
 				</Box>
 			</Box>

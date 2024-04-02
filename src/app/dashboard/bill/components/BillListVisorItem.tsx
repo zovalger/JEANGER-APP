@@ -83,60 +83,67 @@ export default function BillListVisorItem({ data }: props) {
 		<Box
 			onClick={handdleSelect}
 			sx={{
-				width: 200,
-				flexShrink: 0,
-				mr: 2,
+				bgcolor: "#fff",
+				px: 2,
+
+				":hover": {
+					bgcolor: "#f5f5f5",
+				},
+				// boxShadow: 1,
 				cursor: "pointer",
+				// mt: 1,
 			}}
 		>
-			<Card sx={{ height: "100%", ":hover": { background: "#f5f5f5" } }}>
-				<CardHeader
-					action={
-						<IconButton
-							color="error"
-							aria-label="settings"
-							onClick={(e) => {
-								e.stopPropagation();
-								handdleDelete();
-							}}
-						>
-							<ClearIcon />
-						</IconButton>
-					}
-					title={name}
-					subheader={
-						<Box>
-							<Typography fontSize={"1rem"}>
-								<strong> {totals.BSF?.toFixed(2) + " BSF"}</strong>
-							</Typography>
-							<Typography variant="overline">{textTime || ". . ."}</Typography>
-						</Box>
-					}
-				/>
+			{/* name and price */}
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between",
+				}}
+			>
+				<Typography
+					sx={{
+						flexGrow: 1,
+						textOverflow: "ellipsis",
+						overflow: "hidden",
+						whiteSpace: "nowrap",
+						fontWeight: 600,
+					}}
+				>
+					{name || "Sin Nombre"}
+				</Typography>
+				<Typography sx={{ flexShrink: 0 }}>
+					{totals.BSF?.toFixed(2) + " BSF"}
+				</Typography>
 
-				<CardContent sx={{ pt: 0 }}>
-					{items.map((item) => (
-						<Typography
-							key={item.productId}
-							variant="body2"
-							color="text.secondary"
-						>
-							{item.quantity}{" "}
-							{productsIndexed[item.productId]
-								? productsIndexed[item.productId].name
-								: ". . ."}
-						</Typography>
-					))}
-				</CardContent>
+				<IconButton
+					color="error"
+					aria-label="settings"
+					onClick={(e) => {
+						e.stopPropagation();
+						handdleDelete();
+					}}
+					size="small"
+				>
+					<ClearIcon />
+				</IconButton>
+			</Box>
 
-				{/* <CardActions sx={{ display: "flex" }}>
-				<Box sx={{ mr: "auto" }}>
-					<IconButton onClick={handdleSelect}>
-						<SwipeUpAltIcon />
-					</IconButton>
-				</Box>
-			</CardActions> */}
-			</Card>
+			<Box>
+				{items.map((item) => (
+					<Typography
+						key={item.productId}
+						variant="body2"
+						color="text.secondary"
+					>
+						{item.quantity}{" "}
+						{productsIndexed[item.productId]
+							? productsIndexed[item.productId].name
+							: ". . ."}
+					</Typography>
+				))}
+			</Box>
 		</Box>
 	);
 }
