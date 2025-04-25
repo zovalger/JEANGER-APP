@@ -10,7 +10,7 @@ export const getForeignExchangeRequest = async (): Promise<ForeignExchange> =>
 	(await axios.get(`${url}`)).data;
 
 export const setForeignExchangeRequest = async (
-	data: ForeignExchange
+	data: Omit<ForeignExchange, "bankBusinessDate">
 ): Promise<ForeignExchange> => (await axios.post(`${url}`, data)).data;
 
 // export const getDolarRequest = async (): Promise<DolarValue> => ({

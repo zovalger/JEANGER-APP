@@ -96,57 +96,67 @@ export default function ForeignExchangeView() {
 					</Button>
 				</>
 			) : (
-				<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-					<Box>
+				<>
+					<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 						<Box>
-							<Typography sx={{ fontSize: "1rem" }} component="span">
-								<strong>Dolar: </strong>
-								{foreignExchange && foreignExchange.dolar?.toFixed(2)}
-							</Typography>
+							<Box>
+								<Typography sx={{ fontSize: "1rem" }} component="span">
+									<strong>Dolar: </strong>
+									{foreignExchange && foreignExchange.dolar?.toFixed(2)}
+								</Typography>
 
-							{foreignExchange && (
-								<CopyToClipboard
-									text={foreignExchange.dolar?.toString().replace(".", ",")}
-									onCopy={() => {
-										setCopy(true);
+								{foreignExchange && (
+									<CopyToClipboard
+										text={foreignExchange.dolar?.toString().replace(".", ",")}
+										onCopy={() => {
+											setCopy(true);
 
-										setTimeout(() => setCopy(false), 1000);
-									}}
-								>
-									<IconButton>
-										{copy ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
-									</IconButton>
-								</CopyToClipboard>
-							)}
+											setTimeout(() => setCopy(false), 1000);
+										}}
+									>
+										<IconButton>
+											{copy ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
+										</IconButton>
+									</CopyToClipboard>
+								)}
+							</Box>
+
+							<Box>
+								<Typography sx={{ fontSize: "1rem" }} component="span">
+									<strong>Euro: </strong>
+									{foreignExchange && foreignExchange.euro?.toFixed(2)}
+								</Typography>
+
+								{foreignExchange && (
+									<CopyToClipboard
+										text={foreignExchange.euro?.toString().replace(".", ",")}
+										onCopy={() => {
+											setCopy2(true);
+
+											setTimeout(() => setCopy2(false), 1000);
+										}}
+									>
+										<IconButton>
+											{copy2 ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
+										</IconButton>
+									</CopyToClipboard>
+								)}
+							</Box>
 						</Box>
 
-						<Box>
-							<Typography sx={{ fontSize: "1rem" }} component="span">
-								<strong>Euro: </strong>
-								{foreignExchange && foreignExchange.euro?.toFixed(2)}
-							</Typography>
-
-							{foreignExchange && (
-								<CopyToClipboard
-									text={foreignExchange.euro?.toString().replace(".", ",")}
-									onCopy={() => {
-										setCopy2(true);
-
-										setTimeout(() => setCopy2(false), 1000);
-									}}
-								>
-									<IconButton>
-										{copy2 ? <LibraryAddCheckIcon /> : <ContentCopyIcon />}
-									</IconButton>
-								</CopyToClipboard>
-							)}
-						</Box>
+						<Button onClick={refreshForeignExchange}>
+							<ReplayIcon />
+						</Button>
 					</Box>
 
-					<Button onClick={refreshForeignExchange}>
-						<ReplayIcon />
-					</Button>
-				</Box>
+					<Box>
+						<Typography>
+							<b>Fecha:</b>
+							{foreignExchange &&
+								` ${new Date(foreignExchange.bankBusinessDate).toLocaleDateString()}`}
+						</Typography>
+					</Box>
+				</>
 			)}
 		</Box>
 	);

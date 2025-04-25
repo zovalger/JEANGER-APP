@@ -17,10 +17,11 @@ const AsideMultiTools = () => {
 	const toolsDisplay = () => (
 		<>
 			<ForeignExchangeView />
+			
 			<CalculatorSwitch />
 
 			<BillListVisor />
-			<CNEConsultCI />
+			{/* <CNEConsultCI /> */}
 
 			<ConsultMovilnet />
 		</>

@@ -12,6 +12,7 @@ export interface ForeignExchange {
 	euro: number;
 	dolar: number;
 	date: Date;
+	bankBusinessDate: string;
 }
 
 export interface Product {
