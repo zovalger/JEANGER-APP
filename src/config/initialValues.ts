@@ -9,6 +9,7 @@ export const initialValuesProductReferenceManipulate = {
 };
 
 export const initialValuesForeignExchange: ForeignExchange = {
+	bankBusinessDate: new Date().toString(),
 	dolar: 0,
 	euro: 0,
 	date: new Date(),
