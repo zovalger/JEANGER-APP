@@ -44,8 +44,8 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 
 	let d = foreignExchange || initialValuesForeignExchange;
 
-	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.dolar;
-	const USD = currencyType == CurrencyType.USD ? cost : cost / d.dolar;
+	const divisaRef = currencyType == CurrencyType.USD ? d.dolar : d.euro;
+	const BSF = currencyType == CurrencyType.BSF ? cost : cost * divisaRef;
 
 	// *******************************************************************
 	// 													Render
@@ -78,7 +78,7 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 				<Grid item xs={6} sm={6} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
 						<Typography component={"span"}>
-							{BSF.toFixed(1)}0 {CurrencyType.BSF}
+							{BSF.toFixed(2)} {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>
@@ -86,7 +86,7 @@ export default function BillProductVisorItem({ data, onDeleteItem }: props) {
 				<Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
 					<Box textAlign={"right"}>
 						<Typography component={"span"}>
-							{(BSF * quantity).toFixed(1)}0 {CurrencyType.BSF}
+							{(BSF * quantity).toFixed(2)} {CurrencyType.BSF}
 						</Typography>
 					</Box>
 				</Grid>

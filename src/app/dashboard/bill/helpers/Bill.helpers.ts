@@ -1,4 +1,3 @@
-
 import {
 	initialValuesBill,
 	initialValuesForeignExchange,
@@ -12,11 +11,14 @@ const calculateTotals = (
 ): Bill => {
 	const { items } = bill;
 
+	// todo: calcular totales de euro y dolares
 	const USD = items.reduce((total: number, item: BillItem) => {
 		const { cost, currencyType, quantity } = item;
 
 		let toSum = cost * quantity;
 
+		if (currencyType == CurrencyType.EUR)
+			toSum = (toSum * foreignExchange.euro) / foreignExchange.dolar;
 		if (currencyType == CurrencyType.BSF) toSum = toSum / foreignExchange.dolar;
 
 		return total + toSum;

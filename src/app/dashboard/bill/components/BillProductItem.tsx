@@ -27,8 +27,9 @@ export default function BillProductItem({
 
 	let d = foreignExchange || initialValuesForeignExchange;
 
-	const BSF = currencyType == CurrencyType.BSF ? cost : cost * d.dolar;
-	const USD = currencyType == CurrencyType.USD ? cost : cost / d.dolar;
+	const divisaRef = currencyType == CurrencyType.USD ? d.dolar : d.euro;
+	const BSF = currencyType == CurrencyType.BSF ? cost : cost * divisaRef;
+	const divisaCost = currencyType != CurrencyType.BSF ? cost : cost / divisaRef;
 
 	return (
 		<Box
@@ -71,9 +72,15 @@ export default function BillProductItem({
 							xl={6}
 							sx={{ textAlign: "right" }}
 						>
-							<Typography component={"span"}>{USD.toFixed(2)}</Typography>
-							<Typography component={"span"} sx={{ ml: 1 }} color={"#0a6f"}>
-								{CurrencyType.USD}
+							<Typography component={"span"}>
+								{divisaCost.toFixed(2)}
+							</Typography>
+							<Typography
+								component={"span"}
+								sx={{ ml: 1 }}
+								color={currencyType == CurrencyType.USD ? "#0a6f" : "#f80"}
+							>
+								{currencyType}
 							</Typography>
 						</Grid>
 					</Grid>

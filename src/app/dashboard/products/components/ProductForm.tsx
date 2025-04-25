@@ -11,7 +11,6 @@ import * as Yup from "yup";
 import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 import { useProductContext } from "@/app/dashboard/products/context/Product.context";
 import {
 	createProductRequest,
@@ -29,17 +28,6 @@ import { initialValuesProductReferenceManipulate } from "@/config/initialValues"
 interface props {
 	setOpen(value: boolean): void;
 }
-
-const currencies = [
-	{
-		value: CurrencyType.USD,
-		label: "USD",
-	},
-	{
-		value: CurrencyType.BSF,
-		label: "BSF",
-	},
-];
 
 export const initialValuesProductDataForm: Product = {
 	_id: "",
@@ -141,7 +129,7 @@ export default function ProductForm({ setOpen }: props) {
 			name: Yup.string().required().default(""),
 			cost: Yup.number().required().default(0),
 			currencyType: Yup.string()
-				.oneOf([CurrencyType.USD, CurrencyType.BSF])
+				.oneOf(Object.values(CurrencyType))
 				.default(CurrencyType.USD),
 			keywords: Yup.array().required(),
 		}),
@@ -273,9 +261,9 @@ export default function ProductForm({ setOpen }: props) {
 								// disabled={!!currentReferences.length}
 								fullWidth
 							>
-								{currencies.map((option) => (
-									<MenuItem key={option.value} value={option.value}>
-										{option.label}
+								{Object.values(CurrencyType).map((option) => (
+									<MenuItem key={option} value={option}>
+										{option}
 									</MenuItem>
 								))}
 							</TextField>
