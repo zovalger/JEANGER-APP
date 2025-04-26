@@ -121,7 +121,7 @@ export const GlobalContextProvider = ({ children }: propsWithChildren) => {
 	const [asidePanelMobileOpen, setAsidePanelMobilOpen] = useState(false);
 	const handleAsidePanelToggle = () => setAsidePanelMobilOpen((prev) => !prev);
 
-	const [asideMultiToolsOpen, setAsideMultiToolsOpen] = useState(false);
+	const [asideMultiToolsOpen, setAsideMultiToolsOpen] = useState(true);
 	const handleAsideMultiToolsToggle = () =>
 		setAsideMultiToolsOpen((prev) => !prev);
 

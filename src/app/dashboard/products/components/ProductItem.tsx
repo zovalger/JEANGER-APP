@@ -18,11 +18,18 @@ export default function ProductItem({ _id, onClick }: props) {
 
 	let d = foreignExchange || initialValuesForeignExchange;
 
-	const divisaRef = currencyType == CurrencyType.USD ? d.dolar : d.euro;
+	// colocar monto en dolares siempre
 
+	const divisaRef =
+		currencyType == CurrencyType.BSF || currencyType == CurrencyType.USD
+			? d.dolar
+			: d.euro;
+
+	// costo bolivares
 	const BSF = currencyType == CurrencyType.BSF ? cost : cost * divisaRef;
-	
-	const divisaCost = currencyType != CurrencyType.BSF ? cost : cost / divisaRef;
+
+	// costo en divisa
+	const divisaCost = currencyType == CurrencyType.BSF ? cost / divisaRef : cost;
 
 	return (
 		<Card
@@ -70,9 +77,11 @@ export default function ProductItem({ _id, onClick }: props) {
 							<Typography
 								component={"span"}
 								sx={{ ml: 1 }}
-								color={currencyType == CurrencyType.USD ? "#0a6f" : "#f80"}
+								color={currencyType == CurrencyType.EUR ? "#f80" : "#0a6f"}
 							>
-								{currencyType}
+								{currencyType == CurrencyType.EUR
+									? CurrencyType.EUR
+									: CurrencyType.USD}
 							</Typography>
 						</Grid>
 					</Grid>

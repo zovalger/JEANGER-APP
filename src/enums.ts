@@ -1,7 +1,7 @@
 export enum CurrencyType {
 	USD = "USD",
-	BSF = "BSF",
 	EUR = "EUR",
+	BSF = "BSF",
 }
 
 export enum MathOperation {
